@@ -1,0 +1,10 @@
+name: HotsPractice
+main: net.hotsmc.practice.HotsPractice
+version: 1.0
+loadbefore: [HotsCore]
+softdepend: [HotsCore]
+commands:
+  practice:
+  duel:
+  party:
+  inv:
