@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus;
+package net.hotsmc.practice.menus.player;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
@@ -74,7 +74,7 @@ public class StatisticsMenu extends Menu {
                 lore.add(ChatColor.GRAY + "OCTC: " + ChatColor.WHITE +playerData.getOctcElo());
                 lore.add(ChatColor.GRAY + "Gapple: " +ChatColor.WHITE + playerData.getGappleElo());
                 lore.add(ChatColor.GRAY + "Archer: " +ChatColor.WHITE + playerData.getArcherElo());
-                lore.add(ChatColor.GRAY + "Combo: " + ChatColor.WHITE +playerData.getComoboElo());
+                lore.add(ChatColor.GRAY + "Combo: " + ChatColor.WHITE +playerData.getComboElo());
                 lore.add(ChatColor.GRAY + "Soup: " +ChatColor.WHITE + playerData.getSoupElo());
                 lore.add(ChatColor.GRAY + "BuildUHC: " +ChatColor.WHITE + playerData.getBuilduhcElo());
                 lore.add(ChatColor.GRAY + "Sumo: " + ChatColor.WHITE +playerData.getSumoElo());

@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus;
+package net.hotsmc.practice.menus.player;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;

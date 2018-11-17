@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus;
+package net.hotsmc.practice.inventory;
 
 import lombok.Getter;
 import net.hotsmc.core.gui.menu.Button;

@@ -3,7 +3,7 @@ package net.hotsmc.practice.queue;
 import lombok.Getter;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.game.task.PartyDuelGame;
+import net.hotsmc.practice.game.games.PartyDuelGame;
 import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.party.Party;
 import org.bukkit.ChatColor;

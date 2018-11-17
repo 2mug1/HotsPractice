@@ -2,8 +2,8 @@ package net.hotsmc.practice.scoreboard;
 
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.game.GameState;
-import net.hotsmc.practice.game.task.DuelGame;
+import net.hotsmc.practice.game.games.GameState;
+import net.hotsmc.practice.game.games.DuelGame;
 import net.hotsmc.practice.utility.TimeUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Team;
@@ -31,10 +31,9 @@ public class DuelGameScoreboard extends PlayerScoreboard {
             obj.getScore(ChatColor.AQUA.toString()).setScore(7);
 
             Team opponent = scoreboard.registerNewTeam("Opponent");
-            opponent.addEntry(ChatColor.RED.toString());
-            opponent.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Opponent: ");
-            opponent.setSuffix("" + ChatColor.WHITE + checkNameLength(practicePlayer.getOpponent()));
-            obj.getScore(ChatColor.RED.toString()).setScore(6);
+            opponent.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Opponent: " + ChatColor.WHITE));
+            opponent.setSuffix(getEntry(practicePlayer.getOpponent()));
+            obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Opponent: " + ChatColor.WHITE)).setScore(6);
 
             Team duration = scoreboard.registerNewTeam("Duration");
             duration.addEntry(ChatColor.BLUE.toString());

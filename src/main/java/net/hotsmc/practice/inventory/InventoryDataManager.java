@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus;
+package net.hotsmc.practice.inventory;
 
 import com.google.common.collect.Lists;
 import org.bukkit.entity.Player;

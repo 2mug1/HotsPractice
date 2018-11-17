@@ -23,14 +23,14 @@ public abstract class PlayerScoreboard extends BukkitRunnable {
     @Setter
     private long updateInterval;
 
-    PlayerScoreboard(PracticePlayer practicePlayer){
+    public PlayerScoreboard(PracticePlayer practicePlayer){
         this.practicePlayer = practicePlayer;
         updateInterval = 1;
     }
 
-    String checkNameLength(String name) {
-        if (name.length() > 12) {
-            return name.substring(0, 12);
+    String getEntry(String name) {
+        if (name.length() > 16) {
+            return name.substring(0, 16);
         }
         return name;
     }

@@ -40,13 +40,13 @@ public class PartyEventMenu extends Menu {
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
 
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
 
                 if(practicePlayer == null)return;
 
                 if(practicePlayer.isInParty()){
-                    if(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 2) {
-                        practicePlayer.sendMessage(ChatColor.RED + "More than 2 players required to start the Team Fight / Team Fightを開始するには2名以上のプレイヤーが必要です");
+                    if(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
+                        practicePlayer.sendMessage(ChatColor.RED + "More than 3 players required to start the Team Fight / Team Fightを開始するには3名以上のプレイヤーが必要です");
                         return;
                     }
                     new PartyEventLadderMenu(PartyGameType.TEAM_FIGHT).openMenu(player, 18);
@@ -63,13 +63,13 @@ public class PartyEventMenu extends Menu {
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
 
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
 
                 if(practicePlayer == null)return;
 
                 if(practicePlayer.isInParty()) {
-                    if (HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 2) {
-                        practicePlayer.sendMessage(ChatColor.RED + "More than 2 players required to start the FFA Fight / FFA Fightを開始するには2名以上のプレイヤーが必要です");
+                    if (HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
+                        practicePlayer.sendMessage(ChatColor.RED + "More than 3 players required to start the FFA Fight / FFA Fightを開始するには3名以上のプレイヤーが必要です");
                         return;
                     }
                 }

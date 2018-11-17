@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.practice.PracticePlayer;
+import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class Team {
 
     public PracticePlayer getTeamPlayer(PracticePlayer practicePlayer){
         for(PracticePlayer teamPlayer : players){
-            if(teamPlayer.getName().equalsIgnoreCase(practicePlayer.getName())){
+            if(teamPlayer.getUUID().equals(practicePlayer.getUUID())){
                 return teamPlayer;
             }
         }
@@ -34,14 +35,7 @@ public class Team {
     public void addPlayer(PracticePlayer teamPlayer){
         NametagAPI.setPrefix(teamPlayer.getName(), prefix);
         players.add(teamPlayer);
-    }
-
-    public void removePlayer(PracticePlayer teamPlayer){
-        HotsPlayer hotsPlayer = HotsCore.getHotsPlayer(teamPlayer.getPlayer());
-        if(hotsPlayer != null) {
-            hotsPlayer.updateNameTag();
-        }
-        players.remove(teamPlayer);
+        teamPlayer.sendMessage(ChatColor.GRAY + "You have joined " + prefix + teamName);
     }
 
     public List<PracticePlayer> getAlivePlayers(){
@@ -67,7 +61,11 @@ public class Team {
 
     public void removeAllPlayer() {
         for(PracticePlayer teamPlayer : players){
-            removePlayer(teamPlayer);
+            HotsPlayer hotsPlayer = HotsCore.getHotsPlayer(teamPlayer.getPlayer());
+            if(hotsPlayer != null) {
+                hotsPlayer.updateNameTag();
+            }
         }
+        players.clear();
     }
 }

@@ -45,7 +45,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -71,7 +71,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -97,7 +97,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -121,7 +121,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -144,7 +144,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -168,7 +168,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -192,7 +192,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -216,7 +216,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -240,7 +240,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -264,7 +264,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -288,7 +288,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {
@@ -311,7 +311,7 @@ public class PartyEventLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyGameType == PartyGameType.FFA_FIGHT) {

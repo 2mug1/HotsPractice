@@ -31,45 +31,16 @@ public class PartyCreateMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         HashMap<Integer, Button> buttons = new HashMap<>();
 
-        for(int i = 0; i < 9; i++){
-            buttons.put(i, new Button() {
-                @Override
-                public ItemStack getButtonItem(Player player) {
-                    return net.hotsmc.core.utility.ItemUtility.createGlassPane(" ", 1, 3);
-                }
-            });
-        }
-        for(int i = 18; i < 27; i++){
-            buttons.put(i, new Button() {
-                @Override
-                public ItemStack getButtonItem(Player player) {
-                    return net.hotsmc.core.utility.ItemUtility.createGlassPane(" ", 1, 3);
-                }
-            });
-        }
-        buttons.put(9, new Button() {
+        buttons.put(1, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return net.hotsmc.core.utility.ItemUtility.createGlassPane(" ", 1, 3);
-            }
-        });
-        buttons.put(17, new Button() {
-            @Override
-            public ItemStack getButtonItem(Player player) {
-                return net.hotsmc.core.utility.ItemUtility.createGlassPane(" ", 1, 3);
-            }
-        });
-
-        buttons.put(11, new Button() {
-            @Override
-            public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.BOLD + ChatColor.YELLOW + "Public Party", Material.WOOD_DOOR,
-                        false, ChatColor.WHITE + "Not requires invitation", ChatColor.WHITE + "参加自由パーティを作成します");
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Create Public Party", Material.WOOD_DOOR,
+                        false, ChatColor.GRAY + "Not requires invitation.");
             }
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer leader = HotsPractice.getDuelPlayer(player);
+                PracticePlayer leader = HotsPractice.getPracticePlayer(player);
                 if (leader != null) {
                     HotsPractice.getPartyManager().addParty(new Party(PartyType.Public, leader));
                     leader.setPartyClickItems();
@@ -79,11 +50,10 @@ public class PartyCreateMenu extends Menu {
             }
         });
 
-        buttons.put(13, new Button() {
+        buttons.put(4, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.BOLD + ChatColor.YELLOW + "Public Party List", Material.EYE_OF_ENDER,
-                        false, ChatColor.WHITE + "Click to view list of public party", ChatColor.WHITE + "参加自由パーティを表示します");
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Public Parties", Material.EYE_OF_ENDER, false);
             }
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
@@ -91,17 +61,17 @@ public class PartyCreateMenu extends Menu {
             }
         });
 
-        buttons.put(15, new Button() {
+        buttons.put(7, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.BOLD + ChatColor.YELLOW + "Private Party", Material.IRON_DOOR,
-                        false, ChatColor.WHITE + "Requires invitation", ChatColor.WHITE + "招待限定パーティを作成します");
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Create Private Party", Material.IRON_DOOR,
+                        false, ChatColor.GRAY + "Requires invitation.");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer leader = HotsPractice.getDuelPlayer(player);
+                PracticePlayer leader = HotsPractice.getPracticePlayer(player);
                 if (leader != null) {
                     HotsPractice.getPartyManager().addParty(new Party(PartyType.Private, leader));
                     leader.setPartyClickItems();
@@ -110,7 +80,6 @@ public class PartyCreateMenu extends Menu {
                 }
             }
         });
-
         return buttons;
     }
 }

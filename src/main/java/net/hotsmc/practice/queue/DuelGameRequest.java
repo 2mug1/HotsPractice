@@ -5,7 +5,7 @@ import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.game.RankedType;
-import net.hotsmc.practice.game.task.DuelGame;
+import net.hotsmc.practice.game.games.DuelGame;
 import net.hotsmc.practice.kit.KitType;
 import org.bukkit.ChatColor;
 

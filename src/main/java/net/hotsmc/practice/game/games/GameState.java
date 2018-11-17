@@ -1,4 +1,4 @@
-package net.hotsmc.practice.game;
+package net.hotsmc.practice.game.games;
 
 public enum GameState {
     Teleporting,

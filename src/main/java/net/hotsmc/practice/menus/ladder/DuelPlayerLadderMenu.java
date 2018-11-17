@@ -45,7 +45,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.NoDebuff);
                 }
@@ -63,7 +63,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Debuff);
                 }
@@ -81,7 +81,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.MCSG);
                 }
@@ -97,7 +97,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if (sender != null && sender.isOnline() && target != null && target.isOnline()) {
                     target.addDuelGameRequest(sender, KitType.OCTC);
                 }
@@ -113,7 +113,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Gapple);
                 }
@@ -129,7 +129,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Archer);
                 }
@@ -145,7 +145,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Combo);
                 }
@@ -161,7 +161,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Soup);
                 }
@@ -177,7 +177,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.BuildUHC);
                 }
@@ -187,13 +187,13 @@ public class DuelPlayerLadderMenu extends Menu {
         buttons.put(9, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.GRILLED_PORK, false, 1);
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.LEASH, false, 1);
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()) {
                     target.addDuelGameRequest(sender, KitType.Sumo);
                 }
@@ -210,7 +210,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Axe);
                 }
@@ -226,7 +226,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.Spleef);
                 }
@@ -241,7 +241,7 @@ public class DuelPlayerLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer sender = HotsPractice.getDuelPlayer(player);
+                PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
                     target.addDuelGameRequest(sender, KitType.GappleSG);
                 }

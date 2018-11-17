@@ -1,4 +1,4 @@
-package net.hotsmc.practice.game.task;
+package net.hotsmc.practice.game.games;
 
 import lombok.Getter;
 import net.hotsmc.core.utility.PlayerDataUtility;
@@ -105,27 +105,40 @@ public class DuelGame extends Game {
     @Override
     protected void sendWinner(String winner) {
         for (PracticePlayer practicePlayer : practicePlayers) {
+            practicePlayer.sendMessage(ChatColor.YELLOW + "Match has finished!");
+            practicePlayer.sendMessage(ChatColor.YELLOW + "Match Winner: " + PlayerDataUtility.getColorName(winner));
+        }
+        for(PracticePlayer practicePlayer : spectatePlayers){
+            practicePlayer.sendMessage(ChatColor.YELLOW + "Match has finished!");
             practicePlayer.sendMessage(ChatColor.YELLOW + "Match Winner: " + PlayerDataUtility.getColorName(winner));
         }
     }
 
     @Override
     protected void onEnd() {
-        for (PracticePlayer practicePlayer : practicePlayers) {
-            practicePlayer.getPlayer().playSound(practicePlayer.getLocation(), Sound.LEVEL_UP, 0.5F, 1);
-            if (kitType == KitType.Combo) {
-                practicePlayer.setMaximumNoDamageTicks(20);
+        if (kitType != KitType.Sumo && kitType != KitType.Spleef) {
+            ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX + ChatColor.WHITE + "View Inventory: ");
+            msg.append("" + ChatColor.YELLOW + practicePlayers[0].getName());
+            msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inv " + practicePlayers[0].getUUID()));
+            msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to view " + practicePlayers[0].getName() + "'s inventory").create()));
+            msg.append(" ");
+            msg.append("" + ChatColor.YELLOW + practicePlayers[1].getName());
+            msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inv " + practicePlayers[1].getUUID()));
+            msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to view " + practicePlayers[1].getName() + "'s inventory").create()));
+
+            for (PracticePlayer practicePlayer : practicePlayers) {
+                practicePlayer.getPlayer().playSound(practicePlayer.getLocation(), Sound.LEVEL_UP, 0.5F, 1);
+                if (kitType == KitType.Combo) {
+                    practicePlayer.setMaximumNoDamageTicks(20);
+                }
+                if (kitType != KitType.Sumo && kitType != KitType.Spleef) {
+                    practicePlayer.getPlayer().spigot().sendMessage(msg.create());
+                }
             }
-            if (kitType != KitType.Sumo && kitType != KitType.Spleef) {
-                ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX + ChatColor.WHITE + "View Inventory: ");
-                msg.append("" + ChatColor.YELLOW + practicePlayers[0].getName());
-                msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inv " + practicePlayers[0].getUUID()));
-                msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to view " + practicePlayers[0].getName() + "'s inventory").create()));
-                msg.append(" ");
-                msg.append("" + ChatColor.YELLOW + practicePlayers[1].getName());
-                msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/inv " + practicePlayers[1].getUUID()));
-                msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(ChatColor.YELLOW + "Click to view " + practicePlayers[1].getName() + "'s inventory").create()));
-                practicePlayer.getPlayer().spigot().sendMessage(msg.create());
+            for (PracticePlayer practicePlayer : spectatePlayers) {
+                if (kitType != KitType.Sumo && kitType != KitType.Spleef) {
+                    practicePlayer.getPlayer().spigot().sendMessage(msg.create());
+                }
             }
         }
     }

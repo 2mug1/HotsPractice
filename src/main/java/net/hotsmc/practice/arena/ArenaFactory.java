@@ -87,6 +87,7 @@ public class ArenaFactory {
         arenaNames.add("arena3");
         arenaNames.add("arena4");
         arenaNames.add("arena5");
+        arenaNames.add("arena6");
         Collections.shuffle(arenaNames);
         //普通
         String arenaName = arenaNames.get(0);

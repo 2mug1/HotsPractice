@@ -5,12 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.core.gui.ClickActionItem;
 import net.hotsmc.practice.database.PlayerData;
+import net.hotsmc.practice.game.events.EventGame;
+import net.hotsmc.practice.game.games.Game;
 import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.kit.PlayerKitData;
 import net.hotsmc.practice.menus.kit.KitChestInventory;
 import net.hotsmc.practice.menus.kit.KitLoadoutMenu;
 import net.hotsmc.practice.other.BukkitReflection;
 import net.hotsmc.practice.other.Cooldown;
+import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.queue.DuelGameRequest;
 import net.hotsmc.practice.scoreboard.*;
 import net.hotsmc.practice.utility.ChatUtility;
@@ -47,9 +50,12 @@ public class PracticePlayer {
     private boolean alive = true;
     private boolean enableSpectate = false;
     private Cooldown enderpearlCooldown = new Cooldown(0);
-    private Cooldown gappleCooldown= new Cooldown(0);
+    private Cooldown gappleCooldown = new Cooldown(0);
     private int ping = 0;
     private boolean frozen = false;
+    private boolean eventLost = false;
+    private int currentCps = 0;
+    private int cps = 0;
 
     public PracticePlayer(Player player) {
         this.player = player;
@@ -57,20 +63,22 @@ public class PracticePlayer {
         this.duelGameRequests = new ArrayList<>();
     }
 
-    public void startTask(){
+    public void startTask() {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(player == null || !player.isOnline()){
+                if (player == null || !player.isOnline()) {
                     this.cancel();
                     return;
                 }
+                setCps(currentCps);
+                setCurrentCps(0);
                 setPing(BukkitReflection.getPing(player));
             }
         }.runTaskTimer(HotsPractice.getInstance(), 0, 20);
     }
 
-    public boolean isInGame(){
+    public boolean isInGame() {
         return HotsPractice.getGameManager().getPlayerOfGame(this) != null;
     }
 
@@ -134,6 +142,7 @@ public class PracticePlayer {
 
     public void clearInventory() {
         getInventory().clear();
+        player.updateInventory();
     }
 
     public Inventory getInventory() {
@@ -239,6 +248,51 @@ public class PracticePlayer {
         scoreboard.start();
     }
 
+    public void startSumoEventWaitingScoreboard() {
+        if (scoreboard != null) {
+            scoreboard.stop();
+        }
+        scoreboard = new SumoEventWaitingScoreboard(this);
+        scoreboard.setup();
+        scoreboard.start();
+    }
+
+    public void startSumoEventCountdownScoreboard() {
+        if (scoreboard != null) {
+            scoreboard.stop();
+        }
+        scoreboard = new SumoEventCountdownScoreboard(this);
+        scoreboard.setup();
+        scoreboard.start();
+    }
+
+    public void startSumoEventFightingScoreboard() {
+        if (scoreboard != null) {
+            scoreboard.stop();
+        }
+        scoreboard = new SumoEventFightingScoreboard(this);
+        scoreboard.setup();
+        scoreboard.start();
+    }
+
+    public void startPartyFFAScoreboard() {
+        if (scoreboard != null) {
+            scoreboard.stop();
+        }
+        scoreboard = new PartyGameFFAScoreboard(this);
+        scoreboard.setup();
+        scoreboard.start();
+    }
+
+    public void startPartyTeamScoreboard() {
+        if (scoreboard != null) {
+            scoreboard.stop();
+        }
+        scoreboard = new PartyGameTeamScoreboard(this);
+        scoreboard.setup();
+        scoreboard.start();
+    }
+
     public void setQueueItem() {
         getInventory().clear();
         setItem(0, HotsPractice.getDuelClickItems().get(6).getItemStack());
@@ -252,7 +306,7 @@ public class PracticePlayer {
         setItem(0, clickItems.get(7).getItemStack());
 
         int slot = 2;
-        int clickItemIndex = 13;
+        int clickItemIndex = 16;
         for (int i = 0; i < 7; i++) {
             if (getPlayerKitData(HotsPractice.getGameManager().getPlayerOfGame(this).getKitType()).getKitDataList().get(i) != null) {
                 setItem(slot, clickItems.get(clickItemIndex).getItemStack());
@@ -283,6 +337,11 @@ public class PracticePlayer {
         entityEquipment.setLeggings(armors.get(1));
         entityEquipment.setBoots(armors.get(0));
         player.updateInventory();
+    }
+
+    public void setSpectateItems(){
+        clearInventory();
+        setItem(4, HotsPractice.getDuelClickItems().get(15).getItemStack());
     }
 
     public void setDefaultKit(KitType type) {
@@ -405,7 +464,7 @@ public class PracticePlayer {
         enderpearlCooldown = new Cooldown(HotsPractice.getGameConfig().getEnderpearlCooldownTime() * 1000);
     }
 
-    public void startGappleCooldown(){
+    public void startGappleCooldown() {
         gappleCooldown = new Cooldown(2000);
     }
 
@@ -414,31 +473,31 @@ public class PracticePlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(player == null || !isOnline() || HotsPractice.getGameManager().getPlayerOfGame(practicePlayer) == null){
+                if (player == null || !isOnline() || HotsPractice.getGameManager().getPlayerOfGame(practicePlayer) == null) {
                     this.cancel();
                     return;
                 }
                 if (!enderpearlCooldown.hasExpired()) {
-                    for(int i = 0; i < getInventory().getContents().length; i++) {
+                    for (int i = 0; i < getInventory().getContents().length; i++) {
                         ItemStack itemStack = getInventory().getContents()[i];
-                        if(itemStack == null)return;
+                        if (itemStack == null) return;
                         if (itemStack.getType() == Material.ENDER_PEARL) {
                             ItemMeta itemMeta = itemStack.getItemMeta();
-                            if(itemMeta == null)return;
+                            if (itemMeta == null) return;
                             itemMeta.setDisplayName(ChatColor.RESET + "Ender Pearl " + ChatColor.YELLOW + enderpearlCooldown.getTimeLeft() + "s");
                             itemStack.setItemMeta(itemMeta);
                             setItem(i, itemStack);
                         }
                     }
-                }else{
-                    for(int i = 0; i < getInventory().getContents().length; i++) {
+                } else {
+                    for (int i = 0; i < getInventory().getContents().length; i++) {
                         ItemStack itemStack = getInventory().getContents()[i];
-                        if(itemStack == null)return;
+                        if (itemStack == null) return;
                         if (itemStack.getType() == Material.ENDER_PEARL) {
                             ItemMeta itemMeta = itemStack.getItemMeta();
-                            if(itemMeta == null)return;
+                            if (itemMeta == null) return;
                             String displayName = itemMeta.getDisplayName();
-                            if(displayName == null)return;
+                            if (displayName == null) return;
                             if (!itemMeta.getDisplayName().equals("Ender Pearl")) {
                                 itemMeta.setDisplayName(ChatColor.RESET + "Ender Pearl");
                                 itemStack.setItemMeta(itemMeta);
@@ -448,7 +507,7 @@ public class PracticePlayer {
                     }
                 }
             }
-        }.runTaskTimer(HotsPractice.getInstance(), 0,1);
+        }.runTaskTimer(HotsPractice.getInstance(), 0, 1);
     }
 
     public void setMaximumNoDamageTicks(int i) {
@@ -458,5 +517,50 @@ public class PracticePlayer {
     public void heal() {
         player.setHealth(20D);
         player.setFoodLevel(20);
+    }
+
+    public boolean isInEvent() {
+        return HotsPractice.getEventGameManager().getPlayerOfEventGame(this) != null;
+    }
+
+    public void setEventItems() {
+        clearInventory();
+        setItem(4, HotsPractice.getDuelClickItems().get(13).getItemStack());
+    }
+
+    public void setEventLeaderItems() {
+        clearInventory();
+        setItem(3, HotsPractice.getDuelClickItems().get(13).getItemStack());
+        setItem(5, HotsPractice.getDuelClickItems().get(14).getItemStack());
+    }
+
+    /**
+     * イベントを主催中か
+     *
+     * @return
+     */
+    public boolean hasHoldingEventGame() {
+        for(EventGame eventGame : HotsPractice.getEventGameManager().getGames()){
+            if(eventGame.getLEADER_UUID().equals(getUUID())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Party getInParty(){
+        return HotsPractice.getPartyManager().getPlayerOfParty(this);
+    }
+
+    public Game getInGame(){
+        return HotsPractice.getGameManager().getPlayerOfGame(this);
+    }
+
+    public EventGame getInEventGame(){
+        return HotsPractice.getEventGameManager().getPlayerOfEventGame(this);
+    }
+
+    public void addCurrentCps(int amount) {
+        currentCps = amount+currentCps;
     }
 }

@@ -6,6 +6,8 @@ import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.utility.WorldDataUtility;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 
@@ -18,7 +20,15 @@ public class Arena {
     private Location defaultSpawn;
 
     public void unload(){
-        Bukkit.getServer().unloadWorld(spawn1.getWorld(), false);
-        WorldDataUtility.deleteWorld(new File(HotsPractice.getInstance().getServer().getWorldContainer().getAbsolutePath() + "/" + spawn1.getWorld().getName()));
+        World world = spawn1.getWorld();
+        String worldName = world.getName();
+        Bukkit.getServer().unloadWorld(world, false);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                WorldDataUtility.deleteWorld(new File(HotsPractice.getInstance().getServer().getWorldContainer().getAbsolutePath() + "/" + worldName));
+                this.cancel();
+            }
+        }.runTaskLater(HotsPractice.getInstance(), 20*3);
     }
 }

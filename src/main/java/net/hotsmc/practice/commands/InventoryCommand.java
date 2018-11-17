@@ -1,8 +1,8 @@
 package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.menus.InventoryDataManager;
-import net.hotsmc.practice.menus.PlayerInventory;
+import net.hotsmc.practice.inventory.InventoryDataManager;
+import net.hotsmc.practice.inventory.PlayerInventory;
 import net.hotsmc.practice.utility.ChatUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

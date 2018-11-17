@@ -37,19 +37,19 @@ public class KitLoadoutMenu extends Menu {
         buttons.put(9, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createWool("" + ChatColor.GREEN + ChatColor.BOLD + "Load kit / ロード", 1, 13);
+                return ItemUtility.createWool("" + ChatColor.GREEN + ChatColor.BOLD + "Load", 1, 13);
             }
         });
         buttons.put(18, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createWool("" + ChatColor.YELLOW + ChatColor.BOLD + "Save kit / セーブ", 1, 4);
+                return ItemUtility.createWool("" + ChatColor.YELLOW + ChatColor.BOLD + "Save", 1, 4);
             }
         });
         buttons.put(27, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createWool("" + ChatColor.RED + ChatColor.BOLD + "Delete kit / 削除", 1, 14);
+                return ItemUtility.createWool("" + ChatColor.RED + ChatColor.BOLD + "Delete", 1, 14);
             }
         });
 
@@ -62,7 +62,7 @@ public class KitLoadoutMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).setDefaultKit(playerKitData.getKitType());
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).setDefaultKit(playerKitData.getKitType());
                 player.playSound(player.getLocation(), Sound.NOTE_PIANO, 0.5F, 0.7F);
             }
         });

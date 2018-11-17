@@ -21,9 +21,14 @@ public class DuelCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if(commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
 
             if (practicePlayer == null) {
+                return true;
+            }
+
+            if(practicePlayer.isInGame() || practicePlayer.isInEvent() || practicePlayer.isEnableSpectate() || practicePlayer.isEnableKitEdit()){
+                practicePlayer.sendMessage("You can't use.");
                 return true;
             }
 
@@ -48,7 +53,7 @@ public class DuelCommand implements CommandExecutor {
                     practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
                     return true;
                 }
-                PracticePlayer targetPracticePlayer = HotsPractice.getDuelPlayer(targetPlayer);
+                PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(targetPlayer);
                 if (targetPracticePlayer == null) {
                     practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
                     return true;
@@ -160,7 +165,7 @@ public class DuelCommand implements CommandExecutor {
                             practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
                             return true;
                         }
-                        PracticePlayer targetPracticePlayer = HotsPractice.getDuelPlayer(targetPlayer);
+                        PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(targetPlayer);
                         if (targetPracticePlayer == null) {
                             practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
                             return true;

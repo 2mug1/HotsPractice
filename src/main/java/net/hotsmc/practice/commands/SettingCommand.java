@@ -28,13 +28,13 @@ public class SettingCommand implements CommandExecutor {
                 return true;
             }
             if(args.length == 0){
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setlobby");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel create <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setdefaultspawn <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setspawn1 <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setspawn2 <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setkit <kit_type>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/hduel setkitedit <kit_type>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setlobby");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice create <arena>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setdefaultspawn <arena>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn1 <arena>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn2 <arena>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkit <kit_type>");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkitedit <kit_type>");
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "Kits: " + "debuff, nodebuff, mcsg, octc, gapple, archer, combo, soup, builduhc, axe, gapplesg");
             }
             if(args.length == 1){

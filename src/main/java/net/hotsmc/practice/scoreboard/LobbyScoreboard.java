@@ -22,11 +22,17 @@ public class LobbyScoreboard extends PlayerScoreboard {
         line1.addEntry(ChatColor.WHITE.toString());
         line1.setPrefix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "------------");
         line1.setSuffix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-----------");
-        obj.getScore(ChatColor.WHITE.toString()).setScore(6);
+        obj.getScore(ChatColor.WHITE.toString()).setScore(7);
+
+        Team online = scoreboard.registerNewTeam("Online");
+        online.addEntry(ChatColor.BOLD.toString());
+        online.setPrefix(""+ ChatColor.YELLOW + ChatColor.BOLD + "Online: ");
+        online.setSuffix("" + ChatColor.WHITE + HotsPractice.countOnline());
+        obj.getScore(ChatColor.BOLD.toString()).setScore(6);
 
         Team inlobby = scoreboard.registerNewTeam("Inqueue");
         inlobby.addEntry(ChatColor.DARK_AQUA.toString());
-        inlobby.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "In Queue: ");
+        inlobby.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "In Queues: ");
         inlobby.setSuffix("" + ChatColor.WHITE + HotsPractice.countQueue());
         obj.getScore(ChatColor.DARK_AQUA.toString()).setScore(5);
 
@@ -57,6 +63,7 @@ public class LobbyScoreboard extends PlayerScoreboard {
 
     @Override
     void onUpdate() {
+        scoreboard.getTeam("Online").setSuffix("" + ChatColor.WHITE + HotsPractice.countOnline());
         scoreboard.getTeam("Inqueue").setSuffix("" + ChatColor.WHITE + HotsPractice.countQueue());
         scoreboard.getTeam("Ingame").setSuffix("" + ChatColor.WHITE + HotsPractice.countInGame());
         scoreboard.getTeam("Latency").setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");

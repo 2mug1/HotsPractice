@@ -27,7 +27,7 @@ public class SignListener implements Listener {
         if(event.getClickedBlock().getState() instanceof Sign){
             Sign sign = (Sign) event.getClickedBlock().getState();
             if(sign.getLine(2).contains("Return")){
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(event.getPlayer())).disableKitEdit();
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(event.getPlayer())).disableKitEdit();
             }
         }
     }

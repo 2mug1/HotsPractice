@@ -1,5 +1,8 @@
 package net.hotsmc.practice.utility;
 
+import net.hotsmc.practice.game.events.EventGame;
+import net.hotsmc.practice.game.events.EventGameState;
+import net.hotsmc.practice.game.events.SumoEventGame;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -84,7 +87,7 @@ public class ItemUtility {
         return is;
     }
 
-    public static ItemStack createPlayerSkull(String displayName, String... lore){
+    public static ItemStack createPlayerSkull(String displayName, String... lore) {
         ItemStack myAwesomeSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         ItemMeta meta = myAwesomeSkull.getItemMeta();
         meta.setDisplayName(displayName);
@@ -175,7 +178,7 @@ public class ItemUtility {
         pot.apply(item);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(name);
-        if(lore != null){
+        if (lore != null) {
             itemMeta.setLore(Arrays.asList(lore));
         }
         item.setItemMeta(itemMeta);
@@ -192,7 +195,7 @@ public class ItemUtility {
         pot.apply(item);
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.setDisplayName(name);
-        if(lore != null){
+        if (lore != null) {
             itemMeta.setLore(lore);
         }
         item.setItemMeta(itemMeta);
@@ -227,7 +230,7 @@ public class ItemUtility {
         return itemStack;
     }
 
-    public static ItemStack createPlayerNameSkull(String playerName, String displayName, String... lore){
+    public static ItemStack createPlayerNameSkull(String playerName, String displayName, String... lore) {
         ItemStack myAwesomeSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta myAwesomeSkullMeta = (SkullMeta) myAwesomeSkull.getItemMeta();
         myAwesomeSkullMeta.setOwner(playerName);
@@ -239,5 +242,30 @@ public class ItemUtility {
         }
         myAwesomeSkull.setItemMeta(meta);
         return myAwesomeSkull;
+    }
+
+    public static ItemStack createSumoEventInfoItem(SumoEventGame sumoEventGame) {
+        EventGameState state = sumoEventGame.getState();
+        String name = sumoEventGame.getEventName();
+        int players = sumoEventGame.getWinningPlayers().size();
+        int max = sumoEventGame.getMaxPlayers();
+        if (state == EventGameState.ARENA_PREPARING) {
+            return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
+                    1, 14, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName());
+        }
+        if (state == EventGameState.WAITING_FOR_PLAYERS) {
+            return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
+                    1, 5, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName(),
+                    ChatColor.GRAY + "Players: " + ChatColor.WHITE + players + "/" + max);
+        }
+        if (state == EventGameState.COUNTDOWN) {
+            return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
+                    1, 5, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName(),
+                    ChatColor.GRAY + "Players: " + ChatColor.WHITE + players + "/" + max,
+                    ChatColor.GRAY + "Starting in " + ChatColor.WHITE + sumoEventGame.getStartCooldown().getTimeLeft() + "s");
+        }
+        return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
+                1, 4, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName(),
+                ChatColor.GRAY + "Players: " + ChatColor.WHITE + players + "/" + max);
     }
 }

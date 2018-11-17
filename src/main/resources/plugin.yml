@@ -8,3 +8,5 @@ commands:
   duel:
   party:
   inv:
+  event:
+  spectate:

@@ -22,11 +22,17 @@ public class PartyScoreboard extends PlayerScoreboard {
         line1.addEntry(ChatColor.WHITE.toString());
         line1.setPrefix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "------------");
         line1.setSuffix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-----------");
-        obj.getScore(ChatColor.WHITE.toString()).setScore(10);
+        obj.getScore(ChatColor.WHITE.toString()).setScore(11);
+
+        Team online = scoreboard.registerNewTeam("Online");
+        online.addEntry(ChatColor.DARK_BLUE.toString());
+        online.setPrefix(""+ ChatColor.YELLOW + ChatColor.BOLD + "Online: ");
+        online.setSuffix("" + ChatColor.WHITE + HotsPractice.countOnline());
+        obj.getScore(ChatColor.DARK_BLUE.toString()).setScore(10);
 
         Team inQueue = scoreboard.registerNewTeam("Inqueue");
         inQueue.addEntry(ChatColor.DARK_AQUA.toString());
-        inQueue.setPrefix(""+ ChatColor.YELLOW + ChatColor.BOLD + "In Queue: ");
+        inQueue.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "In Queues: ");
         inQueue.setSuffix("" + ChatColor.WHITE + HotsPractice.countQueue());
         obj.getScore(ChatColor.DARK_AQUA.toString()).setScore(9);
 
@@ -57,10 +63,9 @@ public class PartyScoreboard extends PlayerScoreboard {
         Party party = HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer);
         if(party != null) {
             Team partyName = scoreboard.registerNewTeam("PartyName");
-            partyName.addEntry(ChatColor.BLACK.toString());
-            partyName.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Party: ");
-            partyName.setSuffix(ChatColor.WHITE + checkNameLength(party.getPartyName()));
-            obj.getScore(ChatColor.BLACK.toString()).setScore(4);
+            partyName.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE));
+            partyName.setSuffix(getEntry(party.getPartyName()));
+            obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE)).setScore(4);
 
             Team partysize = scoreboard.registerNewTeam("PartyPlayers");
             partysize.addEntry(ChatColor.BOLD.toString());
@@ -83,6 +88,7 @@ public class PartyScoreboard extends PlayerScoreboard {
 
     @Override
     void onUpdate() {
+        scoreboard.getTeam("Online").setSuffix("" + ChatColor.WHITE + HotsPractice.countOnline());
         scoreboard.getTeam("Inqueue").setSuffix("" + ChatColor.WHITE + HotsPractice.countQueue());
         scoreboard.getTeam("Ingame").setSuffix("" + ChatColor.WHITE + HotsPractice.countInGame());
         scoreboard.getTeam("Latency").setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");
@@ -90,7 +96,7 @@ public class PartyScoreboard extends PlayerScoreboard {
         Party party = HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer);
 
         if (party != null) {
-            scoreboard.getTeam("PartyName").setSuffix(ChatColor.WHITE + checkNameLength(party.getPartyName()));
+            scoreboard.getTeam("PartyName").setSuffix(getEntry(party.getPartyName()));
             scoreboard.getTeam("PartyPlayers").setSuffix("" + ChatColor.WHITE + party.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Party.MAX_PLAYER);
             scoreboard.getTeam("PartyType").setSuffix(ChatColor.WHITE + party.getType().name());
         }

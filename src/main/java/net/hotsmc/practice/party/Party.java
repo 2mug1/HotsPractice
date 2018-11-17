@@ -3,7 +3,8 @@ package net.hotsmc.practice.party;
 import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.practice.*;
-import net.hotsmc.practice.game.task.PartyFFAGame;
+import net.hotsmc.practice.game.games.PartyFFAGame;
+import net.hotsmc.practice.game.games.PartyTeamGame;
 import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.queue.DuelPartyRequest;
 import net.hotsmc.practice.utility.ChatUtility;
@@ -13,13 +14,14 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
 public class Party {
 
-    public static final int MAX_PLAYER = 30;
+    public static final int MAX_PLAYER = 10;
 
     private PartyType type;
     private String partyName;
@@ -67,12 +69,12 @@ public class Party {
             duelPartyRequest.setKitType(kitType);
         }
 
-        sendFromParty.getLeader().sendMessage(ChatColor.YELLOW + "You sent party practice to " + partyName + " / あなたは" + partyName + "にPartyDuelを送りました");
-        getLeader().sendMessage(ChatColor.GOLD + "You have been received the party practice by " + sendFromParty.getPartyName() + " / あなたは" + sendFromParty.getPartyName() + "からPartyDuelを受け取りました");
+        sendFromParty.getLeader().sendMessage(ChatColor.YELLOW + "You sent party duel to " + partyName + " / あなたは" + partyName + "にPartyDuelを送りました");
+        getLeader().sendMessage(ChatColor.GOLD + "You have been received the party duel by " + sendFromParty.getPartyName() + " / あなたは" + sendFromParty.getPartyName() + "からPartyDuelを受け取りました");
         ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX);
-        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to accept / クリックして開始 - " + kitType.name());
-        msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/practice accept " + sendFromParty.getPartyName()));
-        msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/practice accept " + sendFromParty.getPartyName()).create()));
+        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to Accept / クリックして開始 - " + kitType.name());
+        msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/duel accept " + sendFromParty.getPartyName()));
+        msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/duel accept " + sendFromParty.getPartyName()).create()));
         getLeader().getPlayer().spigot().sendMessage(msg.create());
     }
 
@@ -188,6 +190,22 @@ public class Party {
         practicePlayer.sendMessage(ChatColor.YELLOW + "You have kicked from the " + partyName + "'s party / あなたは" + partyName + "のパーティからキックされました");
     }
 
+    public void startPartyFFAfight(KitType type){
+        for(PracticePlayer practicePlayer : players){
+            practicePlayer.clearInventory();
+        }
+        PartyFFAGame partyFFAGame = new PartyFFAGame(type, HotsPractice.getArenaFactory().create(type), this);
+        partyFFAGame.start();
+    }
+
+    public void startPartyTeamFight(KitType type){
+        for(PracticePlayer practicePlayer : players){
+            practicePlayer.clearInventory();
+        }
+        PartyTeamGame partyTeamGame = new PartyTeamGame(type, HotsPractice.getArenaFactory().create(type), this);
+        partyTeamGame.start();
+    }
+
     public List<PracticePlayer> getAlivePlayers(){
         List<PracticePlayer> alive = new ArrayList<>();
         for(PracticePlayer player : players){
@@ -207,14 +225,4 @@ public class Party {
         }
         return dead;
     }
-
-    public void startPartyFFAfight(KitType type){
-        PartyFFAGame partyFFAGame = new PartyFFAGame(type, HotsPractice.getArenaFactory().create(type), this);
-        partyFFAGame.start();
-    }
-
-    public void startPartyTeamFight(KitType type){
-    }
-
-
 }

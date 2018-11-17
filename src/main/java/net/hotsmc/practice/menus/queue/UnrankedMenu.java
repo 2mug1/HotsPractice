@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus;
+package net.hotsmc.practice.menus.queue;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
@@ -52,7 +52,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.NoDebuff);
                 if(duelQueue != null){
@@ -78,7 +78,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Debuff);
                 if(duelQueue != null){
@@ -103,7 +103,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.MCSG);
                 if(duelQueue != null){
@@ -128,7 +128,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.OCTC);
                 if(duelQueue != null){
@@ -153,7 +153,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Gapple);
                 if(duelQueue != null){
@@ -178,7 +178,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer == null)return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Archer);
                 if(duelQueue != null){
@@ -203,7 +203,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Combo);
                 if (duelQueue != null) {
@@ -228,7 +228,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Soup);
                 if (duelQueue != null) {
@@ -253,7 +253,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.BuildUHC);
                 if (duelQueue != null) {
@@ -270,7 +270,7 @@ public class UnrankedMenu extends Menu {
         buttons.put(9, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.GRILLED_PORK, false,
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.LEASH, false,
                         gameManager.countDuelGame(RankedType.UNRANKED, KitType.Sumo),
                         ChatColor.WHITE + "In Queue: " + ChatColor.YELLOW + queueManager.countQueue(RankedType.UNRANKED, KitType.Sumo),
                         ChatColor.WHITE + "In Game: " + ChatColor.YELLOW + gameManager.countDuelGame(RankedType.UNRANKED, KitType.Sumo));
@@ -278,7 +278,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Sumo);
                 if (duelQueue != null) {
@@ -303,7 +303,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Axe);
                 if (duelQueue != null) {
@@ -328,7 +328,7 @@ public class UnrankedMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.Spleef);
                 if (duelQueue != null) {
@@ -352,7 +352,7 @@ public class UnrankedMenu extends Menu {
             }
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer == null) return;
                 DuelQueue duelQueue = queueManager.getQueue(RankedType.UNRANKED, KitType.GappleSG);
                 if (duelQueue != null) {

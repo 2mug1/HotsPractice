@@ -18,7 +18,7 @@ public class PartyCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
             PartyManager partyManager = HotsPractice.getPartyManager();
             if (practicePlayer == null) {
                 return true;
@@ -62,7 +62,7 @@ public class PartyCommand implements CommandExecutor {
                         practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
                         return true;
                     }
-                    PracticePlayer targetPracticePlayer = HotsPractice.getDuelPlayer(target);
+                    PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(target);
                     if (targetPracticePlayer == null) {
                         practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
                         return true;
@@ -104,7 +104,7 @@ public class PartyCommand implements CommandExecutor {
                         practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
                         return true;
                     }
-                    PracticePlayer targetPracticePlayer = HotsPractice.getDuelPlayer(target);
+                    PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(target);
                     if (targetPracticePlayer == null) {
                         practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
                         return true;

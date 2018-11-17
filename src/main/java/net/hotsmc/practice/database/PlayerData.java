@@ -30,7 +30,7 @@ public class PlayerData {
     private int octcElo;
     private int gappleElo;
     private int archerElo;
-    private int comoboElo;
+    private int comboElo;
     private int soupElo;
     private int builduhcElo;
     private int sumoElo;
@@ -217,7 +217,7 @@ public class PlayerData {
         setOctcElo(document.getInteger("OCTC_ELO"));
         setGappleElo(document.getInteger("GAPPLE_ELO"));
         setArcherElo(document.getInteger("ARCHER_ELO"));
-        setComoboElo(document.getInteger("COMBO_ELO"));
+        setComboElo(document.getInteger("COMBO_ELO"));
         setSoupElo(document.getInteger("SOUP_ELO"));
         setBuilduhcElo(document.getInteger("BUILDUHC_ELO"));
         setSumoElo(document.getInteger("SUMO_ELO"));
@@ -323,13 +323,13 @@ public class PlayerData {
             setRankedPlayed(document.getInteger("RANKED_PLAYED"));
             setRankedWin(document.getInteger("RANKED_WIN"));
 
-            setDebuffElo(document.getInteger("DEBUFF_ELO"));
             setNodebuffElo(document.getInteger("NODEBUFF_ELO"));
+            setDebuffElo(document.getInteger("DEBUFF_ELO"));
             setMcsgElo(document.getInteger("MCSG_ELO"));
             setOctcElo(document.getInteger("OCTC_ELO"));
             setGappleElo(document.getInteger("GAPPLE_ELO"));
             setArcherElo(document.getInteger("ARCHER_ELO"));
-            setComoboElo(document.getInteger("COMBO_ELO"));
+            setComboElo(document.getInteger("COMBO_ELO"));
             setSoupElo(document.getInteger("SOUP_ELO"));
             setBuilduhcElo(document.getInteger("BUILDUHC_ELO"));
             setSumoElo(document.getInteger("SUMO_ELO"));
@@ -408,109 +408,109 @@ public class PlayerData {
         updateOne(findByUUID().append(key, amount));
     }
 
-    public void addPoint(){
-        updateInteger("POINT", getPoint()+2);
-        setPoint(getPoint()+2);
+    public void addPoint() {
+        updateInteger("POINT", getPoint() + 2);
+        setPoint(getPoint() + 2);
     }
 
-    public void withdrawPoint(){
-        if(getPoint() >= 1){
-            updateInteger("POINT", getPoint()-1);
-            setPoint(getPoint()-1);
-        }
-    }
-
-    public void addTotalPlayCount(RankedType rankedType){
-        if(rankedType == RankedType.UNRANKED){
-            updateInteger("UNRANKED_PLAYED", getUnrankedPlayed()+1);
-            setUnrankedPlayed(getUnrankedPlayed()+1);
-        }
-        if(rankedType == RankedType.RANKED){
-            updateInteger("RANKED_PLAYED", getRankedPlayed()+1);
-            setRankedPlayed(getRankedPlayed()+1);
+    public void withdrawPoint() {
+        if (getPoint() >= 1) {
+            updateInteger("POINT", getPoint() - 1);
+            setPoint(getPoint() - 1);
         }
     }
 
-    public void addTotalWinCount(RankedType rankedType){
-        if(rankedType == RankedType.UNRANKED){
-            updateInteger("UNRANKED_WIN", getUnraknedWin()+1);
-            setUnraknedWin(getUnraknedWin()+1);
+    public void addTotalPlayCount(RankedType rankedType) {
+        if (rankedType == RankedType.UNRANKED) {
+            updateInteger("UNRANKED_PLAYED", getUnrankedPlayed() + 1);
+            setUnrankedPlayed(getUnrankedPlayed() + 1);
         }
-        if(rankedType == RankedType.RANKED){
-            updateInteger("RANKED_WIN", getRankedWin()+1);
-            setRankedWin(getRankedWin()+1);
+        if (rankedType == RankedType.RANKED) {
+            updateInteger("RANKED_PLAYED", getRankedPlayed() + 1);
+            setRankedPlayed(getRankedPlayed() + 1);
+        }
+    }
+
+    public void addTotalWinCount(RankedType rankedType) {
+        if (rankedType == RankedType.UNRANKED) {
+            updateInteger("UNRANKED_WIN", getUnraknedWin() + 1);
+            setUnraknedWin(getUnraknedWin() + 1);
+        }
+        if (rankedType == RankedType.RANKED) {
+            updateInteger("RANKED_WIN", getRankedWin() + 1);
+            setRankedWin(getRankedWin() + 1);
         }
     }
 
     public void addPlayCount(RankedType rankedType, KitType kitType) {
-        if(rankedType == RankedType.UNRANKED){
-            if(kitType == KitType.NoDebuff){
-                updateInteger("NODEBUFF_UNRANKED_PLAYED", getNodebuffUnankedPlayed()+1);
-                setNodebuffUnankedPlayed(getNodebuffUnankedPlayed()+1);
+        if (rankedType == RankedType.UNRANKED) {
+            if (kitType == KitType.NoDebuff) {
+                updateInteger("NODEBUFF_UNRANKED_PLAYED", getNodebuffUnankedPlayed() + 1);
+                setNodebuffUnankedPlayed(getNodebuffUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Debuff){
-                updateInteger("DEBUFF_UNRANKED_PLAYED", getDebuffUnankedPlayed()+1);
-                setDebuffUnankedPlayed(getDebuffUnankedPlayed()+1);
+            if (kitType == KitType.Debuff) {
+                updateInteger("DEBUFF_UNRANKED_PLAYED", getDebuffUnankedPlayed() + 1);
+                setDebuffUnankedPlayed(getDebuffUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.MCSG){
-                updateInteger("MCSG_UNRANKED_PLAYED", getMcsgUnankedPlayed()+1);
-                setMcsgUnankedPlayed(getMcsgUnankedPlayed()+1);
+            if (kitType == KitType.MCSG) {
+                updateInteger("MCSG_UNRANKED_PLAYED", getMcsgUnankedPlayed() + 1);
+                setMcsgUnankedPlayed(getMcsgUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.OCTC){
-                updateInteger("OCTC_UNRANKED_PLAYED", getOctcUnankedPlayed()+1);
-                setOctcUnankedPlayed(getOctcUnankedPlayed()+1);
+            if (kitType == KitType.OCTC) {
+                updateInteger("OCTC_UNRANKED_PLAYED", getOctcUnankedPlayed() + 1);
+                setOctcUnankedPlayed(getOctcUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Gapple){
-                updateInteger("GAPPLE_UNRANKED_PLAYED", getGappleUnankedPlayed()+1);
-                setGappleUnankedPlayed(getGappleUnankedPlayed()+1);
+            if (kitType == KitType.Gapple) {
+                updateInteger("GAPPLE_UNRANKED_PLAYED", getGappleUnankedPlayed() + 1);
+                setGappleUnankedPlayed(getGappleUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Archer){
-                updateInteger("ARCHER_UNRANKED_PLAYED", getArcherUnankedPlayed()+1);
-                setArcherUnankedPlayed(getArcherUnankedPlayed()+1);
+            if (kitType == KitType.Archer) {
+                updateInteger("ARCHER_UNRANKED_PLAYED", getArcherUnankedPlayed() + 1);
+                setArcherUnankedPlayed(getArcherUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Combo){
-                updateInteger("COMBO_UNRANKED_PLAYED", getComboUnankedPlayed()+1);
-                setComboUnankedPlayed(getComboUnankedPlayed()+1);
+            if (kitType == KitType.Combo) {
+                updateInteger("COMBO_UNRANKED_PLAYED", getComboUnankedPlayed() + 1);
+                setComboUnankedPlayed(getComboUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Soup){
-                updateInteger("SOUP_UNRANKED_PLAYED", getSoupUnankedPlayed()+1);
-                setSoupUnankedPlayed(getSoupUnankedPlayed()+1);
+            if (kitType == KitType.Soup) {
+                updateInteger("SOUP_UNRANKED_PLAYED", getSoupUnankedPlayed() + 1);
+                setSoupUnankedPlayed(getSoupUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.BuildUHC){
-                updateInteger("BUILDUHC_UNRANKED_PLAYED", getBuilduhcUnankedPlayed()+1);
-                setBuilduhcUnankedPlayed(getBuilduhcUnankedPlayed()+1);
+            if (kitType == KitType.BuildUHC) {
+                updateInteger("BUILDUHC_UNRANKED_PLAYED", getBuilduhcUnankedPlayed() + 1);
+                setBuilduhcUnankedPlayed(getBuilduhcUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Sumo){
-                updateInteger("SUMO_UNRANKED_PLAYED", getSumoUnankedPlayed()+1);
-                setSumoUnankedPlayed(getSumoUnankedPlayed()+1);
+            if (kitType == KitType.Sumo) {
+                updateInteger("SUMO_UNRANKED_PLAYED", getSumoUnankedPlayed() + 1);
+                setSumoUnankedPlayed(getSumoUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Axe){
-                updateInteger("AXE_UNRANKED_PLAYED", getAxeUnankedPlayed()+1);
-                setAxeUnankedPlayed(getAxeUnankedPlayed()+1);
+            if (kitType == KitType.Axe) {
+                updateInteger("AXE_UNRANKED_PLAYED", getAxeUnankedPlayed() + 1);
+                setAxeUnankedPlayed(getAxeUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.Spleef){
-                updateInteger("SPLEEF_UNRANKED_PLAYED", getSpleefUnankedPlayed()+1);
-                setSpleefUnankedPlayed(getSpleefUnankedPlayed()+1);
+            if (kitType == KitType.Spleef) {
+                updateInteger("SPLEEF_UNRANKED_PLAYED", getSpleefUnankedPlayed() + 1);
+                setSpleefUnankedPlayed(getSpleefUnankedPlayed() + 1);
                 return;
             }
-            if(kitType == KitType.GappleSG){
-                updateInteger("GAPPLESG_UNRANKED_PLAYED", getGapplesgUnankedPlayed()+1);
-                setGapplesgUnankedPlayed(getGapplesgUnankedPlayed()+1);
+            if (kitType == KitType.GappleSG) {
+                updateInteger("GAPPLESG_UNRANKED_PLAYED", getGapplesgUnankedPlayed() + 1);
+                setGapplesgUnankedPlayed(getGapplesgUnankedPlayed() + 1);
                 return;
             }
         }
-        if(rankedType == RankedType.RANKED) {
+        if (rankedType == RankedType.RANKED) {
             if (kitType == KitType.NoDebuff) {
                 updateInteger("NODEBUFF_RANKED_PLAYED", getNodebuffRankedPlayed() + 1);
                 setNodebuffRankedPlayed(getNodebuffRankedPlayed() + 1);
@@ -578,75 +578,75 @@ public class PlayerData {
         }
     }
 
-    public void addWinCount(RankedType rankedType, KitType kitType){
-        if(rankedType == RankedType.UNRANKED){
-            if(kitType == KitType.NoDebuff){
-                updateInteger("NODEBUFF_UNRANKED_WIN", getNodebuffUnankedWin()+1);
-                setNodebuffUnankedWin(getNodebuffUnankedWin()+1);
+    public void addWinCount(RankedType rankedType, KitType kitType) {
+        if (rankedType == RankedType.UNRANKED) {
+            if (kitType == KitType.NoDebuff) {
+                updateInteger("NODEBUFF_UNRANKED_WIN", getNodebuffUnankedWin() + 1);
+                setNodebuffUnankedWin(getNodebuffUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Debuff){
-                updateInteger("DEBUFF_UNRANKED_WIN", getDebuffUnankedWin()+1);
-                setDebuffUnankedWin(getDebuffUnankedWin()+1);
+            if (kitType == KitType.Debuff) {
+                updateInteger("DEBUFF_UNRANKED_WIN", getDebuffUnankedWin() + 1);
+                setDebuffUnankedWin(getDebuffUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.MCSG){
-                updateInteger("MCSG_UNRANKED_WIN", getMcsgUnankedWin()+1);
-                setMcsgUnankedWin(getMcsgUnankedWin()+1);
+            if (kitType == KitType.MCSG) {
+                updateInteger("MCSG_UNRANKED_WIN", getMcsgUnankedWin() + 1);
+                setMcsgUnankedWin(getMcsgUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.OCTC){
-                updateInteger("OCTC_UNRANKED_WIN", getOctcUnankedWin()+1);
-                setOctcUnankedWin(getOctcUnankedWin()+1);
+            if (kitType == KitType.OCTC) {
+                updateInteger("OCTC_UNRANKED_WIN", getOctcUnankedWin() + 1);
+                setOctcUnankedWin(getOctcUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Gapple){
-                updateInteger("GAPPLE_UNRANKED_WIN", getGappleUnankedWin()+1);
-                setGappleUnankedWin(getGappleUnankedWin()+1);
+            if (kitType == KitType.Gapple) {
+                updateInteger("GAPPLE_UNRANKED_WIN", getGappleUnankedWin() + 1);
+                setGappleUnankedWin(getGappleUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Archer){
-                updateInteger("ARCHER_UNRANKED_WIN", getArcherUnankedWin()+1);
-                setArcherUnankedWin(getArcherUnankedWin()+1);
+            if (kitType == KitType.Archer) {
+                updateInteger("ARCHER_UNRANKED_WIN", getArcherUnankedWin() + 1);
+                setArcherUnankedWin(getArcherUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Combo){
-                updateInteger("COMBO_UNRANKED_WIN", getComboUnankedWin()+1);
-                setComboUnankedWin(getComboUnankedWin()+1);
+            if (kitType == KitType.Combo) {
+                updateInteger("COMBO_UNRANKED_WIN", getComboUnankedWin() + 1);
+                setComboUnankedWin(getComboUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Soup){
-                updateInteger("SOUP_UNRANKED_WIN", getSoupUnankedWin()+1);
-                setSoupUnankedWin(getSoupUnankedWin()+1);
+            if (kitType == KitType.Soup) {
+                updateInteger("SOUP_UNRANKED_WIN", getSoupUnankedWin() + 1);
+                setSoupUnankedWin(getSoupUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.BuildUHC){
-                updateInteger("BUILDUHC_UNRANKED_WIN", getBuilduhcUnankedWin()+1);
-                setBuilduhcUnankedWin(getBuilduhcUnankedWin()+1);
+            if (kitType == KitType.BuildUHC) {
+                updateInteger("BUILDUHC_UNRANKED_WIN", getBuilduhcUnankedWin() + 1);
+                setBuilduhcUnankedWin(getBuilduhcUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Sumo){
-                updateInteger("SUMO_UNRANKED_WIN", getSumoUnankedWin()+1);
-                setSumoUnankedWin(getSumoUnankedWin()+1);
+            if (kitType == KitType.Sumo) {
+                updateInteger("SUMO_UNRANKED_WIN", getSumoUnankedWin() + 1);
+                setSumoUnankedWin(getSumoUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Axe){
-                updateInteger("AXE_UNRANKED_WIN", getAxeUnankedWin()+1);
-                setAxeUnankedWin(getAxeUnankedWin()+1);
+            if (kitType == KitType.Axe) {
+                updateInteger("AXE_UNRANKED_WIN", getAxeUnankedWin() + 1);
+                setAxeUnankedWin(getAxeUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.Spleef){
-                updateInteger("SPLEEF_UNRANKED_WIN", getSpleefUnankedWin()+1);
-                setSpleefUnankedWin(getSpleefUnankedWin()+1);
+            if (kitType == KitType.Spleef) {
+                updateInteger("SPLEEF_UNRANKED_WIN", getSpleefUnankedWin() + 1);
+                setSpleefUnankedWin(getSpleefUnankedWin() + 1);
                 return;
             }
-            if(kitType == KitType.GappleSG){
-                updateInteger("GAPPLESG_UNRANKED_WIN", getGapplesgUnankedWin()+1);
-                setGapplesgUnankedWin(getGapplesgUnankedWin()+1);
+            if (kitType == KitType.GappleSG) {
+                updateInteger("GAPPLESG_UNRANKED_WIN", getGapplesgUnankedWin() + 1);
+                setGapplesgUnankedWin(getGapplesgUnankedWin() + 1);
                 return;
             }
         }
-        if(rankedType == RankedType.RANKED) {
+        if (rankedType == RankedType.RANKED) {
             if (kitType == KitType.NoDebuff) {
                 updateInteger("NODEBUFF_RANKED_WIN", getNodebuffRankedWin() + 1);
                 setNodebuffRankedWin(getNodebuffRankedWin() + 1);
@@ -712,5 +712,119 @@ public class PlayerData {
                 setGapplesgRankedWin(getGapplesgRankedWin() + 1);
             }
         }
+    }
+
+    public int calculatedElo(KitType kitType) {
+        return (int) (getElo(kitType) * 0.02);
+    }
+
+    public void updateElo(KitType kitType, int elo) {
+        if (kitType == KitType.NoDebuff) {
+            setNodebuffElo(elo);
+            updateInteger("NODEBUFF_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Debuff) {
+            setDebuffElo(elo);
+            updateInteger("DEBUFF_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.MCSG) {
+            setMcsgElo(elo);
+            updateInteger("MCSG_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.OCTC) {
+            setOctcElo(elo);
+            updateInteger("OCTC_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Gapple) {
+            setGappleElo(elo);
+            updateInteger("GAPPLE_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Archer) {
+            setArcherElo(elo);
+            updateInteger("ARCHER_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Combo) {
+            setComboElo(elo);
+            updateInteger("COMBO_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Soup) {
+            setSoupElo(elo);
+            updateInteger("SOUP_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.BuildUHC) {
+            setBuilduhcElo(elo);
+            updateInteger("BUILDUHC_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Sumo) {
+            setSumoElo(elo);
+            updateInteger("SUMO_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Axe) {
+            setAxeElo(elo);
+            updateInteger("AXE_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.Spleef) {
+            setSpleefElo(elo);
+            updateInteger("SPLEEF_ELO", elo);
+            return;
+        }
+        if (kitType == KitType.GappleSG) {
+            setGapplesgElo(elo);
+            updateInteger("GAPPLESG_ELO", elo);
+        }
+    }
+
+    public int getElo(KitType kitType){
+        if (kitType == KitType.NoDebuff) {
+            return nodebuffElo;
+        }
+        if (kitType == KitType.Debuff) {
+            return debuffElo;
+        }
+        if (kitType == KitType.MCSG) {
+            return mcsgElo;
+        }
+        if (kitType == KitType.OCTC) {
+            return octcElo;
+        }
+        if (kitType == KitType.Gapple) {
+            return gappleElo;
+        }
+        if (kitType == KitType.Archer) {
+            return archerElo;
+        }
+        if (kitType == KitType.Combo) {
+            return comboElo;
+        }
+        if (kitType == KitType.Soup) {
+            return soupElo;
+        }
+        if (kitType == KitType.BuildUHC) {
+            return builduhcElo;
+        }
+        if (kitType == KitType.Sumo) {
+            return sumoElo;
+        }
+        if (kitType == KitType.Axe) {
+           return axeElo;
+        }
+        if (kitType == KitType.Spleef) {
+            return spleefElo;
+        }
+        if (kitType == KitType.GappleSG) {
+           return gapplesgElo;
+        }
+        return 0;
     }
 }

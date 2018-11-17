@@ -5,7 +5,7 @@ import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.game.task.DuelGame;
+import net.hotsmc.practice.game.games.DuelGame;
 import net.hotsmc.practice.game.RankedType;
 import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.utility.ChatUtility;
@@ -29,8 +29,8 @@ public class DuelQueue {
         }
         practicePlayer.getInventory().clear();
         queuePlayer.getInventory().clear();
-        ChatUtility.sendMessage(queuePlayer, HotsCore.getHotsPlayer(queuePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName());
-        ChatUtility.sendMessage(practicePlayer, HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(queuePlayer.getPlayer()).getColorName());
+        queuePlayer.sendMessage(HotsCore.getHotsPlayer(queuePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName());
+        practicePlayer.sendMessage(HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(queuePlayer.getPlayer()).getColorName());
         DuelGame duelGame = new DuelGame(queuePlayer, practicePlayer, rankedType, kitType, HotsPractice.getArenaFactory().create(kitType));
         duelGame.start();
     }

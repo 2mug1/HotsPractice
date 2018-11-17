@@ -39,7 +39,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.NoDebuff);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.NoDebuff);
             }
         });
 
@@ -52,7 +52,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Debuff);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Debuff);
             }
         });
 
@@ -65,7 +65,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.MCSG);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.MCSG);
             }
         });
 
@@ -77,7 +77,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.OCTC);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.OCTC);
             }
         });
 
@@ -89,7 +89,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Gapple);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Gapple);
             }
         });
 
@@ -101,7 +101,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Archer);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Archer);
             }
         });
 
@@ -113,7 +113,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Combo);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Combo);
             }
         });
 
@@ -125,7 +125,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Soup);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Soup);
             }
         });
 
@@ -137,7 +137,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.BuildUHC);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.BuildUHC);
             }
         });
 
@@ -150,7 +150,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.Axe);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Axe);
             }
         });
 
@@ -163,7 +163,7 @@ public class KitEditSelectMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getDuelPlayer(player)).enableKitEdit(KitType.GappleSG);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.GappleSG);
             }
         });
         return buttons;

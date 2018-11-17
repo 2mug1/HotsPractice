@@ -25,7 +25,7 @@ public class PublicPartyListMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "Public Party / 参加自由パーティ";
+        return "Public Parties";
     }
 
     @Override
@@ -52,7 +52,7 @@ public class PublicPartyListMenu extends Menu {
                             return;
                         }
 
-                        party.addPlayer(HotsPractice.getDuelPlayer(player));
+                        party.addPlayer(HotsPractice.getPracticePlayer(player));
                     }
                 });
             }

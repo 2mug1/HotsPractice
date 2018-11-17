@@ -46,7 +46,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.NoDebuff);
@@ -66,7 +66,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Debuff);
@@ -86,7 +86,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.MCSG);
@@ -104,7 +104,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.OCTC);
@@ -121,7 +121,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Gapple);
@@ -139,7 +139,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Archer);
@@ -157,7 +157,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Combo);
@@ -175,7 +175,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Soup);
@@ -193,7 +193,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.BuildUHC);
@@ -211,7 +211,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Axe);
@@ -229,7 +229,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.Spleef);
@@ -246,7 +246,7 @@ public class DuelPartyLadderMenu extends Menu {
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                 player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getDuelPlayer(player);
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
                         opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), KitType.GappleSG);

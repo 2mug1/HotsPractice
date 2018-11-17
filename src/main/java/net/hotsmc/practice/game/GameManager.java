@@ -2,8 +2,8 @@ package net.hotsmc.practice.game;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
-import net.hotsmc.practice.game.task.DuelGame;
-import net.hotsmc.practice.game.task.Game;
+import net.hotsmc.practice.game.games.DuelGame;
+import net.hotsmc.practice.game.games.Game;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.kit.KitType;
 
@@ -48,6 +48,17 @@ public class GameManager {
     public Game getPlayerOfGame(PracticePlayer practicePlayer) {
         for (Game game : games) {
             for (PracticePlayer player : game.getGamePlayers()) {
+                if (player.getName().equals(practicePlayer.getName())) {
+                    return game;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Game getPlayerOfSpectatingGame(PracticePlayer practicePlayer){
+        for (Game game : games) {
+            for (PracticePlayer player : game.getSpectatePlayers()) {
                 if (player.getName().equals(practicePlayer.getName())) {
                     return game;
                 }
