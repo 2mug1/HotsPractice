@@ -38,6 +38,14 @@ public class EventCommand implements CommandExecutor {
                         practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "You can't join the event.");
                         return true;
                     }
+                    if(practicePlayer.isEnableSpectate()){
+                        practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "You can't join the event.");
+                        return true;
+                    }
+                    if(practicePlayer.isEnableKitEdit()){
+                        practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "You can't join the event.");
+                        return true;
+                    }
                     eventGame.addPlayer(practicePlayer);
                 }
             }
