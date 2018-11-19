@@ -22,22 +22,22 @@ public class PartyGameTeamScoreboard extends PlayerScoreboard {
         line1.addEntry(ChatColor.WHITE.toString());
         line1.setPrefix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "------------");
         line1.setSuffix("" + ChatColor.GRAY + ChatColor.STRIKETHROUGH + "-----------");
-        obj.getScore(ChatColor.WHITE.toString()).setScore(9);
+        obj.getScore(ChatColor.WHITE.toString()).setScore(10);
 
         Team ladder = scoreboard.registerNewTeam("Ladder");
         ladder.addEntry(ChatColor.AQUA.toString());
         ladder.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Ladder: ");
         ladder.setSuffix(""+ ChatColor.WHITE + HotsPractice.getGameManager().getPlayerOfGame(practicePlayer).getKitType());
-        obj.getScore(ChatColor.AQUA.toString()).setScore(8);
+        obj.getScore(ChatColor.AQUA.toString()).setScore(9);
 
         Team mode = scoreboard.registerNewTeam("Mode");
         mode.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Fight:"));
         mode.setSuffix(getEntry(ChatColor.WHITE + " Team"));
-        obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Fight:")).setScore(7);
+        obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Fight:")).setScore(8);
 
         Team yourTeam = scoreboard.registerNewTeam("YourTeam");
         yourTeam.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Team: "));
-        obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Team: ")).setScore(6);
+        obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Team: ")).setScore(7);
 
         Team duration = scoreboard.registerNewTeam("Duration");
         duration.addEntry(ChatColor.BLUE.toString());
@@ -51,19 +51,25 @@ public class PartyGameTeamScoreboard extends PlayerScoreboard {
                 duration.setSuffix("" + ChatColor.WHITE + TimeUtility.timeFormat(game.getTime()));
             }
         }
-        obj.getScore(ChatColor.BLUE.toString()).setScore(5);
+        obj.getScore(ChatColor.BLUE.toString()).setScore(6);
 
         Team blank = scoreboard.registerNewTeam("Blank");
         blank.addEntry(" ");
-        obj.getScore(" ").setScore(4);
+        obj.getScore(" ").setScore(5);
 
         Team green = scoreboard.registerNewTeam("Green");
         green.addEntry(getEntry("" + ChatColor.GREEN + "Green: "));
-        obj.getScore(getEntry("" + ChatColor.GREEN + "Green: ")).setScore(3);
+        obj.getScore(getEntry("" + ChatColor.GREEN + "Green: ")).setScore(4);
 
         Team red = scoreboard.registerNewTeam("Red");
         red.addEntry(getEntry("" + ChatColor.RED + "Red: "));
-        obj.getScore(getEntry("" + ChatColor.RED + "Red: ")).setScore(2);
+        obj.getScore(getEntry("" + ChatColor.RED + "Red: ")).setScore(3);
+
+        Team yourPing = scoreboard.registerNewTeam("YourPing");
+        yourPing.addEntry(ChatColor.MAGIC.toString());
+        yourPing.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Ping: ");
+        yourPing.setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");
+        obj.getScore(ChatColor.MAGIC.toString()).setScore(2);
 
         Team line2 = scoreboard.registerNewTeam("Line2");
         line2.addEntry(ChatColor.STRIKETHROUGH.toString());
@@ -91,12 +97,13 @@ public class PartyGameTeamScoreboard extends PlayerScoreboard {
             }
             net.hotsmc.practice.other.Team green = teamGame.teams[0];
             if(green != null) {
-                scoreboard.getTeam("Green").setSuffix(getEntry("" + ChatColor.WHITE + green.getAlivePlayers().size()));
+                scoreboard.getTeam("Green").setSuffix(getEntry("" + ChatColor.WHITE + green.getAlivePlayers().size() + " alive"));
             }
             net.hotsmc.practice.other.Team red = teamGame.teams[1];
             if(red != null) {
-                scoreboard.getTeam("Red").setSuffix(getEntry("" + ChatColor.WHITE + red.getAlivePlayers().size()));
+                scoreboard.getTeam("Red").setSuffix(getEntry("" + ChatColor.WHITE + red.getAlivePlayers().size() + " alive"));
             }
+            scoreboard.getTeam("YourPing").setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");
         }
     }
 }

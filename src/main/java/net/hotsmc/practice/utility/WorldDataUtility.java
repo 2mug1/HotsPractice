@@ -1,5 +1,6 @@
 package net.hotsmc.practice.utility;
 
+import net.minecraft.util.org.apache.commons.io.FileDeleteStrategy;
 import net.minecraft.util.org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -15,9 +16,9 @@ public class WorldDataUtility {
         }
     }
 
-    public static void deleteWorld(File path) {
+    public static void deleteWorld(File file) {
         try {
-            FileUtils.deleteDirectory(path);
+            FileUtils.forceDelete(file);
         } catch (IOException e) {
             e.printStackTrace();
         }

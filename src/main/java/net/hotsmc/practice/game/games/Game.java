@@ -8,10 +8,7 @@ import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.other.Cooldown;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import sun.management.HotspotThreadMBean;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -46,57 +46,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
         if (practicePlayer != null) {
-            ItemStack itemStack = event.getItem();
-            if(practicePlayer.isEnableSpectate()){
-                ItemStack item = event.getItem();
-                if(item == null)return;
-                if(item.getType() != Material.SLIME_BALL) {
-                    event.setCancelled(true);
-                }
-            }
-            if (itemStack == null || itemStack.getType() == Material.AIR) return;
-            if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-                for (ClickActionItem clickActionItem : getDuelClickItems()) {
-                    if (clickActionItem.equals(itemStack)) {
-                        clickActionItem.clickAction(player);
-                        event.setCancelled(true);
-                    }
-                }
-            }
-            if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK){
-                practicePlayer.addCurrentCps(1);
-            }
-            if (practicePlayer.isInGame()) {
-                if(event.getItem() == null)return;
-                Game game = HotsPractice.getGameManager().getPlayerOfGame(practicePlayer);
-                if (game.getKitType() == KitType.Soup) {
-                    if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-                        if (event.getItem() == null) return;
-                        if (event.getItem().getType() == Material.MUSHROOM_SOUP) {
-                            double health = player.getHealth();
-                            if (health != player.getMaxHealth()) {
-                                player.getItemInHand().setType(Material.BOWL);
-                                double soup = +7.0;
-                                player.setFoodLevel(20);
-                                player.setHealth(player.getHealth() + soup > player.getMaxHealth() ? player.getMaxHealth() : player.getHealth() + soup);
-                            }
-                        }
-                    }
-                }
-                if (event.getItem().getType() == Material.ENDER_PEARL) {
-                    if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                        if (!game.getStartCooldown().hasExpired()) {
-                            event.setCancelled(true);
-                            return;
-                        }
-                        if (!practicePlayer.getEnderpearlCooldown().hasExpired()) {
-                            event.setCancelled(true);
-                        } else {
-                            practicePlayer.startEnderpearlCooldown();
-                        }
-                    }
-                }
-            }
+
             if (practicePlayer.isEnableKitEdit()) {
                 event.setCancelled(true);
                 if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -109,13 +59,59 @@ public class PlayerListener implements Listener {
                         practicePlayer.openKitChest();
                     }
                 }
-            }
-            if (player.getGameMode() != GameMode.CREATIVE) {
-                if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    Material type = event.getClickedBlock().getType();
-                    if (type == Material.WORKBENCH || type == Material.FURNACE || type == Material.BURNING_FURNACE || type == Material.ANVIL || type == Material.CHEST) {
+
+                if (practicePlayer.isEnableSpectate()) {
+                    ItemStack item = event.getItem();
+                    if (item == null) return;
+                    if (item.getType() != Material.SLIME_BALL) {
                         event.setCancelled(true);
-                        return;
+                    }
+                }
+
+                if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                    practicePlayer.addCurrentCps(1);
+                }
+
+                if (practicePlayer.isInGame()) {
+
+                    if (event.getItem() == null) return;
+                    Game game = HotsPractice.getGameManager().getPlayerOfGame(practicePlayer);
+                    if (game.getKitType() == KitType.Soup) {
+                        if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
+                            if (event.getItem() == null) return;
+                            if (event.getItem().getType() == Material.MUSHROOM_SOUP) {
+                                double health = player.getHealth();
+                                if (health != player.getMaxHealth()) {
+                                    player.getItemInHand().setType(Material.BOWL);
+                                    double soup = +7.0;
+                                    player.setFoodLevel(20);
+                                    player.setHealth(player.getHealth() + soup > player.getMaxHealth() ? player.getMaxHealth() : player.getHealth() + soup);
+                                }
+                            }
+                        }
+                    }
+
+                    if (event.getItem().getType() == Material.ENDER_PEARL) {
+                        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                            if (!game.getStartCooldown().hasExpired()) {
+                                event.setCancelled(true);
+                                return;
+                            }
+                            if (!practicePlayer.getEnderpearlCooldown().hasExpired()) {
+                                event.setCancelled(true);
+                            } else {
+                                practicePlayer.startEnderpearlCooldown();
+                            }
+                        }
+                    }
+                }
+
+                if (player.getGameMode() != GameMode.CREATIVE) {
+                    if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                        Material type = event.getClickedBlock().getType();
+                        if (type == Material.WORKBENCH || type == Material.FURNACE || type == Material.BURNING_FURNACE || type == Material.ANVIL || type == Material.CHEST) {
+                            event.setCancelled(true);
+                        }
                     }
                 }
             }

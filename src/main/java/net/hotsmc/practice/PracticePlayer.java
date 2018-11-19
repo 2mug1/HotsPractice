@@ -172,7 +172,7 @@ public class PracticePlayer {
         setItem(0, items.get(0).getItemStack());
         setItem(1, items.get(1).getItemStack());
         setItem(2, items.get(2).getItemStack());
-        setItem(3, items.get(12).getItemStack());
+        setItem(4, items.get(12).getItemStack());
         setItem(6, items.get(3).getItemStack());
         setItem(7, items.get(4).getItemStack());
         setItem(8, items.get(5).getItemStack());
@@ -339,7 +339,7 @@ public class PracticePlayer {
         player.updateInventory();
     }
 
-    public void setSpectateItems(){
+    public void setSpectateItems() {
         clearInventory();
         setItem(4, HotsPractice.getDuelClickItems().get(15).getItemStack());
     }
@@ -540,27 +540,28 @@ public class PracticePlayer {
      * @return
      */
     public boolean hasHoldingEventGame() {
-        for(EventGame eventGame : HotsPractice.getEventGameManager().getGames()){
-            if(eventGame.getLEADER_UUID().equals(getUUID())){
+        for (EventGame eventGame : HotsPractice.getEventGameManager().getGames()) {
+            if (eventGame.getLEADER_UUID().equals(getUUID())) {
                 return true;
             }
         }
         return false;
     }
 
-    public Party getInParty(){
+    public Party getInParty() {
         return HotsPractice.getPartyManager().getPlayerOfParty(this);
     }
 
-    public Game getInGame(){
+    public Game getInGame() {
         return HotsPractice.getGameManager().getPlayerOfGame(this);
     }
 
-    public EventGame getInEventGame(){
+    public EventGame getInEventGame() {
         return HotsPractice.getEventGameManager().getPlayerOfEventGame(this);
     }
 
     public void addCurrentCps(int amount) {
-        currentCps = amount+currentCps;
+        currentCps = amount + currentCps;
     }
+
 }

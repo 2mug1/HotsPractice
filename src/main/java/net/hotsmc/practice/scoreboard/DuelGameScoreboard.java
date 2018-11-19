@@ -52,18 +52,16 @@ public class DuelGameScoreboard extends PlayerScoreboard {
             obj.getScore(ChatColor.UNDERLINE.toString()).setScore(4);
 
             Team yourPing = scoreboard.registerNewTeam("YourPing");
-            yourPing.addEntry(ChatColor.MAGIC.toString());
-            yourPing.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Ping: ");
-            yourPing.setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");
-            obj.getScore(ChatColor.MAGIC.toString()).setScore(3);
+            yourPing.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Ping: "));
+            yourPing.setSuffix(getEntry("" + ChatColor.WHITE + practicePlayer.getPing() + "ms"));
+            obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Your Ping: ")).setScore(3);
 
             PracticePlayer opponentPlayer = game.getOpponent(practicePlayer);
             if (opponentPlayer != null) {
-                Team opponentPing = scoreboard.registerNewTeam("OpponentPing");
-                opponentPing.addEntry(ChatColor.DARK_GRAY.toString());
-                opponentPing.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Opponent Pi");
-                opponentPing.setSuffix("" + ChatColor.YELLOW + ChatColor.BOLD + "ng: " + ChatColor.WHITE + opponentPlayer.getPing() + "ms");
-                obj.getScore(ChatColor.DARK_GRAY.toString()).setScore(2);
+                Team opponentPing = scoreboard.registerNewTeam("TheirPing");
+                opponentPing.addEntry(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Their Ping: "));
+                opponentPing.setSuffix(getEntry("" + ChatColor.WHITE + opponentPlayer.getPing() + "ms"));
+                obj.getScore(getEntry("" + ChatColor.YELLOW + ChatColor.BOLD + "Their Ping: ")).setScore(2);
             }
             Team line2 = scoreboard.registerNewTeam("Line2");
             line2.addEntry(ChatColor.STRIKETHROUGH.toString());
@@ -85,10 +83,10 @@ public class DuelGameScoreboard extends PlayerScoreboard {
                 duration.setPrefix("" + ChatColor.YELLOW + ChatColor.BOLD + "Duration: ");
                 duration.setSuffix("" + ChatColor.WHITE + TimeUtility.timeFormat(game.getTime()));
             }
-            scoreboard.getTeam("YourPing").setSuffix("" + ChatColor.WHITE + practicePlayer.getPing() + "ms");
+            scoreboard.getTeam("YourPing").setSuffix(getEntry("" + ChatColor.WHITE + practicePlayer.getPing() + "ms"));
             PracticePlayer opponentPlayer = game.getOpponent(practicePlayer);
             if (opponentPlayer != null) {
-                scoreboard.getTeam("OpponentPing").setSuffix("" + ChatColor.YELLOW + ChatColor.BOLD + "ng: " + ChatColor.WHITE + opponentPlayer.getPing() + "ms");
+                scoreboard.getTeam("TheirPing").setSuffix(getEntry("" + ChatColor.WHITE + opponentPlayer.getPing() + "ms"));
             }
         }
 

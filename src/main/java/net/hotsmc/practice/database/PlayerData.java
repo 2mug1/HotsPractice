@@ -715,7 +715,7 @@ public class PlayerData {
     }
 
     public int calculatedElo(KitType kitType) {
-        return (int) (getElo(kitType) * 0.02);
+        return (int) (getElo(kitType) * 0.01);
     }
 
     public void updateElo(KitType kitType, int elo) {

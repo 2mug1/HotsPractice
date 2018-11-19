@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.utility.WorldDataUtility;
+import net.minecraft.server.v1_7_R4.RegionFileCache;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,12 +25,6 @@ public class Arena {
         World world = spawn1.getWorld();
         String worldName = world.getName();
         Bukkit.getServer().unloadWorld(world, false);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                WorldDataUtility.deleteWorld(new File(HotsPractice.getInstance().getServer().getWorldContainer().getAbsolutePath() + "/" + worldName));
-                this.cancel();
-            }
-        }.runTaskLater(HotsPractice.getInstance(), 20*3);
+        WorldDataUtility.deleteWorld(new File(HotsPractice.getInstance().getServer().getWorldContainer().getAbsolutePath() + "/" + worldName));
     }
 }

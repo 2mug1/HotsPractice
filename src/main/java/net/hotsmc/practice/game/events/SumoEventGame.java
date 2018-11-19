@@ -88,7 +88,7 @@ public class SumoEventGame extends EventGame {
     }
 
     public void randomSelectPlayer(){
-        broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "Random selecting players...");
+        broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "Selecting random players...");
         List<PracticePlayer> players = getWinningPlayers();
         if(players.size() == 2){
             fightingPlayers[0] = players.get(0);
@@ -100,7 +100,7 @@ public class SumoEventGame extends EventGame {
             Collections.shuffle(players);
             fightingPlayers[1] = players.get(0);
         }
-        broadcast(ChatColor.YELLOW + "(Event) " + HotsCore.getHotsPlayer(fightingPlayers[0].getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(fightingPlayers[1].getPlayer()).getColorName());
+        broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "Starting event match (" + HotsCore.getHotsPlayer(fightingPlayers[0].getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(fightingPlayers[1].getPlayer()).getColorName() + ChatColor.GRAY + ")");
         for(PracticePlayer practicePlayer : fightingPlayers){
             practicePlayer.teleport(getPlayerSpawnLocation(practicePlayer));
             practicePlayer.clearInventory();
