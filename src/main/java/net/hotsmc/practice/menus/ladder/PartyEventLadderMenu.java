@@ -4,8 +4,8 @@ import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.game.PartyGameType;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.match.PartyMatchType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,11 +19,11 @@ import java.util.Map;
 
 public class PartyEventLadderMenu extends Menu {
 
-    private PartyGameType partyGameType;
+    private PartyMatchType partyMatchType;
 
-    public PartyEventLadderMenu(PartyGameType partyGameType) {
+    public PartyEventLadderMenu(PartyMatchType partyMatchType) {
         super(false);
-        this.partyGameType = partyGameType;
+        this.partyMatchType = partyMatchType;
     }
 
     @Override
@@ -48,12 +48,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.NoDebuff);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.NoDebuff);
                             return;
                         }
-                        if(partyGameType == PartyGameType.TEAM_FIGHT){
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.NoDebuff);
+                        if(partyMatchType == PartyMatchType.TEAM_FIGHT){
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.NoDebuff);
                         }
                     }
                 }
@@ -74,12 +74,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Debuff);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Debuff);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Debuff);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Debuff);
                         }
                     }
                 }
@@ -100,12 +100,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.MCSG);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.MCSG);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.MCSG);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.MCSG);
                         }
                     }
                 }
@@ -124,12 +124,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.OCTC);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.OCTC);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.OCTC);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.OCTC);
                         }
                     }
                 }
@@ -147,12 +147,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Gapple);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Gapple);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Gapple);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Gapple);
                         }
                     }
                 }
@@ -171,12 +171,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Archer);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Archer);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Archer);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Archer);
                         }
                     }
                 }
@@ -195,12 +195,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Combo);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Combo);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Combo);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Combo);
                         }
                     }
                 }
@@ -219,12 +219,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Soup);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Soup);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Soup);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Soup);
                         }
                     }
                 }
@@ -243,12 +243,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if (practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.BuildUHC);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.BuildUHC);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.BuildUHC);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.BuildUHC);
                         }
                     }
                 }
@@ -267,12 +267,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Axe);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Axe);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Axe);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Axe);
                         }
                     }
                 }
@@ -280,30 +280,6 @@ public class PartyEventLadderMenu extends Menu {
         });
 
         buttons.put(10, new Button() {
-            @Override
-            public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Spleef", Material.DIAMOND_SPADE, false,1);
-            }
-
-            @Override
-            public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                player.closeInventory();
-                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
-                if(practicePlayer != null) {
-                    if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.Spleef);
-                            return;
-                        }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.Spleef);
-                        }
-                    }
-                }
-            }
-        });
-
-        buttons.put(11, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createItemStack(ChatColor.GREEN + "GappleSG", Material.GOLDEN_APPLE, false,1);
@@ -314,12 +290,12 @@ public class PartyEventLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
-                        if (partyGameType == PartyGameType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(KitType.GappleSG);
+                        if (partyMatchType == PartyMatchType.FFA_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.GappleSG);
                             return;
                         }
-                        if (partyGameType == PartyGameType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(KitType.GappleSG);
+                        if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
+                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.GappleSG);
                         }
                     }
                 }

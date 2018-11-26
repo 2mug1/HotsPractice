@@ -3,9 +3,9 @@ package net.hotsmc.practice.party;
 import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.practice.*;
-import net.hotsmc.practice.game.games.PartyFFAGame;
-import net.hotsmc.practice.game.games.PartyTeamGame;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.match.impl.PartyFFAMatch;
+import net.hotsmc.practice.match.impl.PartyTeamMatch;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.queue.DuelPartyRequest;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.md_5.bungee.api.chat.*;
@@ -14,7 +14,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -29,6 +28,7 @@ public class Party {
     private List<String> invitePlayers;
     private List<DuelPartyRequest> duelPartyRequests;
     private boolean inGame = false;
+    private ChatColor prefix;
 
     public Party(PartyType type, PracticePlayer leader){
         this.type = type;
@@ -61,18 +61,18 @@ public class Party {
         return null;
     }
 
-    public void addDuelPartyRequest(Party sendFromParty, KitType kitType){
+    public void addDuelPartyRequest(Party sendFromParty, LadderType ladderType){
         DuelPartyRequest duelPartyRequest = getDuelPartyRequestBySendParty(sendFromParty);
         if(duelPartyRequest == null){
-            duelPartyRequests.add(new DuelPartyRequest(kitType, sendFromParty, this));
+            duelPartyRequests.add(new DuelPartyRequest(ladderType, sendFromParty, this));
         }else{
-            duelPartyRequest.setKitType(kitType);
+            duelPartyRequest.setLadderType(ladderType);
         }
 
         sendFromParty.getLeader().sendMessage(ChatColor.YELLOW + "You sent party duel to " + partyName + " / あなたは" + partyName + "にPartyDuelを送りました");
         getLeader().sendMessage(ChatColor.GOLD + "You have been received the party duel by " + sendFromParty.getPartyName() + " / あなたは" + sendFromParty.getPartyName() + "からPartyDuelを受け取りました");
         ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX);
-        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to Accept / クリックして開始 - " + kitType.name());
+        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to Accept / クリックして開始 - " + ladderType.name());
         msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/duel accept " + sendFromParty.getPartyName()));
         msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/duel accept " + sendFromParty.getPartyName()).create()));
         getLeader().getPlayer().spigot().sendMessage(msg.create());
@@ -107,7 +107,6 @@ public class Party {
         invitePlayers.clear();
         for(PracticePlayer practicePlayer : players){
             practicePlayer.setClickItems();
-            practicePlayer.startLobbyScoreboard();
             practicePlayer.sendMessage(ChatColor.YELLOW + "Party has been disbanded by leader / パーティは解散されました");
         }
         players.clear();
@@ -142,7 +141,6 @@ public class Party {
                 players.add(practicePlayer);
                 invitePlayers.remove(practicePlayer.getPlayer().getName());
                 practicePlayer.setPartyClickItems();
-                practicePlayer.startPartyScoreboard();
                 broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has joined the party / " + practicePlayer.getPlayer().getName() + "がパーティに参加しました");
                 practicePlayer.sendMessage(ChatColor.YELLOW + "You have joined the " + partyName + "'s party / " + partyName + "のパーティに参加しました");
             }
@@ -151,7 +149,6 @@ public class Party {
         players.add(practicePlayer);
         invitePlayers.remove(practicePlayer.getPlayer().getName());
         practicePlayer.setPartyClickItems();
-        practicePlayer.startPartyScoreboard();
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has joined the party / " + practicePlayer.getPlayer().getName() + "がパーティに参加しました");
         practicePlayer.sendMessage(ChatColor.YELLOW + "You have joined the " + partyName + "'s party / " + partyName + "のパーティに参加しました");
     }
@@ -160,7 +157,6 @@ public class Party {
     public void removePlayer(PracticePlayer practicePlayer) {
         players.remove(getPartyPlayer(practicePlayer.getPlayer()));
         practicePlayer.setClickItems();
-        practicePlayer.startLobbyScoreboard();
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has left the party / " + practicePlayer.getPlayer().getName() + "がパーティから離脱しました");
         if (isLeader(practicePlayer)) {
             if (players.size() <= 0) {
@@ -185,24 +181,23 @@ public class Party {
         }
         players.remove(getPartyPlayer(practicePlayer.getPlayer()));
         practicePlayer.setClickItems();
-        practicePlayer.startLobbyScoreboard();
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has kicked from the party / " + practicePlayer.getPlayer().getName() + "がパーティからキックされました");
         practicePlayer.sendMessage(ChatColor.YELLOW + "You have kicked from the " + partyName + "'s party / あなたは" + partyName + "のパーティからキックされました");
     }
 
-    public void startPartyFFAfight(KitType type){
+    public void startPartyFFAfight(LadderType type){
         for(PracticePlayer practicePlayer : players){
             practicePlayer.clearInventory();
         }
-        PartyFFAGame partyFFAGame = new PartyFFAGame(type, HotsPractice.getArenaFactory().create(type), this);
+        PartyFFAMatch partyFFAGame = new PartyFFAMatch(type, HotsPractice.getArenaFactory().create(type), this);
         partyFFAGame.start();
     }
 
-    public void startPartyTeamFight(KitType type){
+    public void startPartyTeamFight(LadderType type){
         for(PracticePlayer practicePlayer : players){
             practicePlayer.clearInventory();
         }
-        PartyTeamGame partyTeamGame = new PartyTeamGame(type, HotsPractice.getArenaFactory().create(type), this);
+        PartyTeamMatch partyTeamGame = new PartyTeamMatch(type, HotsPractice.getArenaFactory().create(type), this);
         partyTeamGame.start();
     }
 

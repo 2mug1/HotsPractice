@@ -128,7 +128,7 @@ public class LeaderboardMenu extends Menu {
         buttons.put(21, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.GRILLED_PORK, false, 1, mongo.getTop10("SUMO_ELO"));
+                        return ItemUtility.createItemStack(ChatColor.GREEN + "Sumo", Material.LEASH, false, 1, mongo.getTop10("SUMO_ELO"));
                     }
                 });
 

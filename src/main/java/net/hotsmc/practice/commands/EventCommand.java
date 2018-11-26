@@ -2,7 +2,7 @@ package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.PracticePlayer;
-import net.hotsmc.practice.game.events.EventGame;
+import net.hotsmc.practice.event.Event;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,12 +25,12 @@ public class EventCommand implements CommandExecutor {
             if(args.length == 2){
                 if (args[0].equalsIgnoreCase("join")) {
                     String eventName = args[1];
-                    EventGame eventGame = HotsPractice.getEventGameManager().getEventGameByEventName(eventName);
-                    if(eventGame == null){
+                    Event event = HotsPractice.getEventManager().getEventGameByEventName(eventName);
+                    if(event == null){
                         practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "Not found event.");
                         return true;
                     }
-                    if(practicePlayer.isInGame()){
+                    if(practicePlayer.isInMatch()){
                         practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "You can't join the event.");
                         return true;
                     }
@@ -46,7 +46,7 @@ public class EventCommand implements CommandExecutor {
                         practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "You can't join the event.");
                         return true;
                     }
-                    eventGame.addPlayer(practicePlayer);
+                    event.addPlayer(practicePlayer);
                 }
             }
         }

@@ -2,16 +2,16 @@ package net.hotsmc.practice.queue;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.ladder.LadderType;
 
 @Getter
 @Setter
 public abstract class DuelRequest {
 
-    private KitType kitType;
+    private LadderType ladderType;
 
-    public DuelRequest(KitType kitType){
-        this.kitType = kitType;
+    public DuelRequest(LadderType ladderType){
+        this.ladderType = ladderType;
     }
 
     public abstract void accept();

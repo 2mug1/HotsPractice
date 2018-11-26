@@ -3,8 +3,8 @@ package net.hotsmc.practice.database;
 import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.game.RankedType;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.match.RankedType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.MongoUtility;
 import org.bson.Document;
 
@@ -442,387 +442,387 @@ public class PlayerData {
         }
     }
 
-    public void addPlayCount(RankedType rankedType, KitType kitType) {
+    public void addPlayCount(RankedType rankedType, LadderType ladderType) {
         if (rankedType == RankedType.UNRANKED) {
-            if (kitType == KitType.NoDebuff) {
+            if (ladderType == LadderType.NoDebuff) {
                 updateInteger("NODEBUFF_UNRANKED_PLAYED", getNodebuffUnankedPlayed() + 1);
                 setNodebuffUnankedPlayed(getNodebuffUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Debuff) {
+            if (ladderType == LadderType.Debuff) {
                 updateInteger("DEBUFF_UNRANKED_PLAYED", getDebuffUnankedPlayed() + 1);
                 setDebuffUnankedPlayed(getDebuffUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.MCSG) {
+            if (ladderType == LadderType.MCSG) {
                 updateInteger("MCSG_UNRANKED_PLAYED", getMcsgUnankedPlayed() + 1);
                 setMcsgUnankedPlayed(getMcsgUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.OCTC) {
+            if (ladderType == LadderType.OCTC) {
                 updateInteger("OCTC_UNRANKED_PLAYED", getOctcUnankedPlayed() + 1);
                 setOctcUnankedPlayed(getOctcUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Gapple) {
+            if (ladderType == LadderType.Gapple) {
                 updateInteger("GAPPLE_UNRANKED_PLAYED", getGappleUnankedPlayed() + 1);
                 setGappleUnankedPlayed(getGappleUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Archer) {
+            if (ladderType == LadderType.Archer) {
                 updateInteger("ARCHER_UNRANKED_PLAYED", getArcherUnankedPlayed() + 1);
                 setArcherUnankedPlayed(getArcherUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Combo) {
+            if (ladderType == LadderType.Combo) {
                 updateInteger("COMBO_UNRANKED_PLAYED", getComboUnankedPlayed() + 1);
                 setComboUnankedPlayed(getComboUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Soup) {
+            if (ladderType == LadderType.Soup) {
                 updateInteger("SOUP_UNRANKED_PLAYED", getSoupUnankedPlayed() + 1);
                 setSoupUnankedPlayed(getSoupUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.BuildUHC) {
+            if (ladderType == LadderType.BuildUHC) {
                 updateInteger("BUILDUHC_UNRANKED_PLAYED", getBuilduhcUnankedPlayed() + 1);
                 setBuilduhcUnankedPlayed(getBuilduhcUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Sumo) {
+            if (ladderType == LadderType.Sumo) {
                 updateInteger("SUMO_UNRANKED_PLAYED", getSumoUnankedPlayed() + 1);
                 setSumoUnankedPlayed(getSumoUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Axe) {
+            if (ladderType == LadderType.Axe) {
                 updateInteger("AXE_UNRANKED_PLAYED", getAxeUnankedPlayed() + 1);
                 setAxeUnankedPlayed(getAxeUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Spleef) {
+            if (ladderType == LadderType.Spleef) {
                 updateInteger("SPLEEF_UNRANKED_PLAYED", getSpleefUnankedPlayed() + 1);
                 setSpleefUnankedPlayed(getSpleefUnankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.GappleSG) {
+            if (ladderType == LadderType.GappleSG) {
                 updateInteger("GAPPLESG_UNRANKED_PLAYED", getGapplesgUnankedPlayed() + 1);
                 setGapplesgUnankedPlayed(getGapplesgUnankedPlayed() + 1);
                 return;
             }
         }
         if (rankedType == RankedType.RANKED) {
-            if (kitType == KitType.NoDebuff) {
+            if (ladderType == LadderType.NoDebuff) {
                 updateInteger("NODEBUFF_RANKED_PLAYED", getNodebuffRankedPlayed() + 1);
                 setNodebuffRankedPlayed(getNodebuffRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Debuff) {
+            if (ladderType == LadderType.Debuff) {
                 updateInteger("DEBUFF_RANKED_PLAYED", getDebuffRankedPlayed() + 1);
                 setDebuffRankedPlayed(getDebuffRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.MCSG) {
+            if (ladderType == LadderType.MCSG) {
                 updateInteger("MCSG_RANKED_PLAYED", getMcsgRankedPlayed() + 1);
                 setMcsgRankedPlayed(getMcsgRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.OCTC) {
+            if (ladderType == LadderType.OCTC) {
                 updateInteger("OCTC_RANKED_PLAYED", getOctcRankedPlayed() + 1);
                 setOctcRankedPlayed(getOctcRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Gapple) {
+            if (ladderType == LadderType.Gapple) {
                 updateInteger("GAPPLE_RANKED_PLAYED", getGappleRankedPlayed() + 1);
                 setGappleRankedPlayed(getGappleRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Archer) {
+            if (ladderType == LadderType.Archer) {
                 updateInteger("ARCHER_RANKED_PLAYED", getArcherRankedPlayed() + 1);
                 setArcherRankedPlayed(getArcherRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Combo) {
+            if (ladderType == LadderType.Combo) {
                 updateInteger("COMBO_RANKED_PLAYED", getComboRankedPlayed() + 1);
                 setComboRankedPlayed(getComboRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Soup) {
+            if (ladderType == LadderType.Soup) {
                 updateInteger("SOUP_RANKED_PLAYED", getSoupRankedPlayed() + 1);
                 setSoupRankedPlayed(getSoupRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.BuildUHC) {
+            if (ladderType == LadderType.BuildUHC) {
                 updateInteger("BUILDUHC_RANKED_PLAYED", getBuilduhcRankedPlayed() + 1);
                 setBuilduhcRankedPlayed(getBuilduhcRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Sumo) {
+            if (ladderType == LadderType.Sumo) {
                 updateInteger("SUMO_RANKED_PLAYED", getSumoRankedPlayed() + 1);
                 setSumoRankedPlayed(getSumoRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Axe) {
+            if (ladderType == LadderType.Axe) {
                 updateInteger("AXE_RANKED_PLAYED", getAxeRankedPlayed() + 1);
                 setAxeRankedPlayed(getAxeRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.Spleef) {
+            if (ladderType == LadderType.Spleef) {
                 updateInteger("SPLEEF_RANKED_PLAYED", getSpleefRankedPlayed() + 1);
                 setSpleefRankedPlayed(getSpleefRankedPlayed() + 1);
                 return;
             }
-            if (kitType == KitType.GappleSG) {
+            if (ladderType == LadderType.GappleSG) {
                 updateInteger("GAPPLESG_RANKED_PLAYED", getGapplesgRankedPlayed() + 1);
                 setGapplesgRankedPlayed(getGapplesgRankedPlayed() + 1);
             }
         }
     }
 
-    public void addWinCount(RankedType rankedType, KitType kitType) {
+    public void addWinCount(RankedType rankedType, LadderType ladderType) {
         if (rankedType == RankedType.UNRANKED) {
-            if (kitType == KitType.NoDebuff) {
+            if (ladderType == LadderType.NoDebuff) {
                 updateInteger("NODEBUFF_UNRANKED_WIN", getNodebuffUnankedWin() + 1);
                 setNodebuffUnankedWin(getNodebuffUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Debuff) {
+            if (ladderType == LadderType.Debuff) {
                 updateInteger("DEBUFF_UNRANKED_WIN", getDebuffUnankedWin() + 1);
                 setDebuffUnankedWin(getDebuffUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.MCSG) {
+            if (ladderType == LadderType.MCSG) {
                 updateInteger("MCSG_UNRANKED_WIN", getMcsgUnankedWin() + 1);
                 setMcsgUnankedWin(getMcsgUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.OCTC) {
+            if (ladderType == LadderType.OCTC) {
                 updateInteger("OCTC_UNRANKED_WIN", getOctcUnankedWin() + 1);
                 setOctcUnankedWin(getOctcUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Gapple) {
+            if (ladderType == LadderType.Gapple) {
                 updateInteger("GAPPLE_UNRANKED_WIN", getGappleUnankedWin() + 1);
                 setGappleUnankedWin(getGappleUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Archer) {
+            if (ladderType == LadderType.Archer) {
                 updateInteger("ARCHER_UNRANKED_WIN", getArcherUnankedWin() + 1);
                 setArcherUnankedWin(getArcherUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Combo) {
+            if (ladderType == LadderType.Combo) {
                 updateInteger("COMBO_UNRANKED_WIN", getComboUnankedWin() + 1);
                 setComboUnankedWin(getComboUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Soup) {
+            if (ladderType == LadderType.Soup) {
                 updateInteger("SOUP_UNRANKED_WIN", getSoupUnankedWin() + 1);
                 setSoupUnankedWin(getSoupUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.BuildUHC) {
+            if (ladderType == LadderType.BuildUHC) {
                 updateInteger("BUILDUHC_UNRANKED_WIN", getBuilduhcUnankedWin() + 1);
                 setBuilduhcUnankedWin(getBuilduhcUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Sumo) {
+            if (ladderType == LadderType.Sumo) {
                 updateInteger("SUMO_UNRANKED_WIN", getSumoUnankedWin() + 1);
                 setSumoUnankedWin(getSumoUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Axe) {
+            if (ladderType == LadderType.Axe) {
                 updateInteger("AXE_UNRANKED_WIN", getAxeUnankedWin() + 1);
                 setAxeUnankedWin(getAxeUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Spleef) {
+            if (ladderType == LadderType.Spleef) {
                 updateInteger("SPLEEF_UNRANKED_WIN", getSpleefUnankedWin() + 1);
                 setSpleefUnankedWin(getSpleefUnankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.GappleSG) {
+            if (ladderType == LadderType.GappleSG) {
                 updateInteger("GAPPLESG_UNRANKED_WIN", getGapplesgUnankedWin() + 1);
                 setGapplesgUnankedWin(getGapplesgUnankedWin() + 1);
                 return;
             }
         }
         if (rankedType == RankedType.RANKED) {
-            if (kitType == KitType.NoDebuff) {
+            if (ladderType == LadderType.NoDebuff) {
                 updateInteger("NODEBUFF_RANKED_WIN", getNodebuffRankedWin() + 1);
                 setNodebuffRankedWin(getNodebuffRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Debuff) {
+            if (ladderType == LadderType.Debuff) {
                 updateInteger("DEBUFF_RANKED_WIN", getDebuffRankedWin() + 1);
                 setDebuffRankedWin(getDebuffRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.MCSG) {
+            if (ladderType == LadderType.MCSG) {
                 updateInteger("MCSG_RANKED_WIN", getMcsgRankedWin() + 1);
                 setMcsgRankedWin(getMcsgRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.OCTC) {
+            if (ladderType == LadderType.OCTC) {
                 updateInteger("OCTC_RANKED_WIN", getOctcRankedWin() + 1);
                 setOctcRankedWin(getOctcRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Gapple) {
+            if (ladderType == LadderType.Gapple) {
                 updateInteger("GAPPLE_RANKED_WIN", getGappleRankedWin() + 1);
                 setGappleRankedWin(getGappleRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Archer) {
+            if (ladderType == LadderType.Archer) {
                 updateInteger("ARCHER_RANKED_WIN", getArcherRankedWin() + 1);
                 setArcherRankedWin(getArcherRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Combo) {
+            if (ladderType == LadderType.Combo) {
                 updateInteger("COMBO_RANKED_WIN", getComboRankedWin() + 1);
                 setComboRankedWin(getComboRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Soup) {
+            if (ladderType == LadderType.Soup) {
                 updateInteger("SOUP_RANKED_WIN", getSoupRankedWin() + 1);
                 setSoupRankedWin(getSoupRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.BuildUHC) {
+            if (ladderType == LadderType.BuildUHC) {
                 updateInteger("BUILDUHC_RANKED_WIN", getBuilduhcRankedWin() + 1);
                 setBuilduhcRankedWin(getBuilduhcRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Sumo) {
+            if (ladderType == LadderType.Sumo) {
                 updateInteger("SUMO_RANKED_WIN", getSumoRankedWin() + 1);
                 setSumoRankedWin(getSumoRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Axe) {
+            if (ladderType == LadderType.Axe) {
                 updateInteger("AXE_RANKED_WIN", getAxeRankedWin() + 1);
                 setAxeRankedWin(getAxeRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.Spleef) {
+            if (ladderType == LadderType.Spleef) {
                 updateInteger("SPLEEF_RANKED_WIN", getSpleefRankedWin() + 1);
                 setSpleefRankedWin(getSpleefRankedWin() + 1);
                 return;
             }
-            if (kitType == KitType.GappleSG) {
+            if (ladderType == LadderType.GappleSG) {
                 updateInteger("GAPPLESG_RANKED_WIN", getGapplesgRankedWin() + 1);
                 setGapplesgRankedWin(getGapplesgRankedWin() + 1);
             }
         }
     }
 
-    public int calculatedElo(KitType kitType) {
-        return (int) (getElo(kitType) * 0.01);
+    public int calculatedElo(LadderType ladderType) {
+        return (int) (getElo(ladderType) * 0.01);
     }
 
-    public void updateElo(KitType kitType, int elo) {
-        if (kitType == KitType.NoDebuff) {
+    public void updateElo(LadderType ladderType, int elo) {
+        if (ladderType == LadderType.NoDebuff) {
             setNodebuffElo(elo);
             updateInteger("NODEBUFF_ELO", elo);
             return;
         }
-        if (kitType == KitType.Debuff) {
+        if (ladderType == LadderType.Debuff) {
             setDebuffElo(elo);
             updateInteger("DEBUFF_ELO", elo);
             return;
         }
-        if (kitType == KitType.MCSG) {
+        if (ladderType == LadderType.MCSG) {
             setMcsgElo(elo);
             updateInteger("MCSG_ELO", elo);
             return;
         }
-        if (kitType == KitType.OCTC) {
+        if (ladderType == LadderType.OCTC) {
             setOctcElo(elo);
             updateInteger("OCTC_ELO", elo);
             return;
         }
-        if (kitType == KitType.Gapple) {
+        if (ladderType == LadderType.Gapple) {
             setGappleElo(elo);
             updateInteger("GAPPLE_ELO", elo);
             return;
         }
-        if (kitType == KitType.Archer) {
+        if (ladderType == LadderType.Archer) {
             setArcherElo(elo);
             updateInteger("ARCHER_ELO", elo);
             return;
         }
-        if (kitType == KitType.Combo) {
+        if (ladderType == LadderType.Combo) {
             setComboElo(elo);
             updateInteger("COMBO_ELO", elo);
             return;
         }
-        if (kitType == KitType.Soup) {
+        if (ladderType == LadderType.Soup) {
             setSoupElo(elo);
             updateInteger("SOUP_ELO", elo);
             return;
         }
-        if (kitType == KitType.BuildUHC) {
+        if (ladderType == LadderType.BuildUHC) {
             setBuilduhcElo(elo);
             updateInteger("BUILDUHC_ELO", elo);
             return;
         }
-        if (kitType == KitType.Sumo) {
+        if (ladderType == LadderType.Sumo) {
             setSumoElo(elo);
             updateInteger("SUMO_ELO", elo);
             return;
         }
-        if (kitType == KitType.Axe) {
+        if (ladderType == LadderType.Axe) {
             setAxeElo(elo);
             updateInteger("AXE_ELO", elo);
             return;
         }
-        if (kitType == KitType.Spleef) {
+        if (ladderType == LadderType.Spleef) {
             setSpleefElo(elo);
             updateInteger("SPLEEF_ELO", elo);
             return;
         }
-        if (kitType == KitType.GappleSG) {
+        if (ladderType == LadderType.GappleSG) {
             setGapplesgElo(elo);
             updateInteger("GAPPLESG_ELO", elo);
         }
     }
 
-    public int getElo(KitType kitType){
-        if (kitType == KitType.NoDebuff) {
+    public int getElo(LadderType ladderType){
+        if (ladderType == LadderType.NoDebuff) {
             return nodebuffElo;
         }
-        if (kitType == KitType.Debuff) {
+        if (ladderType == LadderType.Debuff) {
             return debuffElo;
         }
-        if (kitType == KitType.MCSG) {
+        if (ladderType == LadderType.MCSG) {
             return mcsgElo;
         }
-        if (kitType == KitType.OCTC) {
+        if (ladderType == LadderType.OCTC) {
             return octcElo;
         }
-        if (kitType == KitType.Gapple) {
+        if (ladderType == LadderType.Gapple) {
             return gappleElo;
         }
-        if (kitType == KitType.Archer) {
+        if (ladderType == LadderType.Archer) {
             return archerElo;
         }
-        if (kitType == KitType.Combo) {
+        if (ladderType == LadderType.Combo) {
             return comboElo;
         }
-        if (kitType == KitType.Soup) {
+        if (ladderType == LadderType.Soup) {
             return soupElo;
         }
-        if (kitType == KitType.BuildUHC) {
+        if (ladderType == LadderType.BuildUHC) {
             return builduhcElo;
         }
-        if (kitType == KitType.Sumo) {
+        if (ladderType == LadderType.Sumo) {
             return sumoElo;
         }
-        if (kitType == KitType.Axe) {
+        if (ladderType == LadderType.Axe) {
            return axeElo;
         }
-        if (kitType == KitType.Spleef) {
+        if (ladderType == LadderType.Spleef) {
             return spleefElo;
         }
-        if (kitType == KitType.GappleSG) {
+        if (ladderType == LadderType.GappleSG) {
            return gapplesgElo;
         }
         return 0;

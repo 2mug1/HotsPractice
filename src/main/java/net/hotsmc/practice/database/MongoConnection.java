@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 public class MongoConnection {
 
-    private boolean authEnabled = false;
+    private boolean authEnabled;
 
     private MongoClient client;
     private String host;
@@ -46,7 +46,7 @@ public class MongoConnection {
     public void open() {
         //認証接続
         if (authEnabled) {
-            final MongoCredential credential = MongoCredential.createCredential(username, databaseName, password.toCharArray());
+            final MongoCredential credential = MongoCredential.createScramSha1Credential(username, databaseName, password.toCharArray());
             client = new MongoClient(new ServerAddress(host, port), Collections.singletonList(credential));
         } else {
             //非認証接続

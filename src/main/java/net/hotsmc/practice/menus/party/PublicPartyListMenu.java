@@ -3,6 +3,7 @@ package net.hotsmc.practice.menus.party;
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.HotsPractice;
+import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.party.PartyManager;
 import net.hotsmc.practice.party.PartyType;
@@ -14,7 +15,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PublicPartyListMenu extends Menu {
@@ -38,10 +41,7 @@ public class PublicPartyListMenu extends Menu {
                 buttons.put(i, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return ItemUtility.createPlayerNameSkull(party.getPartyName(), "" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE + party.getPartyName(),
-                                ChatColor.YELLOW + "Players: " + ChatColor.WHITE + party.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Party.MAX_PLAYER,
-                                "",
-                                "" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "Click to Join");
+                        return ItemUtility.createPartyListItem(party);
                     }
                     @Override
                     public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {

@@ -2,8 +2,8 @@ package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.PracticePlayer;
-import net.hotsmc.practice.game.games.Game;
-import net.hotsmc.practice.game.games.GameState;
+import net.hotsmc.practice.match.Match;
+import net.hotsmc.practice.match.MatchState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -20,8 +20,8 @@ public class SpectateCommand implements CommandExecutor {
             PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
             if(practicePlayer == null)return true;
             if(args.length == 1){
-                if(practicePlayer.isInGame()){
-                    practicePlayer.sendMessage(ChatColor.RED + "You are playing the game.");
+                if(practicePlayer.isInMatch()){
+                    practicePlayer.sendMessage(ChatColor.RED + "You are playing the match.");
                     return true;
                 }
                 if(practicePlayer.isInParty()){
@@ -33,7 +33,7 @@ public class SpectateCommand implements CommandExecutor {
                     return true;
                 }
                 if(practicePlayer.isEnableKitEdit()){
-                    practicePlayer.sendMessage(ChatColor.RED + "You are editing a kit.");
+                    practicePlayer.sendMessage(ChatColor.RED + "You are editing a ladder.");
                     return true;
                 }
                 if(practicePlayer.isEnableSpectate()){
@@ -56,18 +56,18 @@ public class SpectateCommand implements CommandExecutor {
                     return true;
                 }
                 if(targetPlayer.isInEvent()){
-                    player.sendMessage(ChatColor.RED + targetName + " is in " + targetPlayer.getInEventGame().getEventName() + "'s event.");
+                    player.sendMessage(ChatColor.RED + targetName + " is in " + targetPlayer.getInEventGame().getHost() + "'s event.");
                     return true;
                 }
-                if(targetPlayer.isInGame()){
-                    Game game = targetPlayer.getInGame();
-                    if(game.getState() == GameState.Teleporting || game.getState() == GameState.PreGame || game.getState() == GameState.EndGame){
+                if(targetPlayer.isInMatch()){
+                    Match match = targetPlayer.getInMatch();
+                    if(match.getState() == MatchState.Teleporting || match.getState() == MatchState.PreGame || match.getState() == MatchState.EndGame){
                         practicePlayer.sendMessage(ChatColor.RED + "Failed to spectate.");
                         return true;
                     }
-                    game.addSpectator(practicePlayer);
+                    match.addSpectator(practicePlayer);
                 }else{
-                    practicePlayer.sendMessage(ChatColor.RED + targetName + " isn't in a game");
+                    practicePlayer.sendMessage(ChatColor.RED + targetName + " isn't in a match");
                 }
             }else{
                 practicePlayer.sendMessage(ChatColor.RED + "/spectate <player>");

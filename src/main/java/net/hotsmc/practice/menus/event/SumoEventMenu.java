@@ -7,8 +7,8 @@ import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.core.player.PlayerRank;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.PracticePlayer;
-import net.hotsmc.practice.game.events.SumoEventGame;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.event.impl.SumoEvent;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -50,11 +50,11 @@ public class SumoEventMenu extends Menu {
                     return;
                 }
                 if (hotsPlayer.getPlayerRank().getPermissionLevel() < PlayerRank.Gold.getPermissionLevel()) {
-                    practicePlayer.sendMessage(ChatColor.RED + "Requires you have donor rank to create event.");
+                    practicePlayer.sendMessage(ChatColor.RED + "Requires you have" + ChatColor.GOLD + " Gold Rank "  + ChatColor.RED  + "to create event.");
                     return;
                 }
                 practicePlayer.clearInventory();
-                SumoEventGame sumoEventGame = new SumoEventGame(HotsPractice.getArenaFactory().create(KitType.Sumo), practicePlayer);
+                SumoEvent sumoEventGame = new SumoEvent(HotsPractice.getArenaFactory().create(LadderType.Sumo), practicePlayer);
                 sumoEventGame.init(practicePlayer);
             }
         });

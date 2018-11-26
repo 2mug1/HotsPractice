@@ -1,12 +1,14 @@
 name: HotsPractice
 main: net.hotsmc.practice.HotsPractice
 version: 1.0
-loadbefore: [HotsCore]
 softdepend: [HotsCore]
 commands:
   practice:
   duel:
   party:
+    aliases: [p]
   inv:
   event:
   spectate:
+    aliases: [spec]
+  gf:

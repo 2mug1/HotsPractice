@@ -1,8 +1,9 @@
 package net.hotsmc.practice.utility;
 
-import net.hotsmc.practice.game.events.EventGame;
-import net.hotsmc.practice.game.events.EventGameState;
-import net.hotsmc.practice.game.events.SumoEventGame;
+import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.event.EventState;
+import net.hotsmc.practice.event.impl.SumoEvent;
+import net.hotsmc.practice.party.Party;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -12,6 +13,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -93,6 +95,17 @@ public class ItemUtility {
         meta.setDisplayName(displayName);
         if (lore != null) {
             meta.setLore(Arrays.asList(lore));
+        }
+        myAwesomeSkull.setItemMeta(meta);
+        return myAwesomeSkull;
+    }
+
+    public static ItemStack createPlayerSkull(String displayName, List<String> lore) {
+        ItemStack myAwesomeSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemMeta meta = myAwesomeSkull.getItemMeta();
+        meta.setDisplayName(displayName);
+        if (lore != null) {
+            meta.setLore(lore);
         }
         myAwesomeSkull.setItemMeta(meta);
         return myAwesomeSkull;
@@ -244,21 +257,45 @@ public class ItemUtility {
         return myAwesomeSkull;
     }
 
-    public static ItemStack createSumoEventInfoItem(SumoEventGame sumoEventGame) {
-        EventGameState state = sumoEventGame.getState();
-        String name = sumoEventGame.getEventName();
+    public static ItemStack createPartyListItem(Party party){
+        List<String> members = new ArrayList<>();
+        for(PracticePlayer practicePlayer : party.getPlayers()){
+            members.add("" + ChatColor.GRAY + "- " + ChatColor.YELLOW + practicePlayer.getName());
+        }
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Players: " + ChatColor.WHITE + party.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Party.MAX_PLAYER);
+        lore.addAll(members);
+        lore.add("" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "Click to Join");
+        return ItemUtility.createPlayerSkull("" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE + party.getPartyName(), lore);
+    }
+
+    public static ItemStack createOtherFightPartyItem(Party party){
+        List<String> members = new ArrayList<>();
+        for(PracticePlayer practicePlayer : party.getPlayers()){
+            members.add("" + ChatColor.GRAY + "- " + ChatColor.YELLOW + practicePlayer.getName());
+        }
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.YELLOW + "Players: " + ChatColor.WHITE + party.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Party.MAX_PLAYER);
+        lore.addAll(members);
+        lore.add("" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "Click to Fight");
+        return ItemUtility.createPlayerSkull("" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE + party.getPartyName(), lore);
+    }
+
+    public static ItemStack createSumoEventInfoItem(SumoEvent sumoEventGame) {
+        EventState state = sumoEventGame.getState();
+        String name = sumoEventGame.getHost();
         int players = sumoEventGame.getWinningPlayers().size();
         int max = sumoEventGame.getMaxPlayers();
-        if (state == EventGameState.ARENA_PREPARING) {
+        if (state == EventState.ARENA_PREPARING) {
             return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
                     1, 14, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName());
         }
-        if (state == EventGameState.WAITING_FOR_PLAYERS) {
+        if (state == EventState.WAITING_FOR_PLAYERS) {
             return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
                     1, 5, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName(),
                     ChatColor.GRAY + "Players: " + ChatColor.WHITE + players + "/" + max);
         }
-        if (state == EventGameState.COUNTDOWN) {
+        if (state == EventState.COUNTDOWN) {
             return net.hotsmc.core.utility.ItemUtility.createClay(ChatColor.YELLOW + "Sumo Event: " + ChatColor.BLUE + name,
                     1, 5, ChatColor.GRAY + "State: " + ChatColor.WHITE + state.getName(),
                     ChatColor.GRAY + "Players: " + ChatColor.WHITE + players + "/" + max,

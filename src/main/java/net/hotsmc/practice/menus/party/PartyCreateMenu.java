@@ -44,7 +44,6 @@ public class PartyCreateMenu extends Menu {
                 if (leader != null) {
                     HotsPractice.getPartyManager().addParty(new Party(PartyType.Public, leader));
                     leader.setPartyClickItems();
-                    leader.startPartyScoreboard();
                     leader.sendMessage(ChatColor.GRAY + "You have created a new " + ChatColor.YELLOW + ChatColor.BOLD + "Public Party");
                 }
             }
@@ -75,7 +74,6 @@ public class PartyCreateMenu extends Menu {
                 if (leader != null) {
                     HotsPractice.getPartyManager().addParty(new Party(PartyType.Private, leader));
                     leader.setPartyClickItems();
-                    leader.startPartyScoreboard();
                     leader.sendMessage(ChatColor.GRAY + "You have created a new " + ChatColor.YELLOW + ChatColor.BOLD + "Private Party");
                 }
             }

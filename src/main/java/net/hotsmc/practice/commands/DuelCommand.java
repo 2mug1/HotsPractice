@@ -27,7 +27,7 @@ public class DuelCommand implements CommandExecutor {
                 return true;
             }
 
-            if(practicePlayer.isInGame() || practicePlayer.isInEvent() || practicePlayer.isEnableSpectate() || practicePlayer.isEnableKitEdit()){
+            if(practicePlayer.isInMatch() || practicePlayer.isInEvent() || practicePlayer.isEnableSpectate() || practicePlayer.isEnableKitEdit()){
                 practicePlayer.sendMessage("You can't use.");
                 return true;
             }
@@ -106,7 +106,7 @@ public class DuelCommand implements CommandExecutor {
                         return true;
                     }
                     //試合に参加中なら
-                    if (targetPracticePlayer.isInGame()) {
+                    if (targetPracticePlayer.isInMatch()) {
                         practicePlayer.sendMessage(ChatColor.RED + targetName + " is fighting in match / " + targetName + "は試合中です");
                     } else {
                         //相手がパーティに属していないならメニューを開く
@@ -181,7 +181,7 @@ public class DuelCommand implements CommandExecutor {
                                 return true;
                             }
                             //試合に参加中なら
-                            if (targetPracticePlayer.isInGame()) {
+                            if (targetPracticePlayer.isInMatch()) {
                                 practicePlayer.sendMessage(ChatColor.RED + targetName + " is fighting in match / " + targetName + "は試合中です");
                                 return true;
                             }

@@ -3,7 +3,6 @@ package net.hotsmc.practice.menus.event;
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.kit.KitType;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

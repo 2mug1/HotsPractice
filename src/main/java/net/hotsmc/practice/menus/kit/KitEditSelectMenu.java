@@ -3,7 +3,7 @@ package net.hotsmc.practice.menus.kit;
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,7 +24,7 @@ public class KitEditSelectMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "Select a kit to edit";
+        return "Select a ladder to edit";
     }
 
     @Override
@@ -34,12 +34,12 @@ public class KitEditSelectMenu extends Menu {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createSplashPotion(
-                        ChatColor.GREEN + "NoDebuff", 1, PotionType.INSTANT_HEAL, ChatColor.YELLOW + "Click to edit the your kit");
+                        ChatColor.GREEN + "NoDebuff", 1, PotionType.INSTANT_HEAL, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.NoDebuff);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.NoDebuff);
             }
         });
 
@@ -47,12 +47,12 @@ public class KitEditSelectMenu extends Menu {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createSplashPotion(
-                        ChatColor.GREEN + "Debuff", 1, PotionType.POISON, ChatColor.YELLOW + "Click to edit the your kit");
+                        ChatColor.GREEN + "Debuff", 1, PotionType.POISON, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Debuff);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Debuff);
             }
         });
 
@@ -60,84 +60,84 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(2, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "MCSG", Material.FISHING_ROD, false, 1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "MCSG", Material.FISHING_ROD, false, 1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.MCSG);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.MCSG);
             }
         });
 
         buttons.put(3, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "OCTC", Material.IRON_SWORD, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "OCTC", Material.IRON_SWORD, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.OCTC);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.OCTC);
             }
         });
 
         buttons.put(4, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createEnchGapple(ChatColor.GREEN + "Gapple",1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createEnchGapple(ChatColor.GREEN + "Gapple",1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Gapple);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Gapple);
             }
         });
 
         buttons.put(5, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Archer", Material.BOW, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Archer", Material.BOW, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Archer);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Archer);
             }
         });
 
         buttons.put(6, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createFish(ChatColor.GREEN + "Combo", 1, 3, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createFish(ChatColor.GREEN + "Combo", 1, 3, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Combo);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Combo);
             }
         });
 
         buttons.put(7, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Soup", Material.MUSHROOM_SOUP, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Soup", Material.MUSHROOM_SOUP, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Soup);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Soup);
             }
         });
 
         buttons.put(8, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "BuildUHC", Material.LAVA_BUCKET, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "BuildUHC", Material.LAVA_BUCKET, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.BuildUHC);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.BuildUHC);
             }
         });
 
@@ -145,12 +145,12 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(9, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Axe", Material.IRON_AXE, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Axe", Material.IRON_AXE, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.Axe);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.Axe);
             }
         });
 
@@ -158,12 +158,12 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(10, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "GappleSG", Material.GOLDEN_APPLE, false,1, ChatColor.YELLOW + "Click to edit the your kit");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "GappleSG", Material.GOLDEN_APPLE, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(KitType.GappleSG);
+                Objects.requireNonNull(HotsPractice.getPracticePlayer(player)).enableKitEdit(LadderType.GappleSG);
             }
         });
         return buttons;

@@ -5,8 +5,9 @@ import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.core.player.PlayerRank;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.arena.ArenaManager;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ChatUtility;
+import net.hotsmc.practice.utility.NumberUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,18 +29,24 @@ public class SettingCommand implements CommandExecutor {
                 return true;
             }
             if(args.length == 0){
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setlobby");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice create <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setdefaultspawn <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn1 <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn2 <arena>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkit <kit_type>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkitedit <kit_type>");
-                ChatUtility.sendMessage(player, ChatColor.YELLOW + "Kits: " + "debuff, nodebuff, mcsg, octc, gapple, archer, combo, soup, builduhc, axe, gapplesg");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setlobby - Update lobby location");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice create <arena> - Create a new arena");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setdefaultspawn <arena> - Set arena spawn of default");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn1 <arena> - Set arena spawn of 1");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setspawn2 <arena> - Set arena spawn of 2");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkit <ladder> - Update default ladder data from your inventory");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkitedit <ladder> - Update location of kit editor each ladder");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbhor <ladder> <double> - Update horizontal multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbver <ladder> <double> - Update vertical multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice kb <ladder> - View knockback info");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice reload - Reload knockbacks and default ladders");
             }
             if(args.length == 1){
                 if(args[0].equalsIgnoreCase("setlobby")){
-                    HotsPractice.getGameConfig().setLobbyLocation(player);
+                    HotsPractice.getMatchConfig().setLobbyLocation(player);
+                }
+                else if(args[0].equalsIgnoreCase("reload")){
+                    HotsPractice.getInstance().reload(sender);
                 }
                 return true;
             }
@@ -49,33 +56,89 @@ public class SettingCommand implements CommandExecutor {
                 if(args[0].equalsIgnoreCase("create")){
                     arenaManager.createArenaData(arenaName, player);
                 }
-                if(args[0].equalsIgnoreCase("setdefaultspawn")){
+                else if(args[0].equalsIgnoreCase("setdefaultspawn")){
                     arenaManager.updateDefaultSpawn(arenaName, player);
                 }
-                if(args[0].equalsIgnoreCase("setspawn1")){
+                else if(args[0].equalsIgnoreCase("setspawn1")){
                     arenaManager.updateSpawn(arenaName, player, 1);
                 }
-                if(args[0].equalsIgnoreCase("setspawn2")){
+                else if(args[0].equalsIgnoreCase("setspawn2")){
                     arenaManager.updateSpawn(arenaName, player, 2);
                 }
-                if(args[0].equalsIgnoreCase("setkit")){
-                    HotsPractice.getDefaultKit().update(args[1], player);
+                else if(args[0].equalsIgnoreCase("setkit")){
+                    HotsPractice.getDefaultLadder().update(args[1], player);
                 }
-                if(args[0].equalsIgnoreCase("setkitedit")){
-                    List<String> types = new ArrayList<>(KitType.values().length);
-                    for(KitType kitType : KitType.values()){
-                        types.add(kitType.name());
+                else if(args[0].equalsIgnoreCase("setkitedit")) {
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
                     }
-                    if(!types.contains(args[1])){
+                    if (!types.contains(args[1])) {
                         StringBuilder stringBuilder = new StringBuilder();
-                        for(String type : types){
+                        for (String type : types) {
                             stringBuilder.append(type).append(" ");
                         }
-                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid kit type.");
-                        ChatUtility.sendMessage(player, ChatColor.RED + "Kit Type: " + stringBuilder);
-                        return true;
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladders: " + stringBuilder);
+                    } else {
+                        HotsPractice.getLadderEditManager().updateKitEditLocation(player, LadderType.valueOf(args[1]));
                     }
-                    HotsPractice.getKitEditManager().updateKitEditLocation(player, KitType.valueOf(args[1]));
+                }
+                if(args[0].equalsIgnoreCase("kb")){
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    } else {
+                        HotsPractice.getKnockbackManager().sendKnockbackInfo(sender, LadderType.valueOf(args[1]));
+                    }
+                }
+            }
+            if(args.length == 3){
+                if(args[0].equalsIgnoreCase("setkbhor")){
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    }
+                    else if(NumberUtility.isDouble(args[2])){
+                        HotsPractice.getKnockbackManager().updateHorizontal(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    }else{
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
+                }
+                else  if(args[0].equalsIgnoreCase("setkbver")){
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    }
+                    else if(NumberUtility.isDouble(args[2])){
+                        HotsPractice.getKnockbackManager().updateVertical(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    }else{
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
                 }
             }
         }

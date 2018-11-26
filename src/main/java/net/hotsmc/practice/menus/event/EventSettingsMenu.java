@@ -2,14 +2,12 @@ package net.hotsmc.practice.menus.event;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.PracticePlayer;
-import net.hotsmc.practice.game.events.EventGame;
-import net.hotsmc.practice.game.events.EventGameState;
+import net.hotsmc.practice.event.Event;
+import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -19,12 +17,12 @@ import java.util.Map;
 
 public class EventSettingsMenu extends Menu {
 
-    private EventGame eventGame;
+    private Event event;
     private PracticePlayer leader;
 
-    public EventSettingsMenu(EventGame eventGame, PracticePlayer leader) {
+    public EventSettingsMenu(Event event, PracticePlayer leader) {
         super(false);
-        this.eventGame = eventGame;
+        this.event = event;
         this.leader = leader;
     }
 
@@ -37,7 +35,7 @@ public class EventSettingsMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        if(eventGame.getState() == EventGameState.WAITING_FOR_PLAYERS || eventGame.getState() == EventGameState.COUNTDOWN) {
+        if(event.getState() == EventState.WAITING_FOR_PLAYERS || event.getState() == EventState.COUNTDOWN) {
             buttons.put(2, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
@@ -47,11 +45,11 @@ public class EventSettingsMenu extends Menu {
                 @Override
                 public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                     player.closeInventory();
-                    eventGame.broadcastEvent(leader);
+                    event.broadcastEvent(leader);
                 }
             });
         }
-        if(eventGame.getState() == EventGameState.WAITING_FOR_PLAYERS) {
+        if(event.getState() == EventState.WAITING_FOR_PLAYERS) {
             buttons.put(6, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
@@ -60,11 +58,11 @@ public class EventSettingsMenu extends Menu {
                 @Override
                 public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                     player.closeInventory();
-                    eventGame.startCountdown(leader);
+                    event.startCountdown(leader);
                 }
             });
         }
-        if(eventGame.getState() == EventGameState.COUNTDOWN) {
+        if(event.getState() == EventState.COUNTDOWN) {
             buttons.put(6, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
@@ -73,7 +71,7 @@ public class EventSettingsMenu extends Menu {
                 @Override
                 public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
                     player.closeInventory();
-                    eventGame.stopCountdown(leader);
+                    event.stopCountdown(leader);
                 }
             });
         }

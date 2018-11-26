@@ -29,7 +29,7 @@ public class PartyOtherFightMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        return "Other Party / 他のパーティ";
+        return "Other Parties";
     }
 
     @Override
@@ -50,10 +50,7 @@ public class PartyOtherFightMenu extends Menu {
             buttons.put(i, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
-                    return ItemUtility.createPlayerNameSkull(party.getPartyName(), "" + ChatColor.YELLOW + ChatColor.BOLD + "Party: " + ChatColor.WHITE + party.getPartyName(),
-                            ChatColor.YELLOW + "Players: " + ChatColor.WHITE + party.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Party.MAX_PLAYER,
-                            "",
-                            "" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "Click to Fight");
+                    return ItemUtility.createOtherFightPartyItem(party);
                 }
 
                 @Override
@@ -61,12 +58,12 @@ public class PartyOtherFightMenu extends Menu {
                     player.closeInventory();
 
                     if (!partyManager.exsitsParty(party.getPartyName())) {
-                        ChatUtility.sendMessage(player, ChatColor.RED + "Not found the party / そのパーティはありません");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Not found the party / そのパーティは存在しません");
                         return;
                     }
 
                     if (partyManager.getPartyByName(party.getPartyName()).isInGame()) {
-                        ChatUtility.sendMessage(player, ChatColor.RED + "The party is fighting in the queue / そのパーティは現在戦っています");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "This party is fighting / そのパーティは現在戦っています");
                         return;
                     }
 

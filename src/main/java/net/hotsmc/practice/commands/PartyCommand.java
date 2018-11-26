@@ -73,7 +73,7 @@ public class PartyCommand implements CommandExecutor {
                             ChatUtility.sendMessage(player, "" + ChatColor.RED + target + " has already been in party / " + targetName + "は既にパーティに属しています");
                             return true;
                         }
-                        if (targetPracticePlayer.isInGame()) {
+                        if (targetPracticePlayer.isInMatch()) {
                             ChatUtility.sendMessage(player, "" + ChatColor.RED + target + " is fighting in the queue / " + targetName + "は戦っている最中です");
                             return true;
                         }

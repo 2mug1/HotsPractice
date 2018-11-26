@@ -2,7 +2,7 @@ package net.hotsmc.practice.arena;
 
 import com.google.common.collect.Lists;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.WorldDataUtility;
 import org.bukkit.*;
 
@@ -15,7 +15,7 @@ public class ArenaFactory {
     public ArenaFactory(){
     }
 
-    public Arena create(KitType kitType){
+    public Arena create(LadderType ladderType){
         World world;
         Location spawn1;
         Location spawn2;
@@ -24,7 +24,7 @@ public class ArenaFactory {
         ArenaData arenaData;
 
         //すもう
-        if(kitType == KitType.Sumo){
+        if(ladderType == LadderType.Sumo){
             randomWorldName = UUID.randomUUID().toString();
             WorldDataUtility.copyWorld(new File(HotsPractice.getInstance().getDataFolder() + "/worlds/sumoarena"),
                     new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));
@@ -53,7 +53,7 @@ public class ArenaFactory {
         }
 
         //スプリーフ
-        if(kitType == KitType.Spleef){
+        if(ladderType == LadderType.Spleef){
            randomWorldName = UUID.randomUUID().toString();
             WorldDataUtility.copyWorld(new File(HotsPractice.getInstance().getDataFolder() + "/worlds/spleefarena"),
                     new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));

@@ -4,7 +4,7 @@ import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.kit.KitType;
+import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -47,7 +47,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.NoDebuff);
+                    target.addDuelGameRequest(sender, LadderType.NoDebuff);
                 }
             }
         });
@@ -65,7 +65,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Debuff);
+                    target.addDuelGameRequest(sender, LadderType.Debuff);
                 }
             }
         });
@@ -83,7 +83,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.MCSG);
+                    target.addDuelGameRequest(sender, LadderType.MCSG);
                 }
             }
         });
@@ -99,7 +99,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if (sender != null && sender.isOnline() && target != null && target.isOnline()) {
-                    target.addDuelGameRequest(sender, KitType.OCTC);
+                    target.addDuelGameRequest(sender, LadderType.OCTC);
                 }
             }
         });
@@ -115,7 +115,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Gapple);
+                    target.addDuelGameRequest(sender, LadderType.Gapple);
                 }
             }
         });
@@ -131,7 +131,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Archer);
+                    target.addDuelGameRequest(sender, LadderType.Archer);
                 }
             }
         });
@@ -147,7 +147,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Combo);
+                    target.addDuelGameRequest(sender, LadderType.Combo);
                 }
             }
         });
@@ -163,7 +163,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Soup);
+                    target.addDuelGameRequest(sender, LadderType.Soup);
                 }
             }
         });
@@ -179,7 +179,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.BuildUHC);
+                    target.addDuelGameRequest(sender, LadderType.BuildUHC);
                 }
             }
         });
@@ -195,7 +195,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()) {
-                    target.addDuelGameRequest(sender, KitType.Sumo);
+                    target.addDuelGameRequest(sender, LadderType.Sumo);
                 }
             }
         });
@@ -212,7 +212,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Axe);
+                    target.addDuelGameRequest(sender, LadderType.Axe);
                 }
             }
         });
@@ -228,7 +228,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.Spleef);
+                    target.addDuelGameRequest(sender, LadderType.Spleef);
                 }
             }
         });
@@ -243,7 +243,7 @@ public class DuelPlayerLadderMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer sender = HotsPractice.getPracticePlayer(player);
                 if(sender != null && sender.isOnline() && target != null && target.isOnline()){
-                    target.addDuelGameRequest(sender, KitType.GappleSG);
+                    target.addDuelGameRequest(sender, LadderType.GappleSG);
                 }
             }
         });

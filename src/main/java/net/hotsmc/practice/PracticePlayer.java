@@ -5,17 +5,17 @@ import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.core.gui.ClickActionItem;
 import net.hotsmc.practice.database.PlayerData;
-import net.hotsmc.practice.game.events.EventGame;
-import net.hotsmc.practice.game.games.Game;
-import net.hotsmc.practice.kit.KitType;
-import net.hotsmc.practice.kit.PlayerKitData;
+import net.hotsmc.practice.event.Event;
+import net.hotsmc.practice.match.Match;
+import net.hotsmc.practice.ladder.LadderType;
+import net.hotsmc.practice.ladder.PlayerLadder;
 import net.hotsmc.practice.menus.kit.KitChestInventory;
 import net.hotsmc.practice.menus.kit.KitLoadoutMenu;
 import net.hotsmc.practice.other.BukkitReflection;
 import net.hotsmc.practice.other.Cooldown;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.queue.DuelGameRequest;
-import net.hotsmc.practice.scoreboard.*;
+import net.hotsmc.practice.queue.Queue;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.hotsmc.practice.utility.ItemUtility;
 import net.hotsmc.practice.utility.PlayerUtility;
@@ -28,7 +28,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -40,11 +39,9 @@ public class PracticePlayer {
 
     private Player player;
     private PlayerData playerData;
-    private PlayerScoreboard scoreboard;
-    private String opponent;
-    private List<PlayerKitData> playerKits;
+    private List<PlayerLadder> playerKits;
     private boolean enableKitEdit = false;
-    private KitType editKitType;
+    private LadderType editLadderType;
     private Location respawnLocation;
     private List<DuelGameRequest> duelGameRequests;
     private boolean alive = true;
@@ -78,8 +75,12 @@ public class PracticePlayer {
         }.runTaskTimer(HotsPractice.getInstance(), 0, 20);
     }
 
-    public boolean isInGame() {
-        return HotsPractice.getGameManager().getPlayerOfGame(this) != null;
+    public boolean isInLobby(){
+        return !isInMatch() && !isInEvent();
+    }
+
+    public boolean isInMatch() {
+        return HotsPractice.getMatchManager().getPlayerOfGame(this) != null;
     }
 
     public DuelGameRequest getDuelGameRequestBySender(PracticePlayer sender) {
@@ -91,20 +92,20 @@ public class PracticePlayer {
         return null;
     }
 
-    public void addDuelGameRequest(PracticePlayer sender, KitType kitType) {
+    public void addDuelGameRequest(PracticePlayer sender, LadderType ladderType) {
         DuelGameRequest duelRequest = getDuelGameRequestBySender(sender);
         if (duelRequest == null) {
-            duelGameRequests.add(new DuelGameRequest(kitType, sender, this));
+            duelGameRequests.add(new DuelGameRequest(ladderType, sender, this));
         } else {
-            duelRequest.setKitType(kitType);
+            duelRequest.setLadderType(ladderType);
         }
         sender.sendMessage(ChatColor.YELLOW + "You sent practice request to " + getName() + " / あなたは" + getName() + "にDuelリクエストを送りました");
 
         sendMessage(ChatColor.GOLD + "You have been received the practice request by " + sender.getName() + " / あなたは" + sender.getName() + "からDuelリクエストを受け取りました");
         ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX);
-        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to accept / クリックして開始 - " + kitType.name());
-        msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/practice accept " + sender.getName()));
-        msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/practice accept " + sender.getName()).create()));
+        msg.append("" + ChatColor.YELLOW + ChatColor.UNDERLINE + "Click to accept / クリックして開始 - " + ladderType.name());
+        msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/duel accept " + sender.getName()));
+        msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/duel accept " + sender.getName()).create()));
         player.spigot().sendMessage(msg.create());
     }
 
@@ -114,8 +115,8 @@ public class PracticePlayer {
 
     public void loadPlayerKits() {
         String uuid = player.getUniqueId().toString();
-        for (KitType kitType : KitType.values()) {
-            playerKits.add(new PlayerKitData(kitType, uuid).load());
+        for (LadderType ladderType : LadderType.values()) {
+            playerKits.add(new PlayerLadder(ladderType, uuid).load());
         }
     }
 
@@ -131,9 +132,9 @@ public class PracticePlayer {
         return player.getUniqueId().toString();
     }
 
-    public PlayerKitData getPlayerKitData(KitType kitType) {
-        for (PlayerKitData kitData : playerKits) {
-            if (kitData.getKitType() == kitType) {
+    public PlayerLadder getPlayerKitData(LadderType ladderType) {
+        for (PlayerLadder kitData : playerKits) {
+            if (kitData.getLadderType() == ladderType) {
                 return kitData;
             }
         }
@@ -180,7 +181,7 @@ public class PracticePlayer {
     }
 
     public void teleportToLobby() {
-        player.teleport(HotsPractice.getGameConfig().getLobbyLocation());
+        player.teleport(HotsPractice.getMatchConfig().getLobbyLocation());
     }
 
     public void resetPlayer() {
@@ -190,107 +191,6 @@ public class PracticePlayer {
         player.setFoodLevel(20);
         player.setHealth(20D);
         PlayerUtility.clearEffects(player);
-    }
-
-    public void startLobbyScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new LobbyScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startQueueScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new QueueScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startPartyScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new PartyScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startDuelGameScoreboard(String opponent) {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        this.opponent = opponent;
-        scoreboard = new DuelGameScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startPartyDuelGameScoreboard(String opponentParty) {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        this.opponent = opponentParty;
-        scoreboard = new PartyDuelGameScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startKitEditScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new KitEditScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startSumoEventWaitingScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new SumoEventWaitingScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startSumoEventCountdownScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new SumoEventCountdownScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startSumoEventFightingScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new SumoEventFightingScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startPartyFFAScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new PartyGameFFAScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
-    }
-
-    public void startPartyTeamScoreboard() {
-        if (scoreboard != null) {
-            scoreboard.stop();
-        }
-        scoreboard = new PartyGameTeamScoreboard(this);
-        scoreboard.setup();
-        scoreboard.start();
     }
 
     public void setQueueItem() {
@@ -308,7 +208,7 @@ public class PracticePlayer {
         int slot = 2;
         int clickItemIndex = 16;
         for (int i = 0; i < 7; i++) {
-            if (getPlayerKitData(HotsPractice.getGameManager().getPlayerOfGame(this).getKitType()).getKitDataList().get(i) != null) {
+            if (getPlayerKitData(HotsPractice.getMatchManager().getPlayerOfGame(this).getLadderType()).getLadderList().get(i) != null) {
                 setItem(slot, clickItems.get(clickItemIndex).getItemStack());
             }
             clickItemIndex++;
@@ -319,7 +219,6 @@ public class PracticePlayer {
     public void onQueue() {
         player.closeInventory();
         setQueueItem();
-        startQueueScoreboard();
     }
 
     public void setItems(List<ItemStack> items) {
@@ -344,20 +243,20 @@ public class PracticePlayer {
         setItem(4, HotsPractice.getDuelClickItems().get(15).getItemStack());
     }
 
-    public void setDefaultKit(KitType type) {
+    public void setDefaultKit(LadderType type) {
         getInventory().clear();
-        if (type == KitType.Sumo) {
-            sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
+        if (type == LadderType.Sumo) {
+            sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
             return;
         }
-        if (type == KitType.Spleef) {
+        if (type == LadderType.Spleef) {
             setItem(0, ItemUtility.addEnchant(ItemUtility.createItemStack(ChatColor.YELLOW + "Spleef Spade", Material.DIAMOND_SPADE, true), Enchantment.DIG_SPEED, 5));
-            sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
+            sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
             return;
         }
-        setItems(HotsPractice.getDefaultKit().getKitData(type).getItems());
-        setArmors(HotsPractice.getDefaultKit().getKitData(type).getArmors());
-        sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
+        setItems(HotsPractice.getDefaultLadder().getKitData(type).getItems());
+        setArmors(HotsPractice.getDefaultLadder().getKitData(type).getArmors());
+        sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
     }
 
     public boolean isOnline() {
@@ -371,12 +270,11 @@ public class PracticePlayer {
     }
 
 
-    public void enableKitEdit(KitType kitType) {
+    public void enableKitEdit(LadderType ladderType) {
         setEnableKitEdit(true);
-        setEditKitType(kitType);
-        HotsPractice.getKitEditManager().teleport(player, kitType);
-        setDefaultKit(kitType);
-        startKitEditScoreboard();
+        this.setEditLadderType(ladderType);
+        HotsPractice.getLadderEditManager().teleport(player, ladderType);
+        setDefaultKit(ladderType);
     }
 
     public void clearEffects() {
@@ -385,22 +283,21 @@ public class PracticePlayer {
 
     public void disableKitEdit() {
         setEnableKitEdit(false);
-        setEditKitType(null);
+        this.setEditLadderType(null);
         clearArmors();
         clearEffects();
         teleportToLobby();
         setClickItems();
-        startLobbyScoreboard();
     }
 
     public void openKitLoadoutMenu() {
         player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 0.3F, 0.5F);
-        new KitLoadoutMenu(getPlayerKitData(editKitType)).openMenu(player, 45);
+        new KitLoadoutMenu(getPlayerKitData(editLadderType)).openMenu(player, 45);
     }
 
     public void openKitChest() {
         player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 0.3F, 0.5F);
-        new KitChestInventory(editKitType).open(player);
+        new KitChestInventory(editLadderType).open(player);
     }
 
     public void sendMessage(String message) {
@@ -461,53 +358,11 @@ public class PracticePlayer {
     }
 
     public void startEnderpearlCooldown() {
-        enderpearlCooldown = new Cooldown(HotsPractice.getGameConfig().getEnderpearlCooldownTime() * 1000);
+        enderpearlCooldown = new Cooldown(HotsPractice.getMatchConfig().getEnderpearlCooldownTime() * 1000);
     }
 
     public void startGappleCooldown() {
         gappleCooldown = new Cooldown(2000);
-    }
-
-    public void startEnderpearlItemTask() {
-        PracticePlayer practicePlayer = this;
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (player == null || !isOnline() || HotsPractice.getGameManager().getPlayerOfGame(practicePlayer) == null) {
-                    this.cancel();
-                    return;
-                }
-                if (!enderpearlCooldown.hasExpired()) {
-                    for (int i = 0; i < getInventory().getContents().length; i++) {
-                        ItemStack itemStack = getInventory().getContents()[i];
-                        if (itemStack == null) return;
-                        if (itemStack.getType() == Material.ENDER_PEARL) {
-                            ItemMeta itemMeta = itemStack.getItemMeta();
-                            if (itemMeta == null) return;
-                            itemMeta.setDisplayName(ChatColor.RESET + "Ender Pearl " + ChatColor.YELLOW + enderpearlCooldown.getTimeLeft() + "s");
-                            itemStack.setItemMeta(itemMeta);
-                            setItem(i, itemStack);
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < getInventory().getContents().length; i++) {
-                        ItemStack itemStack = getInventory().getContents()[i];
-                        if (itemStack == null) return;
-                        if (itemStack.getType() == Material.ENDER_PEARL) {
-                            ItemMeta itemMeta = itemStack.getItemMeta();
-                            if (itemMeta == null) return;
-                            String displayName = itemMeta.getDisplayName();
-                            if (displayName == null) return;
-                            if (!itemMeta.getDisplayName().equals("Ender Pearl")) {
-                                itemMeta.setDisplayName(ChatColor.RESET + "Ender Pearl");
-                                itemStack.setItemMeta(itemMeta);
-                                setItem(i, itemStack);
-                            }
-                        }
-                    }
-                }
-            }
-        }.runTaskTimer(HotsPractice.getInstance(), 0, 1);
     }
 
     public void setMaximumNoDamageTicks(int i) {
@@ -520,7 +375,7 @@ public class PracticePlayer {
     }
 
     public boolean isInEvent() {
-        return HotsPractice.getEventGameManager().getPlayerOfEventGame(this) != null;
+        return HotsPractice.getEventManager().getPlayerOfEventGame(this) != null;
     }
 
     public void setEventItems() {
@@ -540,8 +395,8 @@ public class PracticePlayer {
      * @return
      */
     public boolean hasHoldingEventGame() {
-        for (EventGame eventGame : HotsPractice.getEventGameManager().getGames()) {
-            if (eventGame.getLEADER_UUID().equals(getUUID())) {
+        for (Event event : HotsPractice.getEventManager().getGames()) {
+            if (event.getLEADER_UUID().equals(getUUID())) {
                 return true;
             }
         }
@@ -552,16 +407,23 @@ public class PracticePlayer {
         return HotsPractice.getPartyManager().getPlayerOfParty(this);
     }
 
-    public Game getInGame() {
-        return HotsPractice.getGameManager().getPlayerOfGame(this);
+    public Match getInMatch() {
+        return HotsPractice.getMatchManager().getPlayerOfGame(this);
     }
 
-    public EventGame getInEventGame() {
-        return HotsPractice.getEventGameManager().getPlayerOfEventGame(this);
+    public Event getInEventGame() {
+        return HotsPractice.getEventManager().getPlayerOfEventGame(this);
     }
 
     public void addCurrentCps(int amount) {
         currentCps = amount + currentCps;
     }
 
+    public boolean isInQueue() {
+        return getInQueue() != null;
+    }
+
+    public Queue getInQueue(){
+        return HotsPractice.getQueueManager().getPlayerOfQueue(this);
+    }
 }
