@@ -506,8 +506,7 @@ public class PlayerListener implements Listener {
                 }else{
                     PracticePlayer killerPlayer = HotsPractice.getPracticePlayer(killer);
                     double health = killer.getHealth();
-                    match.broadcast(deadPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY  + " has been eliminated by " + killerPlayer.getHotsPlayer().getColorName() +
-                            killerPlayer.getName() + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
+                    match.broadcast(deadPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY  + " has been eliminated by " + killerPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
                 }
 
                 deadPlayer.respawn();
@@ -699,16 +698,14 @@ public class PlayerListener implements Listener {
             return;
         }
         Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
-        if (match.getLadderType() != LadderType.BuildUHC) {
+        if (match.getLadderType() != LadderType.BuildUHC && match.getLadderType() != LadderType.Spleef) {
             event.setCancelled(true);
-            return;
         }
         if (match.getLadderType() == LadderType.Spleef) {
             Block block = event.getBlock();
             Material type = block.getType();
             if (type != Material.SNOW_BLOCK) {
                 event.setCancelled(true);
-                return;
             }
         }
         if (match.getLadderType() == LadderType.BuildUHC) {
@@ -868,14 +865,19 @@ public class PlayerListener implements Listener {
             if (damagedPlayer.isEnableSpectate()) {
                 event.setCancelled(true);
             }
+            return;
         }
-        else if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
+        if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
             Projectile projectile = (Projectile) event.getDamager();
             if (projectile.getShooter() instanceof Player && projectile instanceof Arrow) {
                 Player shooter = (Player) projectile.getShooter();
                 Player hit = (Player) event.getEntity();
                 double health = hit.getHealth();
-                shooter.sendMessage(ChatColor.GRAY + hit.getName() + " (" + health +")");
+                double damage = event.getFinalDamage();
+                double resultHealth = health - damage;
+                if(resultHealth > 0) {
+                    shooter.sendMessage(ChatColor.GRAY + hit.getName() + " (" + resultHealth + ")");
+                }
             }
         }
     }
