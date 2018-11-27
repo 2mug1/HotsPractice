@@ -865,9 +865,8 @@ public class PlayerListener implements Listener {
             if (damagedPlayer.isEnableSpectate()) {
                 event.setCancelled(true);
             }
-            return;
         }
-        if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
+        else if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
             Projectile projectile = (Projectile) event.getDamager();
             if (projectile.getShooter() instanceof Player && projectile instanceof Arrow) {
                 Player shooter = (Player) projectile.getShooter();
