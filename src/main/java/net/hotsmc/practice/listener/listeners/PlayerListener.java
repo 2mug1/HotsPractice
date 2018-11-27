@@ -1,6 +1,7 @@
 package net.hotsmc.practice.listener.listeners;
 
 import net.hotsmc.core.HotsCore;
+import net.hotsmc.core.other.Style;
 import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.database.PlayerData;
@@ -22,8 +23,10 @@ import net.hotsmc.practice.party.PartyManager;
 import net.hotsmc.practice.utility.TimeUtility;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -218,7 +221,7 @@ public class PlayerListener implements Listener {
                 }
             }
 
-            if (match instanceof PartyDuelMatch) {
+            else if (match instanceof PartyDuelMatch) {
                 PartyDuelMatch partyDuelGame = (PartyDuelMatch) match;
                 MatchState state = partyDuelGame.getState();
                 partyDuelGame.getGamePlayers().remove(practicePlayer);
@@ -260,7 +263,7 @@ public class PlayerListener implements Listener {
                 }
             }
 
-            if(match instanceof PartyFFAMatch) {
+            else if(match instanceof PartyFFAMatch) {
                 PartyFFAMatch partyFFAGame = (PartyFFAMatch) match;
                 MatchState state = partyFFAGame.getState();
                 partyFFAGame.getGamePlayers().remove(practicePlayer);
@@ -313,7 +316,7 @@ public class PlayerListener implements Listener {
                 }
             }
 
-            if(match instanceof PartyTeamMatch){
+            else if(match instanceof PartyTeamMatch){
                 PartyTeamMatch partyTeamGame = (PartyTeamMatch) match;
                 MatchState state = partyTeamGame.getState();
                 partyTeamGame.getGamePlayers().remove(practicePlayer);
@@ -417,6 +420,7 @@ public class PlayerListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         event.setDeathMessage(null);
         Player dead = event.getEntity();
+        Player killer = dead.getKiller();
         PracticePlayer deadPlayer = HotsPractice.getPracticePlayer(dead);
         if (deadPlayer == null) return;
         Location location = dead.getLocation();
@@ -439,6 +443,11 @@ public class PlayerListener implements Listener {
                 deadPlayer.getPlayerData().withdrawPoint();
                 opponent.getPlayerData().addWinCount(duelGame.getRankedType(), duelGame.getLadderType());
 
+                double health = opponent.getPlayer().getHealth();
+
+                match.broadcast(deadPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY + " has been eliminated by " + opponent.getHotsPlayer().getColorName()
+                        + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
+
                 deadPlayer.respawn();
 
                 if(duelGame.getRankedType() == RankedType.RANKED){
@@ -460,14 +469,23 @@ public class PlayerListener implements Listener {
                                 ChatColor.WHITE + newElo2 + ChatColor.GRAY + "(" + ChatColor.GREEN + "+" + passed + ChatColor.GRAY + ")");
                     }
                 }
-
                 match.end(opponent.getName());
-                return;
             }
-            if (match instanceof PartyDuelMatch) {
+            else if (match instanceof PartyDuelMatch) {
                 PartyDuelMatch partyDuelGame = (PartyDuelMatch) match;
                 deadPlayer.setRespawnLocation(location);
                 deadPlayer.setAlive(false);
+                location.getWorld().strikeLightningEffect(location.add(0, 3, 0));
+
+                if(killer == null){
+                    match.broadcast(deadPlayer.getInParty().getPrefix() + deadPlayer.getName() + ChatColor.GRAY + " has dead.");
+                }else{
+                    PracticePlayer killerPlayer = HotsPractice.getPracticePlayer(killer);
+                    double health = killer.getHealth();
+                    match.broadcast(deadPlayer.getInParty().getPrefix() + deadPlayer.getName() + ChatColor.GRAY  + " has been eliminated by " + killerPlayer.getInParty().getPrefix() +
+                            killerPlayer.getName() + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
+                }
+
                 deadPlayer.respawn();
                 deadPlayer.enableSpectate();
                 PartyManager partyManager = HotsPractice.getPartyManager();
@@ -476,12 +494,22 @@ public class PlayerListener implements Listener {
                     Party opponentParty = partyDuelGame.getOpponent(deadPlayerParty);
                     partyDuelGame.end(opponentParty.getPartyName());
                 }
-                return;
             }
-            if (match instanceof PartyFFAMatch) {
+            else if (match instanceof PartyFFAMatch) {
                 PartyFFAMatch partyFFAGame = (PartyFFAMatch) match;
                 deadPlayer.setRespawnLocation(location);
                 deadPlayer.setAlive(false);
+                location.getWorld().strikeLightningEffect(location.add(0, 3, 0));
+
+                if(killer == null){
+                    match.broadcast(deadPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY + " has dead.");
+                }else{
+                    PracticePlayer killerPlayer = HotsPractice.getPracticePlayer(killer);
+                    double health = killer.getHealth();
+                    match.broadcast(deadPlayer.getHotsPlayer().getColorName() + ChatColor.GRAY  + " has been eliminated by " + killerPlayer.getHotsPlayer().getColorName() +
+                            killerPlayer.getName() + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
+                }
+
                 deadPlayer.respawn();
                 deadPlayer.enableSpectate();
                 PartyManager partyManager = HotsPractice.getPartyManager();
@@ -489,13 +517,23 @@ public class PlayerListener implements Listener {
                 if (deadPlayerParty.getAlivePlayers().size() <= 1) {
                     partyFFAGame.end(dead.getKiller().getName());
                 }
-                return;
             }
-            if (match instanceof PartyTeamMatch) {
+            else if (match instanceof PartyTeamMatch) {
                 PartyTeamMatch partyTeamGame = (PartyTeamMatch) match;
                 Team myTeam = partyTeamGame.getMyTeam(deadPlayer);
                 deadPlayer.setRespawnLocation(location);
                 deadPlayer.setAlive(false);
+                location.getWorld().strikeLightningEffect(location.add(0, 3, 0));
+
+                if(killer == null){
+                    match.broadcast(myTeam.getPrefix() + deadPlayer.getName() + ChatColor.GRAY + " has dead.");
+                }else{
+                    PracticePlayer killerPlayer = HotsPractice.getPracticePlayer(killer);
+                    double health = killer.getHealth();
+                    match.broadcast(myTeam.getPrefix() + deadPlayer.getName() + ChatColor.GRAY  + " has been eliminated by " + partyTeamGame.getMyTeam(killerPlayer).getPrefix() +
+                            killerPlayer.getName() + ChatColor.GRAY + "(" + ChatColor.RED + Style.UNICODE_HEART + health + ChatColor.GRAY + ")");
+                }
+
                 deadPlayer.respawn();
                 deadPlayer.enableSpectate();
                 if (myTeam.getAlivePlayers().size() < 1) {
@@ -829,6 +867,15 @@ public class PlayerListener implements Listener {
             }
             if (damagedPlayer.isEnableSpectate()) {
                 event.setCancelled(true);
+            }
+        }
+        else if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
+            Projectile projectile = (Projectile) event.getDamager();
+            if (projectile.getShooter() instanceof Player && projectile instanceof Arrow) {
+                Player shooter = (Player) projectile.getShooter();
+                Player hit = (Player) event.getEntity();
+                double health = hit.getHealth();
+                shooter.sendMessage(ChatColor.GRAY + hit.getName() + " (" + health +")");
             }
         }
     }

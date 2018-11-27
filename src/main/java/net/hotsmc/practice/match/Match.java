@@ -164,4 +164,13 @@ public abstract class Match extends BukkitRunnable {
         }
         spectatePlayers.clear();
     }
+
+    public void broadcast(String message){
+        for(PracticePlayer gamePlayer : gamePlayers){
+            gamePlayer.getPlayer().sendMessage(message);
+        }
+        for(PracticePlayer spectatePlayer : spectatePlayers){
+            spectatePlayer.getPlayer().sendMessage(message);
+        }
+    }
 }

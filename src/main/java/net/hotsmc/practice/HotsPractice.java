@@ -203,7 +203,7 @@ public class HotsPractice extends JavaPlugin {
             }
         });
 
-        duelClickItems.add(new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Default ladder", Material.BOOK, false)) {
+        duelClickItems.add(new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Default kit", Material.BOOK, false)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = getPracticePlayer(player);
@@ -308,7 +308,7 @@ public class HotsPractice extends JavaPlugin {
 
         for(int i = 0; i < 7; i++) {
             int finalI = i;
-            duelClickItems.add(new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Kit #" + finalI, Material.BOOK, false)) {
+            duelClickItems.add(new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Kit #" + finalI, Material.ENCHANTED_BOOK, false)) {
                 @Override
                 public void clickAction(Player player) {
                     PracticePlayer practicePlayer = getPracticePlayer(player);

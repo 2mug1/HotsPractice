@@ -3,7 +3,9 @@ package net.hotsmc.practice;
 import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import lombok.Setter;
+import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.ClickActionItem;
+import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.practice.database.PlayerData;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.match.Match;
@@ -58,6 +60,10 @@ public class PracticePlayer {
         this.player = player;
         this.playerKits = new ArrayList<>();
         this.duelGameRequests = new ArrayList<>();
+    }
+
+    public HotsPlayer getHotsPlayer(){
+        return HotsCore.getHotsPlayer(player);
     }
 
     public void startTask() {
@@ -246,17 +252,17 @@ public class PracticePlayer {
     public void setDefaultKit(LadderType type) {
         getInventory().clear();
         if (type == LadderType.Sumo) {
-            sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
+            sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
             return;
         }
         if (type == LadderType.Spleef) {
             setItem(0, ItemUtility.addEnchant(ItemUtility.createItemStack(ChatColor.YELLOW + "Spleef Spade", Material.DIAMOND_SPADE, true), Enchantment.DIG_SPEED, 5));
-            sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
+            sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
             return;
         }
         setItems(HotsPractice.getDefaultLadder().getKitData(type).getItems());
         setArmors(HotsPractice.getDefaultLadder().getKitData(type).getArmors());
-        sendMessage(ChatColor.YELLOW + "You have loaded Default ladder");
+        sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
     }
 
     public boolean isOnline() {
