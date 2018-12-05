@@ -6,9 +6,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.event.Event;
-import net.hotsmc.practice.ladder.Ladder;
 import net.hotsmc.practice.match.Match;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
@@ -83,16 +82,16 @@ public class KnockbackListener implements Listener {
 
         if(practicePlayer.isInMatch()){
             final Match match = practicePlayer.getInMatch();
-            final Knockback knockback = HotsPractice.getKnockbackManager().getKnockbackByLadderType(match.getLadderType());
-            horizontalMultiplier = knockback.getHorizontalMultiplier();
-            verticalMultiplier = knockback.getVerticalMultiplier();
+            final KnockbackProfile knockbackProfile = HotsPractice.getInstance().getManagerHandler().getKnockbackManager().getKnockbackByLadderType(match.getLadderType());
+            horizontalMultiplier = knockbackProfile.getHorizontalMultiplier();
+            verticalMultiplier = knockbackProfile.getVerticalMultiplier();
         }
 
         if(practicePlayer.isInEvent()){
             final Event eventGame = practicePlayer.getInEventGame();
-            final Knockback knockback = HotsPractice.getKnockbackManager().getKnockbackByLadderType(eventGame.getLadderType());
-            horizontalMultiplier = knockback.getHorizontalMultiplier();
-            verticalMultiplier = knockback.getVerticalMultiplier();
+            final KnockbackProfile knockbackProfile = HotsPractice.getInstance().getManagerHandler().getKnockbackManager().getKnockbackByLadderType(eventGame.getLadderType());
+            horizontalMultiplier = knockbackProfile.getHorizontalMultiplier();
+            verticalMultiplier = knockbackProfile.getVerticalMultiplier();
         }
 
         double sprintMultiplier = damager.isSprinting() ? 0.8D : 0.5D;

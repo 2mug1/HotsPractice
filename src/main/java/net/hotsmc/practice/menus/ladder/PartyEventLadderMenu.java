@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.ladder;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.match.PartyMatchType;
 import net.hotsmc.practice.ladder.LadderType;
@@ -49,11 +49,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.NoDebuff);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.NoDebuff);
                             return;
                         }
                         if(partyMatchType == PartyMatchType.TEAM_FIGHT){
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.NoDebuff);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.NoDebuff);
                         }
                     }
                 }
@@ -75,11 +75,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Debuff);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Debuff);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Debuff);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Debuff);
                         }
                     }
                 }
@@ -101,11 +101,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.MCSG);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.MCSG);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.MCSG);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.MCSG);
                         }
                     }
                 }
@@ -125,11 +125,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.OCTC);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.OCTC);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.OCTC);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.OCTC);
                         }
                     }
                 }
@@ -148,11 +148,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Gapple);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Gapple);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Gapple);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Gapple);
                         }
                     }
                 }
@@ -172,11 +172,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Archer);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Archer);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Archer);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Archer);
                         }
                     }
                 }
@@ -196,11 +196,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Combo);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Combo);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Combo);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Combo);
                         }
                     }
                 }
@@ -220,11 +220,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Soup);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Soup);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Soup);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Soup);
                         }
                     }
                 }
@@ -244,11 +244,11 @@ public class PartyEventLadderMenu extends Menu {
                 if (practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.BuildUHC);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.BuildUHC);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.BuildUHC);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.BuildUHC);
                         }
                     }
                 }
@@ -268,11 +268,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Axe);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.Axe);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Axe);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.Axe);
                         }
                     }
                 }
@@ -291,11 +291,11 @@ public class PartyEventLadderMenu extends Menu {
                 if(practicePlayer != null) {
                     if (practicePlayer.isInParty()) {
                         if (partyMatchType == PartyMatchType.FFA_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.GappleSG);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyFFAfight(LadderType.GappleSG);
                             return;
                         }
                         if (partyMatchType == PartyMatchType.TEAM_FIGHT) {
-                            HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.GappleSG);
+                            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).startPartyTeamFight(LadderType.GappleSG);
                         }
                     }
                 }

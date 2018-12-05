@@ -2,11 +2,12 @@ package net.hotsmc.practice.event;
 
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
+import net.hotsmc.core.other.Cooldown;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.arena.Arena;
 import net.hotsmc.practice.ladder.LadderType;
-import net.hotsmc.practice.other.Cooldown;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -33,6 +34,7 @@ public abstract class Event extends BukkitRunnable {
     protected Cooldown broadcastCooldown = new Cooldown(0);
     protected final String LEADER_UUID;
     protected final int countdownSeconds;
+    protected int round = 1;
 
     public Event(LadderType ladderType, Arena arena, PracticePlayer leader, int maxPlayers, int reqiurePlayers, int countdownSeconds){
         this.maxPlayers = maxPlayers;
@@ -117,9 +119,9 @@ public abstract class Event extends BukkitRunnable {
         eventPlayers.add(player);
         player.teleport(arena.getDefaultSpawn());
         if(!isLeader(player)) {
-            player.setEventItems();
+            player.setHotbar(PlayerHotbar.EVENT_DEFAULT);
         }else{
-            player.setEventLeaderItems();
+            player.setHotbar(PlayerHotbar.EVENT_LEADER);
         }
         if(state == EventState.WAITING_FOR_PLAYERS || state == EventState.COUNTDOWN){
             broadcast(ChatColor.YELLOW + "(Event) " + HotsCore.getHotsPlayer(player.getPlayer()).getColorName() +
@@ -134,7 +136,7 @@ public abstract class Event extends BukkitRunnable {
         player.setEventLost(false);
         player.resetPlayer();
         player.teleportToLobby();
-        player.setClickItems();
+        player.setHotbar(PlayerHotbar.LOBBY);
         if(!player.isEventLost()) {
             broadcast(ChatColor.YELLOW + "(Event) " + HotsCore.getHotsPlayer(player.getPlayer()).getColorName() + ChatColor.GRAY + " has left (" + eventPlayers.size() + "/" + maxPlayers + ")");
         }
@@ -150,7 +152,7 @@ public abstract class Event extends BukkitRunnable {
                     if (practicePlayer != player) {
                         practicePlayer.setEventLost(false);
                         practicePlayer.teleportToLobby();
-                        practicePlayer.setClickItems();
+                        practicePlayer.setHotbar(PlayerHotbar.LOBBY);
                     }
                 }
                 delete();
@@ -166,7 +168,7 @@ public abstract class Event extends BukkitRunnable {
     public void delete(){
         arena.unload();
         this.cancel();
-        HotsPractice.getEventManager().removeEventGame(this);
+        HotsPractice.getInstance().getManagerHandler().getEventManager().removeEventGame(this);
     }
 
     public void broadcast(String message) {
@@ -204,8 +206,9 @@ public abstract class Event extends BukkitRunnable {
         for(PracticePlayer practicePlayer : eventPlayers){
             practicePlayer.setEventLost(false);
             practicePlayer.teleportToLobby();
-            practicePlayer.setClickItems();
+            practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         }
+        HotsPractice.getInstance().getManagerHandler().getEventManager().startEventCooldown();
         delete();
     }
 }

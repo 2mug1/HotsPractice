@@ -2,7 +2,7 @@ package net.hotsmc.practice.match;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.match.impl.DuelMatch;
 
@@ -44,7 +44,7 @@ public class MatchManager {
      * @param practicePlayer
      * @return
      */
-    public Match getPlayerOfGame(PracticePlayer practicePlayer) {
+    public Match getPlayerOfMatch(PracticePlayer practicePlayer) {
         for (Match match : matches) {
             for (PracticePlayer player : match.getGamePlayers()) {
                 if (player.getName().equals(practicePlayer.getName())) {
@@ -55,7 +55,7 @@ public class MatchManager {
         return null;
     }
 
-    public Match getPlayerOfSpectatingGame(PracticePlayer practicePlayer){
+    public Match getPlayerOfSpectateMatch(PracticePlayer practicePlayer){
         for (Match match : matches) {
             for (PracticePlayer player : match.getSpectatePlayers()) {
                 if (player.getName().equals(practicePlayer.getName())) {

@@ -3,7 +3,8 @@ package net.hotsmc.practice.menus.party;
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.party.PartyType;
 import net.hotsmc.practice.utility.ItemUtility;
@@ -42,8 +43,8 @@ public class PartyCreateMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer leader = HotsPractice.getPracticePlayer(player);
                 if (leader != null) {
-                    HotsPractice.getPartyManager().addParty(new Party(PartyType.Public, leader));
-                    leader.setPartyClickItems();
+                    HotsPractice.getInstance().getManagerHandler().getPartyManager().addParty(new Party(PartyType.Public, leader));
+                    leader.setHotbar(PlayerHotbar.PARTY);
                     leader.sendMessage(ChatColor.GRAY + "You have created a new " + ChatColor.YELLOW + ChatColor.BOLD + "Public Party");
                 }
             }
@@ -56,7 +57,7 @@ public class PartyCreateMenu extends Menu {
             }
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                HotsPractice.getPublicPartyListMenu().openMenu(player, 54);
+                HotsPractice.getInstance().getMenuHandler().getPublicPartyListMenu().openMenu(player, 54);
             }
         });
 
@@ -72,8 +73,8 @@ public class PartyCreateMenu extends Menu {
                 player.closeInventory();
                 PracticePlayer leader = HotsPractice.getPracticePlayer(player);
                 if (leader != null) {
-                    HotsPractice.getPartyManager().addParty(new Party(PartyType.Private, leader));
-                    leader.setPartyClickItems();
+                    HotsPractice.getInstance().getManagerHandler().getPartyManager().addParty(new Party(PartyType.Private, leader));
+                    leader.setHotbar(PlayerHotbar.PARTY);
                     leader.sendMessage(ChatColor.GRAY + "You have created a new " + ChatColor.YELLOW + ChatColor.BOLD + "Private Party");
                 }
             }

@@ -5,7 +5,8 @@ import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.utility.PlayerDataUtility;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.arena.Arena;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.match.RankedType;
@@ -31,7 +32,7 @@ public class DuelMatch extends Match {
 
     @Override
     protected void onStart() {
-        HotsPractice.getMatchManager().addGame(this);
+        HotsPractice.getInstance().getManagerHandler().getMatchManager().addGame(this);
         for (PracticePlayer practicePlayer : practicePlayers) {
             practicePlayer.getDuelGameRequests().clear();
             addPlayer(practicePlayer);
@@ -67,7 +68,7 @@ public class DuelMatch extends Match {
             }
             practicePlayer.teleport(getPlayerSpawnLocation(practicePlayer));
             if (ladderType != LadderType.Sumo) {
-                practicePlayer.setKitItems();
+                practicePlayer.setKitHotbar();
             }
             if (ladderType == LadderType.Sumo) {
                 practicePlayer.setFrozen(true);
@@ -162,7 +163,7 @@ public class DuelMatch extends Match {
             }
             practicePlayer.resetPlayer();
             practicePlayer.teleportToLobby();
-            practicePlayer.setClickItems();
+            practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         }
     }
 

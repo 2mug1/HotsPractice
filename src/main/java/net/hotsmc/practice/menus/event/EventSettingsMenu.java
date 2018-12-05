@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.event;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.utility.ItemUtility;

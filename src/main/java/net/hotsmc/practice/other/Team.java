@@ -4,7 +4,7 @@ import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.player.HotsPlayer;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;

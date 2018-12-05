@@ -2,7 +2,8 @@ package net.hotsmc.practice.listener.listeners;
 
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.other.Style;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.database.PlayerData;
 import net.hotsmc.practice.match.*;
@@ -79,7 +80,7 @@ public class PlayerListener implements Listener {
             if (practicePlayer.isInMatch()) {
 
                 if (event.getItem() == null) return;
-                Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+                Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
                 if (match.getLadderType() == LadderType.Soup) {
                     if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
                         if (event.getItem() == null) return;
@@ -138,7 +139,7 @@ public class PlayerListener implements Listener {
         practicePlayer.clearArmors();
         practicePlayer.clearEffects();
         practicePlayer.loadPlayerKits();
-        practicePlayer.setClickItems();
+        practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         practicePlayer.teleportToLobby();
         practicePlayer.startTask();
         for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
@@ -155,12 +156,12 @@ public class PlayerListener implements Listener {
         event.setQuitMessage(null);
         Player player = event.getPlayer();
         PracticePlayer practicePlayer = getPracticePlayer(player);
-        QueueManager queueManager = getQueueManager();
-        Queue queue = getQueueManager().getPlayerOfQueue(practicePlayer);
-        Party party = HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer);
-        Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
-        Event eventGame = HotsPractice.getEventManager().getPlayerOfEventGame(practicePlayer);
-        InventoryDataManager inventoryDataManager = HotsPractice.getInventoryDataManager();
+        QueueManager queueManager = HotsPractice.getInstance().getManagerHandler().getQueueManager();
+        Queue queue = HotsPractice.getInstance().getManagerHandler().getQueueManager().getPlayerOfQueue(practicePlayer);
+        Party party = HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer);
+        Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
+        Event eventGame = HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(practicePlayer);
+        InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
         PlayerInventory playerInventory = inventoryDataManager.getPlayerInventoryByUUID(player.getUniqueId().toString());
 
         if (practicePlayer == null) return;
@@ -173,17 +174,17 @@ public class PlayerListener implements Listener {
                 if (state == MatchState.Teleporting) {
                     duelGame.cancel();
                     opponent.sendMessage(ChatColor.RED + "Your opponent has abandoned this match / 対戦相手はマッチを放棄しました");
-                    opponent.setClickItems();
+                    opponent.setHotbar(PlayerHotbar.LOBBY);
                     duelGame.getArena().unload();
-                    HotsPractice.getMatchManager().removeGame(duelGame);
+                    HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(duelGame);
                 }
                 if (state == MatchState.PreGame) {
                     duelGame.cancel();
                     opponent.sendMessage(ChatColor.RED + "Your opponent has abandoned this match / 対戦相手はマッチを放棄しました");
                     opponent.teleportToLobby();
-                    opponent.setClickItems();
+                    opponent.setHotbar(PlayerHotbar.LOBBY);
                     duelGame.getArena().unload();
-                    HotsPractice.getMatchManager().removeGame(duelGame);
+                    HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(duelGame);
                     for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                         if (!all.isInMatch()) {
                             practicePlayer.showPlayer(all);
@@ -230,10 +231,10 @@ public class PlayerListener implements Listener {
                         partyDuelGame.cancel();
                         for (PracticePlayer partyPlayer : partyDuelGame.getGamePlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Fight has cancelled.");
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyDuelGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyDuelGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyDuelGame);
                     }
                 }
                 if (state == MatchState.PreGame) {
@@ -242,10 +243,10 @@ public class PlayerListener implements Listener {
                         for (PracticePlayer partyPlayer : partyDuelGame.getGamePlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Fight has cancelled.");
                             partyPlayer.teleportToLobby();
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyDuelGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyDuelGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyDuelGame);
                         for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                             if (!all.isInMatch()) {
                                 practicePlayer.showPlayer(all);
@@ -272,10 +273,10 @@ public class PlayerListener implements Listener {
                         partyFFAGame.cancel();
                         for (PracticePlayer partyPlayer : party.getPlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Event has cancelled.");
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyFFAGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyFFAGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyFFAGame);
                     }
                 }
                 if (state == MatchState.PreGame) {
@@ -284,10 +285,10 @@ public class PlayerListener implements Listener {
                         for (PracticePlayer partyPlayer : party.getPlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Event has cancelled.");
                             partyPlayer.teleportToLobby();
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyFFAGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyFFAGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyFFAGame);
                         for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                             if (!all.isInMatch()) {
                                 practicePlayer.showPlayer(all);
@@ -301,11 +302,11 @@ public class PlayerListener implements Listener {
                         for (PracticePlayer partyPlayer : party.getPlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Event has cancelled.");
                             partyPlayer.teleportToLobby();
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyFFAGame.removeAllSpectatePlayers();
                         partyFFAGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyFFAGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyFFAGame);
                         for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                             if (!all.isInMatch()) {
                                 practicePlayer.showPlayer(all);
@@ -325,10 +326,10 @@ public class PlayerListener implements Listener {
                         partyTeamGame.cancel();
                         for (PracticePlayer partyPlayer : party.getPlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Event has cancelled.");
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                         partyTeamGame.getArena().unload();
-                        HotsPractice.getMatchManager().removeGame(partyTeamGame);
+                        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyTeamGame);
                     }
                 }
                 if (state == MatchState.PreGame) {
@@ -338,11 +339,11 @@ public class PlayerListener implements Listener {
                         for (PracticePlayer partyPlayer : party.getPlayers()) {
                             partyPlayer.sendMessage(ChatColor.RED + "Party Event has cancelled.");
                             partyPlayer.teleportToLobby();
-                            partyPlayer.setClickItems();
+                            partyPlayer.setHotbar(PlayerHotbar.LOBBY);
                         }
                     }
                     partyTeamGame.getArena().unload();
-                    HotsPractice.getMatchManager().removeGame(partyTeamGame);
+                    HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(partyTeamGame);
                     for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                         if (!all.isInMatch()) {
                             practicePlayer.showPlayer(all);
@@ -362,7 +363,7 @@ public class PlayerListener implements Listener {
             }
         }
 
-        Match spectatingMatch = HotsPractice.getMatchManager().getPlayerOfSpectatingGame(practicePlayer);
+        Match spectatingMatch = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfSpectateMatch(practicePlayer);
         if(spectatingMatch != null){
             spectatingMatch.getSpectatePlayers().remove(practicePlayer);
             for(PracticePlayer a : spectatingMatch.getGamePlayers()){
@@ -427,13 +428,13 @@ public class PlayerListener implements Listener {
 
         if (deadPlayer.isInMatch()) {
 
-            Match match = HotsPractice.getMatchManager().getPlayerOfGame(deadPlayer);
+            Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(deadPlayer);
             deadPlayer.setRespawnLocation(location);
 
             if (match instanceof DuelMatch) {
                 DuelMatch duelGame = (DuelMatch) match;
                 PracticePlayer opponent = duelGame.getOpponent(deadPlayer);
-                InventoryDataManager inventoryDataManager = HotsPractice.getInventoryDataManager();
+                InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
                 String duration_time = TimeUtility.timeFormat(duelGame.getTime());
 
                 inventoryDataManager.addPlayerInventory(dead, duration_time);
@@ -488,7 +489,7 @@ public class PlayerListener implements Listener {
 
                 deadPlayer.respawn();
                 deadPlayer.enableSpectate();
-                PartyManager partyManager = HotsPractice.getPartyManager();
+                PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
                 Party deadPlayerParty = partyManager.getPlayerOfParty(deadPlayer);
                 if (deadPlayerParty.getAlivePlayers().size() <= 0) {
                     Party opponentParty = partyDuelGame.getOpponent(deadPlayerParty);
@@ -511,7 +512,7 @@ public class PlayerListener implements Listener {
 
                 deadPlayer.respawn();
                 deadPlayer.enableSpectate();
-                PartyManager partyManager = HotsPractice.getPartyManager();
+                PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
                 Party deadPlayerParty = partyManager.getPlayerOfParty(deadPlayer);
                 if (deadPlayerParty.getAlivePlayers().size() <= 1) {
                     partyFFAGame.end(dead.getKiller().getName());
@@ -563,7 +564,7 @@ public class PlayerListener implements Listener {
             }
 
             if(practicePlayer.isInEvent()){
-                Event eventGame = HotsPractice.getEventManager().getPlayerOfEventGame(practicePlayer);
+                Event eventGame = HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(practicePlayer);
                 if(eventGame instanceof SumoEvent) {
                     SumoEvent sumoEventGame = (SumoEvent) eventGame;
                     if (sumoEventGame.getState() == EventState.FIGHTING) {
@@ -584,9 +585,14 @@ public class PlayerListener implements Listener {
                                     practicePlayer.teleport(arena);
                                     opponent.teleport(arena);
                                     if(sumoEventGame.isLeader(practicePlayer)){
-                                        practicePlayer.setEventLeaderItems();
+                                        practicePlayer.setHotbar(PlayerHotbar.EVENT_LEADER);
                                     }else{
-                                        practicePlayer.setEventItems();
+                                        practicePlayer.setHotbar(PlayerHotbar.EVENT_DEFAULT);
+                                    }
+                                    if(sumoEventGame.isLeader(opponent)){
+                                        opponent.setHotbar(PlayerHotbar.EVENT_LEADER);
+                                    }else{
+                                        opponent.setHotbar(PlayerHotbar.EVENT_DEFAULT);
                                     }
                                     sumoEventGame.randomSelectPlayer();
                                 }
@@ -597,7 +603,7 @@ public class PlayerListener implements Listener {
             }
 
             if (practicePlayer.isInMatch()) {
-                Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+                Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
                 LadderType ladderType = match.getLadderType();
                 if (ladderType == LadderType.Sumo) {
                     if (match.getState() != MatchState.EndGame) {
@@ -628,7 +634,7 @@ public class PlayerListener implements Listener {
                 e.setCancelled(true);
                 return;
             }
-            Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+            Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
             if (match.getLadderType() == LadderType.Sumo || match.getLadderType() == LadderType.Spleef) {
                 e.setCancelled(true);
             }
@@ -647,7 +653,7 @@ public class PlayerListener implements Listener {
         if (!practicePlayer.isInMatch()) {
             e.setCancelled(true);
         }else{
-            Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+            Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
             Item item = e.getItemDrop();
             if(item.getItemStack().getType() == Material.BOWL) {
                 if (match.getLadderType() == LadderType.Soup) {
@@ -697,7 +703,7 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+        Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
         if (match.getLadderType() != LadderType.BuildUHC && match.getLadderType() != LadderType.Spleef) {
             event.setCancelled(true);
         }
@@ -733,7 +739,7 @@ public class PlayerListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+        Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
         if (match.getLadderType() == LadderType.BuildUHC) {
             if (match.getState() != MatchState.Playing) {
                 event.setCancelled(true);
@@ -791,7 +797,7 @@ public class PlayerListener implements Listener {
                 return;
             }
             if (practicePlayer.isInMatch()) {
-                Match match = HotsPractice.getMatchManager().getPlayerOfGame(practicePlayer);
+                Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
                 if (match.getState() == MatchState.Teleporting || match.getState() == MatchState.PreGame || match.getState() == MatchState.EndGame) {
                     event.setCancelled(true);
                     return;

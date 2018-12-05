@@ -2,11 +2,12 @@ package net.hotsmc.practice.match;
 
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
+import net.hotsmc.core.other.Cooldown;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.arena.Arena;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.ladder.LadderType;
-import net.hotsmc.practice.other.Cooldown;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
@@ -53,14 +54,14 @@ public abstract class Match extends BukkitRunnable {
     }
 
     public void end(String winner){
-        this.time = HotsPractice.getMatchConfig().getEndgameTime();
+        this.time = HotsPractice.getInstance().getMatchConfig().getEndgameTime();
         this.state = MatchState.EndGame;
         sendWinner(winner);
         onEnd();
         for(PracticePlayer practicePlayer : spectatePlayers){
             practicePlayer.teleportToLobby();
             practicePlayer.disableSpectate();
-            practicePlayer.setClickItems();
+            practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         }
         spectatePlayers.clear();
     }
@@ -87,7 +88,7 @@ public abstract class Match extends BukkitRunnable {
                 if(ladderType == LadderType.BuildUHC){
                     arena.getDefaultSpawn().getWorld().setGameRuleValue("naturalRegeneration", "false");
                 }
-                time = HotsPractice.getMatchConfig().getPregameTime();
+                time = HotsPractice.getInstance().getMatchConfig().getPregameTime();
                 startCooldown = new Cooldown(time*1000);
                 state = MatchState.PreGame;
                 return;
@@ -115,7 +116,7 @@ public abstract class Match extends BukkitRunnable {
 
     private void delete(){
         arena.unload();
-        HotsPractice.getMatchManager().removeGame(this);
+        HotsPractice.getInstance().getManagerHandler().getMatchManager().removeGame(this);
         this.cancel();
     }
 
@@ -127,7 +128,7 @@ public abstract class Match extends BukkitRunnable {
         practicePlayer.enableSpectate();
         practicePlayer.teleport(arena.getDefaultSpawn());
         spectatePlayers.add(practicePlayer);
-        practicePlayer.setSpectateItems();
+        practicePlayer.setHotbar(PlayerHotbar.SPECTATE);
         for(PracticePlayer player : gamePlayers){
             practicePlayer.showPlayer(player);
             player.sendMessage(ChatColor.YELLOW + "(Spectate) " +  HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " is watching.");
@@ -140,7 +141,7 @@ public abstract class Match extends BukkitRunnable {
     public void removeSpectator(PracticePlayer practicePlayer){
         practicePlayer.disableSpectate();
         practicePlayer.teleportToLobby();
-        practicePlayer.setClickItems();
+        practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         spectatePlayers.remove(practicePlayer);
         for(PracticePlayer player : gamePlayers){
             practicePlayer.hidePlayer(player);
@@ -155,7 +156,7 @@ public abstract class Match extends BukkitRunnable {
         for(PracticePlayer practicePlayer : spectatePlayers){
             practicePlayer.disableSpectate();
             practicePlayer.teleportToLobby();
-            practicePlayer.setClickItems();
+            practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         }
         for(PracticePlayer player : gamePlayers){
             for(PracticePlayer practicePlayer : spectatePlayers){

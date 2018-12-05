@@ -57,7 +57,7 @@ public class KitLoadoutMenu extends Menu {
         buttons.put(10, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GREEN + "Load ladder", 1, 13, ChatColor.GRAY + "Default ladder");
+                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GREEN + "Load kit", 1, 13, ChatColor.GRAY + "Default kit");
             }
 
             @Override
@@ -69,7 +69,7 @@ public class KitLoadoutMenu extends Menu {
         buttons.put(19, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "This ladder cannot be changed", 1, 7, ChatColor.GRAY + "Default ladder");
+                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "This kit cannot be changed", 1, 7, ChatColor.GRAY + "Default kit");
             }
 
             @Override
@@ -80,7 +80,7 @@ public class KitLoadoutMenu extends Menu {
         buttons.put(28, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "This ladder cannot be changed", 1, 7, ChatColor.GRAY + "Default ladder");
+                return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "This kit cannot be changed", 1, 7, ChatColor.GRAY + "Default kit");
             }
 
             @Override
@@ -96,7 +96,7 @@ public class KitLoadoutMenu extends Menu {
             buttons.put(i, new Button() {
                 @Override
                 public ItemStack getButtonItem(Player player) {
-                    return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.YELLOW + "Save ladder", 1, 4, ChatColor.GRAY + "Loadout #" + finalSaveIndex);
+                    return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.YELLOW + "Save kit", 1, 4, ChatColor.GRAY + "Loadout #" + finalSaveIndex);
                 }
 
                 @Override
@@ -119,7 +119,7 @@ public class KitLoadoutMenu extends Menu {
                 buttons.put(loadSlot, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GREEN + "Load ladder", 1, 13, ChatColor.GRAY + "Loadout #" + finalI);
+                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GREEN + "Load kit", 1, 13, ChatColor.GRAY + "Loadout #" + finalI);
                     }
 
                     @Override
@@ -131,7 +131,7 @@ public class KitLoadoutMenu extends Menu {
                 buttons.put(deleteSlot, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.RED + "Delete ladder", 1, 14, ChatColor.GRAY + "Loadout #" + finalI);
+                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.RED + "Delete kit", 1, 14, ChatColor.GRAY + "Loadout #" + finalI);
                     }
 
                     @Override
@@ -147,7 +147,7 @@ public class KitLoadoutMenu extends Menu {
                 buttons.put(loadSlot, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "No ladder saved", 1, 7, ChatColor.GRAY + "Loadout #" + finalI1);
+                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "No kit saved", 1, 7, ChatColor.GRAY + "Loadout #" + finalI1);
                     }
 
                     @Override
@@ -158,7 +158,7 @@ public class KitLoadoutMenu extends Menu {
                 buttons.put(deleteSlot, new Button() {
                     @Override
                     public ItemStack getButtonItem(Player player) {
-                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "No ladder saved", 1, 7, ChatColor.GRAY + "Loadout #" + finalI1);
+                        return net.hotsmc.core.utility.ItemUtility.createGlassPane(ChatColor.GRAY + "No kit saved", 1, 7, ChatColor.GRAY + "Loadout #" + finalI1);
                     }
 
                     @Override

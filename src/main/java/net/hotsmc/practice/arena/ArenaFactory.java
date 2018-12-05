@@ -30,7 +30,7 @@ public class ArenaFactory {
                     new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));
             Bukkit.createWorld(new WorldCreator(randomWorldName));
             world = Bukkit.getWorld(randomWorldName);
-            arenaData = HotsPractice.getArenaManager().getSumoArena();
+            arenaData = HotsPractice.getInstance().getManagerHandler().getArenaManager().getSumoArena();
             spawn1 = new Location(world,
                     arenaData.getSpawn1().getX(),
                     arenaData.getSpawn1().getY(),
@@ -59,7 +59,7 @@ public class ArenaFactory {
                     new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));
             Bukkit.createWorld(new WorldCreator(randomWorldName));
             world = Bukkit.getWorld(randomWorldName);
-            arenaData = HotsPractice.getArenaManager().getSpleefArena();
+            arenaData = HotsPractice.getInstance().getManagerHandler().getArenaManager().getSpleefArena();
             spawn1 = new Location(world,
                     arenaData.getSpawn1().getX(),
                     arenaData.getSpawn1().getY(),
@@ -96,7 +96,7 @@ public class ArenaFactory {
                 new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));
         Bukkit.createWorld(new WorldCreator(randomWorldName));
         world = Bukkit.getWorld(randomWorldName);
-        arenaData = HotsPractice.getArenaManager().getNormalArena(arenaName);
+        arenaData = HotsPractice.getInstance().getManagerHandler().getArenaManager().getNormalArena(arenaName);
         spawn1 = new Location(world,
                 arenaData.getSpawn1().getX(),
                 arenaData.getSpawn1().getY(),

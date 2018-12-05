@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.ladder;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.party.Party;
@@ -49,7 +49,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.NoDebuff);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.NoDebuff);
                     }
                 }
             }
@@ -69,7 +69,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Debuff);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Debuff);
                     }
                 }
             }
@@ -89,7 +89,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.MCSG);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.MCSG);
                     }
                 }
             }
@@ -107,7 +107,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.OCTC);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.OCTC);
                     }
                 }
             }
@@ -124,7 +124,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Gapple);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Gapple);
                     }
                 }
             }
@@ -142,7 +142,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Archer);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Archer);
                     }
                 }
             }
@@ -160,7 +160,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Combo);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Combo);
                     }
                 }
             }
@@ -178,7 +178,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Soup);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Soup);
                     }
                 }
             }
@@ -196,7 +196,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.BuildUHC);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.BuildUHC);
                     }
                 }
             }
@@ -214,7 +214,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Axe);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.Axe);
                     }
                 }
             }
@@ -231,7 +231,7 @@ public class DuelPartyLadderMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 if(practicePlayer != null){
                     if(practicePlayer.isInParty()){
-                        opponentParty.addDuelPartyRequest(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer), LadderType.GappleSG);
+                        opponentParty.addDuelPartyRequest(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer), LadderType.GappleSG);
                     }
                 }
             }

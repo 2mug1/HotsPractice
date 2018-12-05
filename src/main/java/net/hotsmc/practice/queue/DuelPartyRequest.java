@@ -1,7 +1,7 @@
 package net.hotsmc.practice.queue;
 
 import lombok.Getter;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.match.impl.PartyDuelMatch;
 import net.hotsmc.practice.ladder.LadderType;
@@ -31,7 +31,7 @@ public class DuelPartyRequest extends DuelRequest {
             practicePlayer.clearInventory();
             practicePlayer.sendMessage(ChatColor.GRAY + "Starting party match (" + ChatColor.YELLOW + myParty.getPartyName() + "'s party" + ChatColor.GRAY + " vs " + ChatColor.YELLOW + sendParty.getPartyName() + "'s party" + ChatColor.GRAY + ")");
         }
-        PartyDuelMatch partyDuelGame = new PartyDuelMatch(this.getLadderType(), HotsPractice.getArenaFactory().create(this.getLadderType()), sendParty, myParty);
+        PartyDuelMatch partyDuelGame = new PartyDuelMatch(this.getLadderType(), HotsPractice.getInstance().getArenaFactory().create(this.getLadderType()), sendParty, myParty);
         partyDuelGame.start();
     }
 }

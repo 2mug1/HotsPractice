@@ -4,7 +4,8 @@ import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.arena.Arena;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.party.Party;
@@ -24,7 +25,7 @@ public class PartyDuelMatch extends Match {
 
     @Override
     protected void onStart() {
-        HotsPractice.getMatchManager().addGame(this);
+        HotsPractice.getInstance().getManagerHandler().getMatchManager().addGame(this);
         for (Party party : parties) {
             party.getDuelPartyRequests().clear();
             party.setInGame(true);
@@ -64,7 +65,7 @@ public class PartyDuelMatch extends Match {
                 practicePlayer.teleport(arena.getSpawn2());
             }
             practicePlayer.heal();
-            practicePlayer.setKitItems();
+            practicePlayer.setKitHotbar();
         }
     }
 
@@ -126,8 +127,8 @@ public class PartyDuelMatch extends Match {
                     practicePlayer.disableSpectate();
                 }
                 practicePlayer.resetPlayer();
-                practicePlayer.teleport(HotsPractice.getMatchConfig().getLobbyLocation());
-                practicePlayer.setPartyClickItems();
+                practicePlayer.teleportToLobby();
+                practicePlayer.setHotbar(PlayerHotbar.PARTY);
                 practicePlayer.setAlive(true);
                 HotsCore.getHotsPlayer(practicePlayer.getPlayer()).updateNameTag();
             }

@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.party;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.match.PartyMatchType;
 import net.hotsmc.practice.menus.ladder.PartyEventLadderMenu;
@@ -45,7 +45,7 @@ public class PartyFightMenu extends Menu {
                 if(practicePlayer == null)return;
 
                 if(practicePlayer.isInParty()){
-                    if(HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
+                    if(HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
                         practicePlayer.sendMessage(ChatColor.RED + "More than 3 players required to start the Team Fight / Team Fightを開始するには3名以上のプレイヤーが必要です");
                         return;
                     }
@@ -68,7 +68,7 @@ public class PartyFightMenu extends Menu {
                 if(practicePlayer == null)return;
 
                 if(practicePlayer.isInParty()) {
-                    if (HotsPractice.getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
+                    if (HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).getPlayers().size() < 3) {
                         practicePlayer.sendMessage(ChatColor.RED + "More than 3 players required to start the FFA Fight / FFA Fightを開始するには3名以上のプレイヤーが必要です");
                         return;
                     }

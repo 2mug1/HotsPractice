@@ -27,18 +27,48 @@ public class EventMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
-        buttons.put(2, new Button() {
+        buttons.put(10, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Sumo Event", Material.LADDER, false);
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Sumo Event", Material.LEASH, false);
             }
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                HotsPractice.getSumoEventMenu().openMenu(player, 9);
+                HotsPractice.getInstance().getMenuHandler().getSumoEventMenu().openMenu(player, 9);
             }
         });
-        buttons.put(6, new Button() {
+        buttons.put(11, new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);
+            }
+        });
+        buttons.put(12, new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);
+            }
+        });
+        buttons.put(13, new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);
+            }
+        });
+        buttons.put(14, new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);
+            }
+        });
+        buttons.put(15, new Button() {
+            @Override
+            public ItemStack getButtonItem(Player player) {
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);
+            }
+        });
+        buttons.put(16, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "?", Material.LADDER, false);

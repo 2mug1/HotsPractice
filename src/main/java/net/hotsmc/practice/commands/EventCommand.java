@@ -1,7 +1,7 @@
 package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.event.Event;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,7 +25,7 @@ public class EventCommand implements CommandExecutor {
             if(args.length == 2){
                 if (args[0].equalsIgnoreCase("join")) {
                     String eventName = args[1];
-                    Event event = HotsPractice.getEventManager().getEventGameByEventName(eventName);
+                    Event event = HotsPractice.getInstance().getManagerHandler().getEventManager().getEventByEventHost(eventName);
                     if(event == null){
                         practicePlayer.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.RED + "Not found event.");
                         return true;

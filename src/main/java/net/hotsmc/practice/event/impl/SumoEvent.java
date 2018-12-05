@@ -2,13 +2,14 @@ package net.hotsmc.practice.event.impl;
 
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
+import net.hotsmc.core.other.Cooldown;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.arena.Arena;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.ladder.LadderType;
-import net.hotsmc.practice.other.Cooldown;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -27,18 +28,18 @@ public class SumoEvent extends Event {
     private PracticePlayer[] fightingPlayers = new PracticePlayer[2];
 
     public SumoEvent(Arena arena, PracticePlayer leader) {
-        super(LadderType.Sumo, arena, leader, 70, 5,50);
+        super(LadderType.Sumo, arena, leader, 50, 5,40);
     }
 
     @Override
     protected void onInit(PracticePlayer leader) {
-        HotsPractice.getEventManager().addEventGame(this);
+        HotsPractice.getInstance().getManagerHandler().getEventManager().addEventGame(this);
         leader.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "Please wait while 3 seconds for preparing the event arena...");
         new BukkitRunnable() {
             @Override
             public void run() {
                 leader.teleport(arena.getDefaultSpawn());
-                leader.setEventLeaderItems();
+                leader.setHotbar(PlayerHotbar.EVENT_LEADER);
                 state = EventState.WAITING_FOR_PLAYERS;
                 leader.sendMessage(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "You have create a new " + ChatColor.YELLOW + ChatColor.BOLD + "Sumo Event");
                 cancel();
@@ -101,16 +102,17 @@ public class SumoEvent extends Event {
             Collections.shuffle(players);
             fightingPlayers[1] = players.get(0);
         }
-        broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.GRAY + "Starting event match (" + HotsCore.getHotsPlayer(fightingPlayers[0].getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(fightingPlayers[1].getPlayer()).getColorName() + ChatColor.GRAY + ")");
-        for(PracticePlayer practicePlayer : fightingPlayers){
+        broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.BLUE + "Round" + round + ": " + ChatColor.GRAY + "Starting event match (" + HotsCore.getHotsPlayer(fightingPlayers[0].getPlayer()).getColorName() + ChatColor.GRAY + " vs " + HotsCore.getHotsPlayer(fightingPlayers[1].getPlayer()).getColorName() + ChatColor.GRAY + ")");
+        for(PracticePlayer practicePlayer : fightingPlayers) {
             practicePlayer.teleport(getPlayerSpawnLocation(practicePlayer));
             practicePlayer.clearInventory();
             practicePlayer.getPlayer().playSound(practicePlayer.getLocation(), Sound.LEVEL_UP, 1F, 1F);
             practicePlayer.setFrozen(true);
-            time = 4;
-            startCooldown = new Cooldown(time*1000);
-            state = EventState.PREPARING;
         }
+        time = 4;
+        startCooldown = new Cooldown(time*1000);
+        state = EventState.PREPARING;
+        round++;
     }
 
     @Override

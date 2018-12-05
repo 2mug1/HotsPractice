@@ -3,7 +3,7 @@ package net.hotsmc.practice.queue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.match.impl.DuelMatch;
 import net.hotsmc.practice.match.RankedType;
@@ -23,7 +23,7 @@ public class Queue {
     private final long start = System.currentTimeMillis();
 
     public void startGame(PracticePlayer practicePlayer, RankedType rankedType, LadderType ladderType) {
-        QueueManager queueManager = HotsPractice.getQueueManager();
+        QueueManager queueManager = HotsPractice.getInstance().getManagerHandler().getQueueManager();
         queueManager.removeQueue(queueManager.getPlayerOfQueue(queuePlayer));
         if(practicePlayer.getPlayer().getOpenInventory() != null){
             practicePlayer.getPlayer().closeInventory();
@@ -40,7 +40,7 @@ public class Queue {
             practicePlayer.sendMessage(HotsCore.getHotsPlayer(queuePlayer.getPlayer()).getColorName() + ChatColor.GRAY + ": " + ChatColor.WHITE + queuePlayer.getPlayerData().getElo(ladderType));
             practicePlayer.sendMessage(HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + ": " + ChatColor.WHITE + practicePlayer.getPlayerData().getElo(ladderType));
         }
-        DuelMatch duelGame = new DuelMatch(queuePlayer, practicePlayer, rankedType, ladderType, HotsPractice.getArenaFactory().create(ladderType));
+        DuelMatch duelGame = new DuelMatch(queuePlayer, practicePlayer, rankedType, ladderType, HotsPractice.getInstance().getArenaFactory().create(ladderType));
         duelGame.start();
     }
 

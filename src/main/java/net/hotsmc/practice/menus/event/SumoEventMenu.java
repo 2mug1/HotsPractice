@@ -6,7 +6,7 @@ import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.core.player.PlayerRank;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.event.impl.SumoEvent;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;
@@ -45,16 +45,24 @@ public class SumoEventMenu extends Menu {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 HotsPlayer hotsPlayer = HotsCore.getHotsPlayer(player);
                 if (practicePlayer == null || hotsPlayer == null) return;
-                if(practicePlayer.hasHoldingEventGame()){
-                    practicePlayer.sendMessage(ChatColor.RED + "You have already been holding event.");
-                    return;
-                }
                 if (hotsPlayer.getPlayerRank().getPermissionLevel() < PlayerRank.Gold.getPermissionLevel()) {
                     practicePlayer.sendMessage(ChatColor.RED + "Requires you have" + ChatColor.GOLD + " Gold Rank "  + ChatColor.RED  + "to create event.");
                     return;
                 }
+                if(HotsPractice.getInstance().getManagerHandler().getEventManager().getEvents().size() >= 1){
+                    practicePlayer.sendMessage(ChatColor.RED + "Currently the other Sumo Event is running.");
+                    return;
+                }
+                if(!HotsPractice.getInstance().getManagerHandler().getEventManager().getEventCooldown().hasExpired()){
+                    practicePlayer.sendMessage(ChatColor.RED + "Currently event cooldown time is active.");
+                    return;
+                }
+                if(practicePlayer.hasHoldingEventGame()){
+                    practicePlayer.sendMessage(ChatColor.RED + "You have already been hosting event.");
+                    return;
+                }
                 practicePlayer.clearInventory();
-                SumoEvent sumoEventGame = new SumoEvent(HotsPractice.getArenaFactory().create(LadderType.Sumo), practicePlayer);
+                SumoEvent sumoEventGame = new SumoEvent(HotsPractice.getInstance().getArenaFactory().create(LadderType.Sumo), practicePlayer);
                 sumoEventGame.init(practicePlayer);
             }
         });
@@ -66,7 +74,7 @@ public class SumoEventMenu extends Menu {
 
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
-                HotsPractice.getSumoEventListMenu().openMenu(player, 54);
+                HotsPractice.getInstance().getMenuHandler().getSumoEventListMenu().openMenu(player, 9);
             }
         });
         return buttons;

@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 
 @Data
 @AllArgsConstructor
-public class Knockback {
+public class KnockbackProfile {
 
     private ConfigCursor cursor;
 

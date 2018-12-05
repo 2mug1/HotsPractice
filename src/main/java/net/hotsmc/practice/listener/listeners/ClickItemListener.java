@@ -2,7 +2,8 @@ package net.hotsmc.practice.listener.listeners;
 
 import net.hotsmc.core.gui.ClickActionItem;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,10 +22,14 @@ public class ClickItemListener implements Listener {
             ItemStack itemStack = event.getItem();
             if (itemStack == null || itemStack.getType() == Material.AIR) return;
             if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-                for (ClickActionItem clickActionItem : HotsPractice.getDuelClickItems()) {
-                    if (clickActionItem.equals(itemStack)) {
-                        clickActionItem.clickAction(player);
-                        event.setCancelled(true);
+                for (PlayerHotbar playerHotbar : PlayerHotbar.values()) {
+                    for (ClickActionItem clickActionItem : playerHotbar.getAdapter().getItems()) {
+                        if (clickActionItem != null) {
+                            if (clickActionItem.equals(itemStack)) {
+                                clickActionItem.clickAction(player);
+                                event.setCancelled(true);
+                            }
+                        }
                     }
                 }
             }

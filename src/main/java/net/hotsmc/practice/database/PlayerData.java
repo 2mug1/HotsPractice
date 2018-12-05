@@ -99,7 +99,7 @@ public class PlayerData {
     }
 
     private static MongoConnection getMongoConnection() {
-        return HotsPractice.getMongoConnection();
+        return HotsPractice.getInstance().getMongoConnection();
     }
 
     private Document findByUUID() {
@@ -114,7 +114,7 @@ public class PlayerData {
         getMongoConnection().getPlayers().updateOne(findByUUID(), new Document("$set", updateDocument));
     }
 
-    public void insertNewPlayerData() {
+    private void insertNewPlayerData() {
         Document document = new Document();
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());

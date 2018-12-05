@@ -31,7 +31,7 @@ public class SumoEventListMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
         List<SumoEvent> sumoEventGames = new ArrayList<>();
-        for(Event event : HotsPractice.getEventManager().getGames()){
+        for(Event event : HotsPractice.getInstance().getMenuHandler().getEventManager().getEvents()){
             if(event instanceof SumoEvent){
                 sumoEventGames.add((SumoEvent) event);
             }

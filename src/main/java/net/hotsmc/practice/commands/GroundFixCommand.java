@@ -2,7 +2,7 @@ package net.hotsmc.practice.commands;
 
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.match.MatchState;
 import net.hotsmc.practice.utility.ChatUtility;

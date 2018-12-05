@@ -3,7 +3,7 @@ package net.hotsmc.practice.commands;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.queue.DuelGameRequest;
 import net.hotsmc.practice.queue.DuelPartyRequest;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.menus.ladder.DuelPartyLadderMenu;
 import net.hotsmc.practice.menus.ladder.DuelPlayerLadderMenu;
 import net.hotsmc.practice.party.Party;
@@ -34,8 +34,8 @@ public class DuelCommand implements CommandExecutor {
 
             if(args.length == 0){
                 practicePlayer.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "Duel Commands");
-                practicePlayer.sendMessage(ChatColor.YELLOW + "/duel <player/party>");
-                practicePlayer.sendMessage(ChatColor.YELLOW + "/duel accept <player/party>");
+                practicePlayer.sendMessage(ChatColor.YELLOW + "/duel <stats/party>");
+                practicePlayer.sendMessage(ChatColor.YELLOW + "/duel accept <stats/party>");
             }
 
             if (args.length == 1) {
@@ -50,16 +50,16 @@ public class DuelCommand implements CommandExecutor {
 
                 //プレイヤーが存在しないなら
                 if (targetPlayer == null || !targetPlayer.isOnline()) {
-                    practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
+                    practicePlayer.sendMessage("Can't find stats / プレイヤーが見つかりませんでした");
                     return true;
                 }
                 PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(targetPlayer);
                 if (targetPracticePlayer == null) {
-                    practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
+                    practicePlayer.sendMessage("Can't find stats / プレイヤーが見つかりませんでした");
                     return true;
                 }
 
-                PartyManager partyManager = HotsPractice.getPartyManager();
+                PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
 
                 //自分がパーティに属しているなら
                 if (practicePlayer.isInParty()) {
@@ -94,7 +94,7 @@ public class DuelCommand implements CommandExecutor {
                     } else {
                         //相手がパーティに属していないなら拒否
                         practicePlayer.sendMessage(ChatColor.RED + targetName + "doesn't belong to any party / " + targetName + "は何処のパーティにも所属していません");
-                        practicePlayer.sendMessage(ChatColor.RED + "If you want to send party duel to any player, then player is need belonging to any party / " +
+                        practicePlayer.sendMessage(ChatColor.RED + "If you want to send party duel to any stats, then stats is need belonging to any party / " +
                                 "あなたがパーティーDuelを送りたい場合、相手はどこかのパーティーに属している必要があります");
                     }
                 }else {
@@ -124,7 +124,7 @@ public class DuelCommand implements CommandExecutor {
                         return true;
                     }
 
-                    PartyManager partyManager = HotsPractice.getPartyManager();
+                    PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
 
                     //自分がパーティに入っているなら
                     if(practicePlayer.isInParty()){
@@ -162,12 +162,12 @@ public class DuelCommand implements CommandExecutor {
                         Player targetPlayer = Bukkit.getPlayer(targetName);
                         //プレイヤーが存在しないなら
                         if (targetPlayer == null || !targetPlayer.isOnline()) {
-                            practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
+                            practicePlayer.sendMessage("Can't find stats / プレイヤーが見つかりませんでした");
                             return true;
                         }
                         PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(targetPlayer);
                         if (targetPracticePlayer == null) {
-                            practicePlayer.sendMessage("Can't find player / プレイヤーが見つかりませんでした");
+                            practicePlayer.sendMessage("Can't find stats / プレイヤーが見つかりませんでした");
                             return true;
                         }
 

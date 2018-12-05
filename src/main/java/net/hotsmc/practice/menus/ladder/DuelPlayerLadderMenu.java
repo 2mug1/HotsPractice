@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.ladder;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ItemUtility;

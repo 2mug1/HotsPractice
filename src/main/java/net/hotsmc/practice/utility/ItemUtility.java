@@ -1,6 +1,6 @@
 package net.hotsmc.practice.utility;
 
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.event.impl.SumoEvent;
 import net.hotsmc.practice.party.Party;
@@ -252,6 +252,20 @@ public class ItemUtility {
         meta.setDisplayName(displayName);
         if (lore != null) {
             meta.setLore(Arrays.asList(lore));
+        }
+        myAwesomeSkull.setItemMeta(meta);
+        return myAwesomeSkull;
+    }
+
+    public static ItemStack createPlayerNameSkull(String playerName, String displayName, List<String> lore) {
+        ItemStack myAwesomeSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta myAwesomeSkullMeta = (SkullMeta) myAwesomeSkull.getItemMeta();
+        myAwesomeSkullMeta.setOwner(playerName);
+        myAwesomeSkull.setItemMeta(myAwesomeSkullMeta);
+        ItemMeta meta = myAwesomeSkull.getItemMeta();
+        meta.setDisplayName(displayName);
+        if (lore != null) {
+            meta.setLore(lore);
         }
         myAwesomeSkull.setItemMeta(meta);
         return myAwesomeSkull;

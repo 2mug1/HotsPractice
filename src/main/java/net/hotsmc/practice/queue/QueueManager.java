@@ -2,7 +2,7 @@ package net.hotsmc.practice.queue;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.match.RankedType;
 import net.hotsmc.practice.ladder.LadderType;
 

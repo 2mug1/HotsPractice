@@ -2,7 +2,7 @@ package net.hotsmc.practice.menus.queue;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.queue.*;
 import net.hotsmc.practice.match.RankedType;
@@ -27,8 +27,8 @@ public class UnrankedMenu extends Menu {
 
     public UnrankedMenu(){
         super(true);
-        queueManager =  HotsPractice.getQueueManager();
-        matchManager = HotsPractice.getMatchManager();
+        queueManager =  HotsPractice.getInstance().getManagerHandler().getQueueManager();
+        matchManager = HotsPractice.getInstance().getManagerHandler().getMatchManager();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.NoDebuff);
                 }else{
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.NoDebuff, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -85,7 +85,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Debuff);
                 }else{
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Debuff, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -110,7 +110,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.MCSG);
                 }else{
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.MCSG, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -135,7 +135,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.OCTC);
                 }else{
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.OCTC, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -160,7 +160,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Gapple);
                 }else{
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Gapple, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -185,7 +185,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Archer);
                 }else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Archer, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -210,7 +210,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Combo);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Combo, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -235,7 +235,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Soup);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Soup, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -260,7 +260,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.BuildUHC);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.BuildUHC, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -285,7 +285,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Sumo);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Sumo, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -310,7 +310,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Axe);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Axe, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -335,7 +335,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.Spleef);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.Spleef, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }
@@ -359,7 +359,7 @@ public class UnrankedMenu extends Menu {
                     queue.startGame(practicePlayer, RankedType.UNRANKED, LadderType.GappleSG);
                 } else {
                     Queue newQueue = new Queue(RankedType.UNRANKED, LadderType.GappleSG, practicePlayer);
-                    HotsPractice.getQueueManager().addQueue(newQueue);
+                    queueManager.addQueue(newQueue);
                     ChatUtility.sendMessage(practicePlayer, ChatColor.GRAY + "You have added to " + ChatColor.YELLOW + newQueue.getLadderType() + "(" + newQueue.getRankedType() + ")" + ChatColor.GRAY + " of queue.");
                     practicePlayer.onQueue();
                 }

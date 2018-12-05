@@ -6,7 +6,7 @@ import org.bson.Document;
 public class NameUtility {
 
     public static String getNameByUUID(String uuid){
-        Document document = HotsPractice.getMongoConnection().getPlayers().find(MongoUtility.find("UUID", uuid)).first();
+        Document document = HotsPractice.getInstance().getMongoConnection().getPlayers().find(MongoUtility.find("UUID", uuid)).first();
         if(document == null){
             return null;
         }
@@ -14,7 +14,7 @@ public class NameUtility {
     }
 
     public static String getUUIDByName(String name){
-        Document document = HotsPractice.getMongoConnection().getPlayers().find(MongoUtility.find("NAME", name)).first();
+        Document document = HotsPractice.getInstance().getMongoConnection().getPlayers().find(MongoUtility.find("NAME", name)).first();
         if(document == null){
             return null;
         }

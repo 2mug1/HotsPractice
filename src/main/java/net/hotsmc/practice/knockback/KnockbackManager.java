@@ -3,7 +3,6 @@ package net.hotsmc.practice.knockback;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.config.ConfigCursor;
 import net.hotsmc.practice.config.FileConfig;
-import net.hotsmc.practice.ladder.Ladder;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.ChatUtility;
 import org.bukkit.ChatColor;
@@ -15,52 +14,52 @@ import java.util.List;
 
 public class KnockbackManager {
 
-    private List<Knockback> knockbacks = new ArrayList<>();
+    private List<KnockbackProfile> knockbackProfiles = new ArrayList<>();
 
-    public Knockback getKnockbackByLadderType(LadderType ladderType){
-        for(Knockback knockback : knockbacks){
-            if(knockback.getLadderType() == ladderType){
-                return knockback;
+    public KnockbackProfile getKnockbackByLadderType(LadderType ladderType){
+        for(KnockbackProfile knockbackProfile : knockbackProfiles){
+            if(knockbackProfile.getLadderType() == ladderType){
+                return knockbackProfile;
             }
         }
         return null;
     }
 
-    private Knockback load(LadderType ladderType, ConfigCursor configCursor){
-        return new Knockback(configCursor, ladderType, configCursor.getDouble("horizontal"), configCursor.getDouble("vertical"));
+    private KnockbackProfile load(LadderType ladderType, ConfigCursor configCursor){
+        return new KnockbackProfile(configCursor, ladderType, configCursor.getDouble("horizontal"), configCursor.getDouble("vertical"));
     }
 
-    public void loadKnockbacks(){
-        knockbacks.clear();
+    public void load(){
+        knockbackProfiles.clear();
         for(LadderType ladderType : LadderType.values()){
-            Knockback knockback = load(ladderType, new ConfigCursor(new FileConfig(new File(HotsPractice.getInstance().getDataFolder().getPath() + "/knockback/" + ladderType.name() + ".yml")), "Multiplier"));
-            knockbacks.add(knockback);
-            HotsPractice.getInstance().getLogger().info("Loaded Knockback Data: " + ladderType.name() + " - Horizontal: " + knockback.getHorizontalMultiplier() + " Vertical: " + knockback.getVerticalMultiplier());
+            KnockbackProfile knockbackProfile = load(ladderType, new ConfigCursor(new FileConfig(new File(HotsPractice.getInstance().getDataFolder().getPath() + "/knockbackProfile/" + ladderType.name() + ".yml")), "Multiplier"));
+            knockbackProfiles.add(knockbackProfile);
+            HotsPractice.getInstance().getLogger().info("Loaded KnockbackProfile Data: " + ladderType.name() + " - Horizontal: " + knockbackProfile.getHorizontalMultiplier() + " Vertical: " + knockbackProfile.getVerticalMultiplier());
         }
     }
 
     public void updateHorizontal(CommandSender commandSender, LadderType type, double horizontal){
-        Knockback knockback = getKnockbackByLadderType(type);
-        double old = knockback.getHorizontalMultiplier();
-        ConfigCursor cursor = knockback.getCursor();
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getHorizontalMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
         cursor.set("horizontal", horizontal);
         cursor.save();
-        knockback.setHorizontalMultiplier(horizontal);
-        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Horizontal multiplier knockback for " + type.name() + " has been updated: " + old + "-->" + horizontal);
+        knockbackProfile.setHorizontalMultiplier(horizontal);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Horizontal multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + horizontal);
     }
 
     public void updateVertical(CommandSender commandSender, LadderType type, double vertical){
-        Knockback knockback = getKnockbackByLadderType(type);
-        double old = knockback.getVerticalMultiplier();
-        ConfigCursor cursor = knockback.getCursor();
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getVerticalMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
         cursor.set("vertical", vertical);
         cursor.save();
-        knockback.setVerticalMultiplier(vertical);
-        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Vertical multiplier knockback for " + type.name() + " has been updated: " + old + "-->" + vertical);
+        knockbackProfile.setVerticalMultiplier(vertical);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Vertical multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + vertical);
     }
 
     public void sendKnockbackInfo(CommandSender commandSender, LadderType type){
-        Knockback knockback = getKnockbackByLadderType(type);
-        ChatUtility.sendMessage(commandSender, knockback.toString());
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        ChatUtility.sendMessage(commandSender, knockbackProfile.toString());
     }
 }

@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Sorts;
 import lombok.Getter;
+import net.hotsmc.core.other.Style;
 import net.hotsmc.core.utility.PlayerDataUtility;
 import org.bson.Document;
 import org.bukkit.ChatColor;
@@ -72,6 +73,8 @@ public class MongoConnection {
             format.add("" + ChatColor.YELLOW + valueRank + ". " + PlayerDataUtility.getColorName(data.getName()) + ChatColor.GRAY + " - " + ChatColor.YELLOW + data.getValue());
             valueRank++;
         }
+        format.add(0, Style.SCOREBAORD_SEPARATOR);
+        format.add(Style.SCOREBAORD_SEPARATOR);
         return format;
     }
 

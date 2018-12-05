@@ -1,7 +1,7 @@
 package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.match.MatchState;
 import org.bukkit.Bukkit;
@@ -47,12 +47,12 @@ public class SpectateCommand implements CommandExecutor {
                 }
                 Player target = Bukkit.getPlayer(targetName);
                 if(target == null){
-                    practicePlayer.sendMessage(ChatColor.RED + "Can't find player.");
+                    practicePlayer.sendMessage(ChatColor.RED + "Can't find stats.");
                     return true;
                 }
                 PracticePlayer targetPlayer = HotsPractice.getPracticePlayer(target);
                 if(targetPlayer == null){
-                    practicePlayer.sendMessage(ChatColor.RED + "Can't find player.");
+                    practicePlayer.sendMessage(ChatColor.RED + "Can't find stats.");
                     return true;
                 }
                 if(targetPlayer.isInEvent()){
@@ -70,7 +70,7 @@ public class SpectateCommand implements CommandExecutor {
                     practicePlayer.sendMessage(ChatColor.RED + targetName + " isn't in a match");
                 }
             }else{
-                practicePlayer.sendMessage(ChatColor.RED + "/spectate <player>");
+                practicePlayer.sendMessage(ChatColor.RED + "/spectate <stats>");
             }
         }
         return false;

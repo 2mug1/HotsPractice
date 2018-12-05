@@ -26,7 +26,7 @@ public class KitChestInventory {
     }
 
     public void open(Player player) {
-        Ladder ladder = HotsPractice.getDefaultLadder().getKitData(type);
+        Ladder ladder = HotsPractice.getInstance().getDefaultLadder().getKitData(type);
         List<ItemStack> armors = ladder.getArmors();
 
         List<ItemStack> items = ladder.getItems();

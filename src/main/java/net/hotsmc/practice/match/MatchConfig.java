@@ -1,6 +1,7 @@
 package net.hotsmc.practice.match;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.hotsmc.practice.config.ConfigCursor;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.hotsmc.practice.utility.PositionInfo;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 @Getter
+@Setter
 public class MatchConfig {
 
     ConfigCursor configCursor;
@@ -31,10 +33,11 @@ public class MatchConfig {
         return this;
     }
 
-    public void setLobbyLocation(Player player){
+    public void upddateLobbyLocation(Player player){
         PositionInfo positionInfo = new PositionInfo(player);
         configCursor.setLocation("Lobby", positionInfo);
         configCursor.save();
+        setLobbyLocation(positionInfo.toLocation());
         ChatUtility.sendMessage(player, ChatColor.GREEN + "Successfully updated lobby location: " + positionInfo.locationFormat());
     }
 }

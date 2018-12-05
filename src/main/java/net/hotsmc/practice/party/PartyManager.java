@@ -1,7 +1,7 @@
 package net.hotsmc.practice.party;
 
 import lombok.Getter;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 
 import java.util.ArrayList;
 import java.util.List;

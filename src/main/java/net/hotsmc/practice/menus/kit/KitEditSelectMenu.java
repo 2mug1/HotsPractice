@@ -34,7 +34,7 @@ public class KitEditSelectMenu extends Menu {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createSplashPotion(
-                        ChatColor.GREEN + "NoDebuff", 1, PotionType.INSTANT_HEAL, ChatColor.YELLOW + "Click to edit the your ladder");
+                        ChatColor.GREEN + "NoDebuff", 1, PotionType.INSTANT_HEAL, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -47,7 +47,7 @@ public class KitEditSelectMenu extends Menu {
             @Override
             public ItemStack getButtonItem(Player player) {
                 return ItemUtility.createSplashPotion(
-                        ChatColor.GREEN + "Debuff", 1, PotionType.POISON, ChatColor.YELLOW + "Click to edit the your ladder");
+                        ChatColor.GREEN + "Debuff", 1, PotionType.POISON, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -60,7 +60,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(2, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "MCSG", Material.FISHING_ROD, false, 1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "MCSG", Material.FISHING_ROD, false, 1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -72,7 +72,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(3, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "OCTC", Material.IRON_SWORD, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "OCTC", Material.IRON_SWORD, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -84,7 +84,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(4, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createEnchGapple(ChatColor.GREEN + "Gapple",1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createEnchGapple(ChatColor.GREEN + "Gapple",1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -96,7 +96,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(5, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Archer", Material.BOW, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Archer", Material.BOW, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -108,7 +108,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(6, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createFish(ChatColor.GREEN + "Combo", 1, 3, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createFish(ChatColor.GREEN + "Combo", 1, 3, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -120,7 +120,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(7, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Soup", Material.MUSHROOM_SOUP, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Soup", Material.MUSHROOM_SOUP, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -132,7 +132,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(8, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "BuildUHC", Material.LAVA_BUCKET, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "BuildUHC", Material.LAVA_BUCKET, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -145,7 +145,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(9, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "Axe", Material.IRON_AXE, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "Axe", Material.IRON_AXE, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override
@@ -158,7 +158,7 @@ public class KitEditSelectMenu extends Menu {
         buttons.put(10, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack(ChatColor.GREEN + "GappleSG", Material.GOLDEN_APPLE, false,1, ChatColor.YELLOW + "Click to edit the your ladder");
+                return ItemUtility.createItemStack(ChatColor.GREEN + "GappleSG", Material.GOLDEN_APPLE, false,1, ChatColor.YELLOW + "Click to edit the your kit");
             }
 
             @Override

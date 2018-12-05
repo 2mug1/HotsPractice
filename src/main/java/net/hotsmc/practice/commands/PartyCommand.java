@@ -1,7 +1,7 @@
 package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.party.PartyManager;
 import net.hotsmc.practice.utility.ChatUtility;
@@ -19,7 +19,7 @@ public class PartyCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
-            PartyManager partyManager = HotsPractice.getPartyManager();
+            PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
             if (practicePlayer == null) {
                 return true;
             }
@@ -27,8 +27,8 @@ public class PartyCommand implements CommandExecutor {
                 if (practicePlayer.isInParty()) {
                     practicePlayer.sendMessage("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Commands");
                     practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party disband - Disband the party");
-                    practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party invite <player> - Send invitation to player");
-                    practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party kick <player> - Kick party from party");
+                    practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party invite <stats> - Send invitation to stats");
+                    practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party kick <stats> - Kick party from party");
                     practicePlayer.sendMessage("" + ChatColor.YELLOW + "/party join <party_name> - Join the party");
                 }else{
                     practicePlayer.sendMessage(ChatColor.RED + "You aren't in party / あなたはパーティに属していません");
@@ -59,12 +59,12 @@ public class PartyCommand implements CommandExecutor {
                     }
                     Player target = Bukkit.getPlayer(targetName);
                     if (target == null || !target.isOnline()) {
-                        practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
+                        practicePlayer.sendMessage(ChatColor.RED + "Can't find stats / プレイヤーが見つかりません");
                         return true;
                     }
                     PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(target);
                     if (targetPracticePlayer == null) {
-                        practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
+                        practicePlayer.sendMessage(ChatColor.RED + "Can't find stats / プレイヤーが見つかりません");
                         return true;
                     }
                     if (practicePlayer.isInParty()) {
@@ -101,12 +101,12 @@ public class PartyCommand implements CommandExecutor {
                     String targetName = args[1];
                     Player target = Bukkit.getPlayer(targetName);
                     if (target == null || !target.isOnline()) {
-                        practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
+                        practicePlayer.sendMessage(ChatColor.RED + "Can't find stats / プレイヤーが見つかりません");
                         return true;
                     }
                     PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(target);
                     if (targetPracticePlayer == null) {
-                        practicePlayer.sendMessage(ChatColor.RED + "Can't find player / プレイヤーが見つかりません");
+                        practicePlayer.sendMessage(ChatColor.RED + "Can't find stats / プレイヤーが見つかりません");
                         return true;
                     }
                     if (practicePlayer.isInParty()) {

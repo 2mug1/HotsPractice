@@ -1,20 +1,23 @@
-package net.hotsmc.practice;
+package net.hotsmc.practice.player;
 
 import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.ClickActionItem;
+import net.hotsmc.core.other.Cooldown;
 import net.hotsmc.core.player.HotsPlayer;
+import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.database.PlayerData;
 import net.hotsmc.practice.event.Event;
+import net.hotsmc.practice.hotbar.HotbarAdapter;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.ladder.PlayerLadder;
 import net.hotsmc.practice.menus.kit.KitChestInventory;
 import net.hotsmc.practice.menus.kit.KitLoadoutMenu;
 import net.hotsmc.practice.other.BukkitReflection;
-import net.hotsmc.practice.other.Cooldown;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.queue.DuelGameRequest;
 import net.hotsmc.practice.queue.Queue;
@@ -86,7 +89,7 @@ public class PracticePlayer {
     }
 
     public boolean isInMatch() {
-        return HotsPractice.getMatchManager().getPlayerOfGame(this) != null;
+        return  HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this) != null;
     }
 
     public DuelGameRequest getDuelGameRequestBySender(PracticePlayer sender) {
@@ -116,7 +119,7 @@ public class PracticePlayer {
     }
 
     public boolean isInParty() {
-        return HotsPractice.getPartyManager().getPlayerOfParty(this) != null;
+        return  HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(this) != null;
     }
 
     public void loadPlayerKits() {
@@ -173,21 +176,21 @@ public class PracticePlayer {
         player.updateInventory();
     }
 
-    public void setClickItems() {
-        getInventory().clear();
-        List<ClickActionItem> items = HotsPractice.getDuelClickItems();
-        setItem(0, items.get(0).getItemStack());
-        setItem(1, items.get(1).getItemStack());
-        setItem(2, items.get(2).getItemStack());
-        setItem(4, items.get(12).getItemStack());
-        setItem(6, items.get(3).getItemStack());
-        setItem(7, items.get(4).getItemStack());
-        setItem(8, items.get(5).getItemStack());
+
+    public void setHotbar(PlayerHotbar hotbar) {
+        clearInventory();
+        HotbarAdapter adapter = hotbar.getAdapter();
+        ClickActionItem[] items = adapter.getItems();
+        for(int i = 0; i < items.length; i++){
+            if(items[i] != null) {
+                setItem(i, items[i].getItemStack());
+            }
+        }
         player.updateInventory();
     }
 
     public void teleportToLobby() {
-        player.teleport(HotsPractice.getMatchConfig().getLobbyLocation());
+        player.teleport( HotsPractice.getInstance().getMatchConfig().getLobbyLocation());
     }
 
     public void resetPlayer() {
@@ -199,32 +202,25 @@ public class PracticePlayer {
         PlayerUtility.clearEffects(player);
     }
 
-    public void setQueueItem() {
+    public void setKitHotbar() {
         getInventory().clear();
-        setItem(0, HotsPractice.getDuelClickItems().get(6).getItemStack());
-        player.updateInventory();
-    }
 
-    public void setKitItems() {
-        List<ClickActionItem> clickItems = HotsPractice.getDuelClickItems();
+        ClickActionItem[] clickItems = PlayerHotbar.KIT.getAdapter().getItems();
 
-        getInventory().clear();
-        setItem(0, clickItems.get(7).getItemStack());
+        setItem(0, clickItems[0].getItemStack());
 
         int slot = 2;
-        int clickItemIndex = 16;
         for (int i = 0; i < 7; i++) {
-            if (getPlayerKitData(HotsPractice.getMatchManager().getPlayerOfGame(this).getLadderType()).getLadderList().get(i) != null) {
-                setItem(slot, clickItems.get(clickItemIndex).getItemStack());
+            if (getPlayerKitData( HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this).getLadderType()).getLadderList().get(i) != null) {
+                setItem(slot, clickItems[slot].getItemStack());
             }
-            clickItemIndex++;
             slot++;
         }
     }
 
     public void onQueue() {
         player.closeInventory();
-        setQueueItem();
+        setHotbar(PlayerHotbar.QUEUE);
     }
 
     public void setItems(List<ItemStack> items) {
@@ -244,11 +240,6 @@ public class PracticePlayer {
         player.updateInventory();
     }
 
-    public void setSpectateItems() {
-        clearInventory();
-        setItem(4, HotsPractice.getDuelClickItems().get(15).getItemStack());
-    }
-
     public void setDefaultKit(LadderType type) {
         getInventory().clear();
         if (type == LadderType.Sumo) {
@@ -260,8 +251,8 @@ public class PracticePlayer {
             sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
             return;
         }
-        setItems(HotsPractice.getDefaultLadder().getKitData(type).getItems());
-        setArmors(HotsPractice.getDefaultLadder().getKitData(type).getArmors());
+        setItems(HotsPractice.getInstance().getDefaultLadder().getKitData(type).getItems());
+        setArmors(HotsPractice.getInstance().getDefaultLadder().getKitData(type).getArmors());
         sendMessage(ChatColor.YELLOW + "You have loaded Default kit");
     }
 
@@ -279,7 +270,7 @@ public class PracticePlayer {
     public void enableKitEdit(LadderType ladderType) {
         setEnableKitEdit(true);
         this.setEditLadderType(ladderType);
-        HotsPractice.getLadderEditManager().teleport(player, ladderType);
+        HotsPractice.getInstance().getManagerHandler().getLadderEditManager().teleport(player, ladderType);
         setDefaultKit(ladderType);
     }
 
@@ -293,7 +284,7 @@ public class PracticePlayer {
         clearArmors();
         clearEffects();
         teleportToLobby();
-        setClickItems();
+        setHotbar(PlayerHotbar.LOBBY);
     }
 
     public void openKitLoadoutMenu() {
@@ -310,15 +301,6 @@ public class PracticePlayer {
         if (player.isOnline()) {
             ChatUtility.sendMessage(player, message);
         }
-    }
-
-    public void setPartyClickItems() {
-        getInventory().clear();
-        List<ClickActionItem> clickActionItems = HotsPractice.getDuelClickItems();
-        setItem(1, clickActionItems.get(8).getItemStack());
-        setItem(3, clickActionItems.get(9).getItemStack());
-        setItem(5, clickActionItems.get(10).getItemStack());
-        setItem(7, clickActionItems.get(11).getItemStack());
     }
 
     public void respawn() {
@@ -364,7 +346,7 @@ public class PracticePlayer {
     }
 
     public void startEnderpearlCooldown() {
-        enderpearlCooldown = new Cooldown(HotsPractice.getMatchConfig().getEnderpearlCooldownTime() * 1000);
+        enderpearlCooldown = new Cooldown(HotsPractice.getInstance().getMatchConfig().getEnderpearlCooldownTime() * 1000);
     }
 
     public void startGappleCooldown() {
@@ -381,18 +363,7 @@ public class PracticePlayer {
     }
 
     public boolean isInEvent() {
-        return HotsPractice.getEventManager().getPlayerOfEventGame(this) != null;
-    }
-
-    public void setEventItems() {
-        clearInventory();
-        setItem(4, HotsPractice.getDuelClickItems().get(13).getItemStack());
-    }
-
-    public void setEventLeaderItems() {
-        clearInventory();
-        setItem(3, HotsPractice.getDuelClickItems().get(13).getItemStack());
-        setItem(5, HotsPractice.getDuelClickItems().get(14).getItemStack());
+        return HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(this) != null;
     }
 
     /**
@@ -401,7 +372,7 @@ public class PracticePlayer {
      * @return
      */
     public boolean hasHoldingEventGame() {
-        for (Event event : HotsPractice.getEventManager().getGames()) {
+        for (Event event : HotsPractice.getInstance().getManagerHandler().getEventManager().getEvents()) {
             if (event.getLEADER_UUID().equals(getUUID())) {
                 return true;
             }
@@ -410,15 +381,15 @@ public class PracticePlayer {
     }
 
     public Party getInParty() {
-        return HotsPractice.getPartyManager().getPlayerOfParty(this);
+        return HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(this);
     }
 
     public Match getInMatch() {
-        return HotsPractice.getMatchManager().getPlayerOfGame(this);
+        return HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this);
     }
 
     public Event getInEventGame() {
-        return HotsPractice.getEventManager().getPlayerOfEventGame(this);
+        return HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(this);
     }
 
     public void addCurrentCps(int amount) {
@@ -430,6 +401,6 @@ public class PracticePlayer {
     }
 
     public Queue getInQueue(){
-        return HotsPractice.getQueueManager().getPlayerOfQueue(this);
+        return HotsPractice.getInstance().getManagerHandler().getQueueManager().getPlayerOfQueue(this);
     }
 }

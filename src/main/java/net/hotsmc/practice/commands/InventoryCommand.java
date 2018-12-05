@@ -18,7 +18,7 @@ public class InventoryCommand implements CommandExecutor {
             Player player = (Player) sender;
             if(args.length == 1){
                 String uuid = args[0];
-                InventoryDataManager inventoryDataManager = HotsPractice.getInventoryDataManager();
+                InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
                 PlayerInventory inventory = inventoryDataManager.getPlayerInventoryByUUID(uuid);
                 if(inventory == null){
                     ChatUtility.sendMessage(player, ChatColor.RED + "Not found inventory data");

@@ -35,7 +35,7 @@ public class PartyOtherFightMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         HashMap<Integer, Button> buttons = new HashMap<>();
-        PartyManager partyManager = HotsPractice.getPartyManager();
+        PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
         List<Party> newParties = new ArrayList<>();
         for (int i = 0; i < partyManager.getParties().size(); i++) {
             Party party = partyManager.getParties().get(i);

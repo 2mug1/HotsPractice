@@ -3,7 +3,6 @@ package net.hotsmc.practice.menus.party;
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.PracticePlayer;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.party.PartyManager;
 import net.hotsmc.practice.party.PartyType;
@@ -15,9 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PublicPartyListMenu extends Menu {
@@ -34,7 +31,7 @@ public class PublicPartyListMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         HashMap<Integer, Button> buttons = new HashMap<>();
-        PartyManager partyManager = HotsPractice.getPartyManager();
+        PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
         for(int i = 0; i < partyManager.getParties().size(); i++){
             Party party = partyManager.getParties().get(i);
             if(party.getType() == PartyType.Public && !party.isInGame()){

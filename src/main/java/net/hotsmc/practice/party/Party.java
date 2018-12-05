@@ -6,6 +6,8 @@ import net.hotsmc.practice.*;
 import net.hotsmc.practice.match.impl.PartyFFAMatch;
 import net.hotsmc.practice.match.impl.PartyTeamMatch;
 import net.hotsmc.practice.ladder.LadderType;
+import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.queue.DuelPartyRequest;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.md_5.bungee.api.chat.*;
@@ -106,7 +108,7 @@ public class Party {
     public void disband() {
         invitePlayers.clear();
         for(PracticePlayer practicePlayer : players){
-            practicePlayer.setClickItems();
+            practicePlayer.setHotbar(PlayerHotbar.LOBBY);
             practicePlayer.sendMessage(ChatColor.YELLOW + "Party has been disbanded by leader / パーティは解散されました");
         }
         players.clear();
@@ -140,7 +142,7 @@ public class Party {
             } else {
                 players.add(practicePlayer);
                 invitePlayers.remove(practicePlayer.getPlayer().getName());
-                practicePlayer.setPartyClickItems();
+                practicePlayer.setHotbar(PlayerHotbar.PARTY);
                 broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has joined the party / " + practicePlayer.getPlayer().getName() + "がパーティに参加しました");
                 practicePlayer.sendMessage(ChatColor.YELLOW + "You have joined the " + partyName + "'s party / " + partyName + "のパーティに参加しました");
             }
@@ -148,7 +150,7 @@ public class Party {
         }
         players.add(practicePlayer);
         invitePlayers.remove(practicePlayer.getPlayer().getName());
-        practicePlayer.setPartyClickItems();
+        practicePlayer.setHotbar(PlayerHotbar.PARTY);
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has joined the party / " + practicePlayer.getPlayer().getName() + "がパーティに参加しました");
         practicePlayer.sendMessage(ChatColor.YELLOW + "You have joined the " + partyName + "'s party / " + partyName + "のパーティに参加しました");
     }
@@ -156,17 +158,17 @@ public class Party {
 
     public void removePlayer(PracticePlayer practicePlayer) {
         players.remove(getPartyPlayer(practicePlayer.getPlayer()));
-        practicePlayer.setClickItems();
+        practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has left the party / " + practicePlayer.getPlayer().getName() + "がパーティから離脱しました");
         if (isLeader(practicePlayer)) {
             if (players.size() <= 0) {
-                PartyManager partyManager = HotsPractice.getPartyManager();
+                PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
                 partyManager.removeParty(partyManager.getPartyByName(partyName));
                 return;
             }
             PracticePlayer newLeader = players.get(0);
             broadcast(ChatColor.YELLOW + "Party leader has changed to " + newLeader.getPlayer().getName() + " / パーティリーダーが" + newLeader.getPlayer().getName() + "に変更されました");
-            HotsPractice.getPartyManager().getPartyByName(partyName).setPartyName(newLeader.getPlayer().getName());
+            HotsPractice.getInstance().getManagerHandler().getPartyManager().getPartyByName(partyName).setPartyName(newLeader.getPlayer().getName());
         }
 
         if (practicePlayer.isOnline()) {
@@ -180,7 +182,7 @@ public class Party {
             return;
         }
         players.remove(getPartyPlayer(practicePlayer.getPlayer()));
-        practicePlayer.setClickItems();
+        practicePlayer.setHotbar(PlayerHotbar.LOBBY);
         broadcast(ChatColor.YELLOW + practicePlayer.getPlayer().getName() + " has kicked from the party / " + practicePlayer.getPlayer().getName() + "がパーティからキックされました");
         practicePlayer.sendMessage(ChatColor.YELLOW + "You have kicked from the " + partyName + "'s party / あなたは" + partyName + "のパーティからキックされました");
     }
@@ -189,7 +191,7 @@ public class Party {
         for(PracticePlayer practicePlayer : players){
             practicePlayer.clearInventory();
         }
-        PartyFFAMatch partyFFAGame = new PartyFFAMatch(type, HotsPractice.getArenaFactory().create(type), this);
+        PartyFFAMatch partyFFAGame = new PartyFFAMatch(type, HotsPractice.getInstance().getArenaFactory().create(type), this);
         partyFFAGame.start();
     }
 
@@ -197,7 +199,7 @@ public class Party {
         for(PracticePlayer practicePlayer : players){
             practicePlayer.clearInventory();
         }
-        PartyTeamMatch partyTeamGame = new PartyTeamMatch(type, HotsPractice.getArenaFactory().create(type), this);
+        PartyTeamMatch partyTeamGame = new PartyTeamMatch(type, HotsPractice.getInstance().getArenaFactory().create(type), this);
         partyTeamGame.start();
     }
 
