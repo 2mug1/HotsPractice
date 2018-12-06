@@ -1,8 +1,9 @@
-package net.hotsmc.practice.database;
+package net.hotsmc.practice.player;
 
 import lombok.Getter;
 import lombok.Setter;
 import net.hotsmc.practice.HotsPractice;
+import net.hotsmc.practice.database.MongoConnection;
 import net.hotsmc.practice.match.RankedType;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.utility.MongoUtility;
@@ -19,6 +20,9 @@ public class PlayerData {
     private String name;
     private Timestamp firstPlayed;
     private int point;
+    private boolean sidebarVisibility;
+    private boolean sidebarPingVisibility;
+    private boolean allowingDuels;
 
     private int unrankedPlayed;
     private int unraknedWin;
@@ -122,8 +126,10 @@ public class PlayerData {
         document.put("UUID", uuid);
         document.put("NAME", name);
         document.put("FIRST_PLAYED", timestamp.getTime());
-
         document.put("POINT", 0);
+        document.put("SIDEBAR_VISIBILITY", true);
+        document.put("SIDEBAR_PING_VISIBILITY", true);
+        document.put("ALLOWING_DUELS", true);
 
         document.put("UNRANKED_PLAYED", 0);
         document.put("UNRANKED_WIN", 0);
@@ -204,6 +210,9 @@ public class PlayerData {
         setFirstPlayed(timestamp);
 
         setPoint(document.getInteger("POINT"));
+        setSidebarVisibility(document.getBoolean("SIDEBAR_VISIBILITY"));
+        setSidebarPingVisibility(document.getBoolean("SIDEBAR_PING_VISIBILITY"));
+        setAllowingDuels(document.getBoolean("ALLOWING_DUELS"));
 
         setUnrankedPlayed(document.getInteger("UNRANKED_PLAYED"));
         setUnraknedWin(document.getInteger("UNRANKED_WIN"));
@@ -317,6 +326,10 @@ public class PlayerData {
 
             setPoint(document.getInteger("POINT"));
 
+            setSidebarVisibility(document.getBoolean("SIDEBAR_VISIBILITY"));
+            setSidebarPingVisibility(document.getBoolean("SIDEBAR_PING_VISIBILITY"));
+            setAllowingDuels(document.getBoolean("ALLOWING_DUELS"));
+
             setUnrankedPlayed(document.getInteger("UNRANKED_PLAYED"));
             setUnraknedWin(document.getInteger("UNRANKED_WIN"));
 
@@ -402,6 +415,10 @@ public class PlayerData {
 
     private void updateName() {
         updateOne(findByUUID().append("NAME", name));
+    }
+
+    private void updateBoolean(String key, boolean value){
+        updateOne(findByUUID().append(key, value));
     }
 
     private void updateInteger(String key, int amount) {
@@ -827,4 +844,22 @@ public class PlayerData {
         }
         return 0;
     }
+
+
+    public void updateSidebarVisibility(boolean value){
+        updateBoolean("SIDEBAR_VISIBILITY", value);
+        setSidebarVisibility(value);
+    }
+
+    public void updateSidebarPingVisibility(boolean value){
+        updateBoolean("SIDEBAR_PING_VISIBILITY", value);
+        setSidebarPingVisibility(value);
+    }
+
+
+    public void updateAllowingDuels(boolean value){
+        updateBoolean("ALLOWING_DUELS", value);
+        setAllowingDuels(value);
+    }
+
 }

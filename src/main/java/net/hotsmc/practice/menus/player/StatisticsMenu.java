@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus.stats;
+package net.hotsmc.practice.menus.player;
 
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.menu.Button;
@@ -6,7 +6,7 @@ import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.core.other.Style;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.database.MongoConnection;
-import net.hotsmc.practice.database.PlayerData;
+import net.hotsmc.practice.player.PlayerData;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

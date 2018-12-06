@@ -55,7 +55,7 @@ public class SumoEvent extends Event {
         }
         ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX + ChatColor.YELLOW + "(Event) ");
         msg.append("" + ChatColor.GRAY + "Starting Soon: ");
-        msg.append(ChatColor.WHITE + getHost() + "'s " + ladderType.name() + " Event ");
+        msg.append(ChatColor.WHITE + getHost() + "'s " + ladderType.name() + " Sumo Event ");
         msg.append(""+ ChatColor.AQUA + ChatColor.BOLD + "Click to Join");
         msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/event join " + getHost()));
         msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/event join " + getHost()).create()));
@@ -127,7 +127,7 @@ public class SumoEvent extends Event {
             if(getTime() == 40 || getTime() == 30 || getTime() == 20 || getTime() == 10){
                 ComponentBuilder msg = new ComponentBuilder(ChatUtility.PLUGIN_MESSAGE_PREFIX + ChatColor.YELLOW + "(Event) ");
                 msg.append("" + ChatColor.GRAY + "Starting Soon: ");
-                msg.append(ChatColor.WHITE + getHost() + "'s " + ladderType.name() + " Event ");
+                msg.append(ChatColor.WHITE + getHost() + "'s " + ladderType.name() + " Sumo Event ");
                 msg.append(""+ ChatColor.AQUA + ChatColor.BOLD + "Click to Join");
                 msg.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/event join " + getHost()));
                 msg.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("/event join " + getHost()).create()));
@@ -178,6 +178,11 @@ public class SumoEvent extends Event {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isParkour() {
+        return false;
     }
 
     public Location getPlayerSpawnLocation(PracticePlayer me) {

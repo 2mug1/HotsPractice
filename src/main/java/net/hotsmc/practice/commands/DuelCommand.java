@@ -1,5 +1,6 @@
 package net.hotsmc.practice.commands;
 
+import net.hotsmc.core.other.Style;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.queue.DuelGameRequest;
 import net.hotsmc.practice.queue.DuelPartyRequest;
@@ -56,6 +57,11 @@ public class DuelCommand implements CommandExecutor {
                 PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(targetPlayer);
                 if (targetPracticePlayer == null) {
                     practicePlayer.sendMessage("Can't find stats / プレイヤーが見つかりませんでした");
+                    return true;
+                }
+
+                if(!targetPracticePlayer.getPlayerData().isAllowingDuels()){
+                    practicePlayer.sendMessage(ChatColor.RED + targetPracticePlayer.getName() + " isn't allowing duels. / " + targetPracticePlayer.getName() +  "はDuelを許可していません");
                     return true;
                 }
 

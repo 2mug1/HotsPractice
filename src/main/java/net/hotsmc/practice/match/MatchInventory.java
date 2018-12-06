@@ -1,4 +1,4 @@
-package net.hotsmc.practice.inventory;
+package net.hotsmc.practice.match;
 
 import lombok.Getter;
 import net.hotsmc.core.gui.menu.Button;
@@ -11,17 +11,17 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 @Getter
-public class PlayerInventory extends Menu {
+public class MatchInventory extends Menu {
 
     private String uuid;
     private String name;
-    private List<ItemStack> items;
-    private List<ItemStack> armors;
+    private ItemStack[] items;
+    private ItemStack[] armors;
     private double health;
     private double food;
     private String game_duration_time;
 
-    public PlayerInventory(String uuid, String name, List<ItemStack> items, List<ItemStack> armors, double health, double food, String game_duration_time) {
+    public MatchInventory(String uuid, String name,  ItemStack[] items, ItemStack[] armors, double health, double food, String game_duration_time) {
         super(false);
         this.uuid = uuid;
         this.name = name;
@@ -43,25 +43,25 @@ public class PlayerInventory extends Menu {
         buttons.put(0, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return armors.get(3);
+                return armors[3];
             }
         });
         buttons.put(1, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return armors.get(2);
+                return armors[2];
             }
         });
         buttons.put(2, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return armors.get(1);
+                return armors[1];
             }
         });
         buttons.put(3, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return armors.get(0);
+                return armors[0];
             }
         });
 

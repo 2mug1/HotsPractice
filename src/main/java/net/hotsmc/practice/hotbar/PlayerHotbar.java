@@ -2,13 +2,15 @@ package net.hotsmc.practice.hotbar;
 
 import lombok.Getter;
 import net.hotsmc.core.gui.ClickActionItem;
+import net.hotsmc.core.hotbar.HotbarAdapter;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.menus.event.EventSettingsMenu;
 import net.hotsmc.practice.menus.party.PartyOtherFightMenu;
-import net.hotsmc.practice.menus.stats.StatisticsMenu;
+import net.hotsmc.practice.menus.player.SettingsMenu;
+import net.hotsmc.practice.menus.player.StatisticsMenu;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.queue.Queue;
@@ -50,7 +52,8 @@ public enum PlayerHotbar {
                 HotsPractice.getInstance().getMenuHandler().getEventMenu().openMenu(player, 27);
             }
         };
-        items[6] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Statistics", Material.EMERALD, false)) {
+        items[6] = new SettingsItem();
+        items[7] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Statistics", Material.EMERALD, false)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
@@ -58,15 +61,10 @@ public enum PlayerHotbar {
                 new StatisticsMenu(practicePlayer.getPlayerData()).openMenu(player, 54);
             }
         };
-        items[7] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Kit Editor", Material.BOOK, false)) {
+        items[8] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Kit Editor", Material.BOOK, false)) {
             @Override
             public void clickAction(Player player) {
                 HotsPractice.getInstance().getMenuHandler().getKitEditSelectMenu().openMenu(player, 18);
-            }
-        };
-        items[8] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Settings", Material.WATCH, false)) {
-            @Override
-            public void clickAction(Player player) {
             }
         };
         return items;
@@ -93,14 +91,14 @@ public enum PlayerHotbar {
     PARTY(() -> {
         ClickActionItem[] items = new ClickActionItem[9];
         Arrays.fill(items, null);
-        items[1] = new ClickActionItem(net.hotsmc.core.utility.ItemUtility.createDye("" + ChatColor.YELLOW + ChatColor.BOLD + "Leave Party", 1, 14)) {
+        items[0] = new ClickActionItem(net.hotsmc.core.utility.ItemUtility.createDye("" + ChatColor.YELLOW + ChatColor.BOLD + "Leave Party", 1, 14)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
                 HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer).removePlayer(practicePlayer);
             }
         };
-        items[3] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Fight Other Party", Material.BOOK, false)) {
+        items[2] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Fight Other Party", Material.BOOK, false)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
@@ -114,7 +112,7 @@ public enum PlayerHotbar {
                 }
             }
         };
-        items[5] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "View Members", Material.PAPER, false)) {
+        items[4] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "View Members", Material.PAPER, false)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
@@ -127,7 +125,7 @@ public enum PlayerHotbar {
                 }
             }
         };
-        items[7] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Fight", Material.GOLD_AXE, false)) {
+        items[6] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Party Fight", Material.GOLD_AXE, false)) {
             @Override
             public void clickAction(Player player) {
                 PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
@@ -141,6 +139,7 @@ public enum PlayerHotbar {
                 }
             }
         };
+        items[8] = new SettingsItem();
         return items;
     }),
     SPECTATE(() -> {
@@ -239,5 +238,19 @@ public enum PlayerHotbar {
 
     PlayerHotbar(HotbarAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    private static class SettingsItem extends ClickActionItem{
+
+        SettingsItem() {
+            super(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Settings", Material.WATCH, false));
+        }
+
+        @Override
+        public void clickAction(Player player) {
+            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
+            if(practicePlayer == null)return;
+            new SettingsMenu().openMenu(player, 9);
+        }
     }
 }

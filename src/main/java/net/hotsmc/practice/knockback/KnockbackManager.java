@@ -32,7 +32,7 @@ public class KnockbackManager {
     public void load(){
         knockbackProfiles.clear();
         for(LadderType ladderType : LadderType.values()){
-            KnockbackProfile knockbackProfile = load(ladderType, new ConfigCursor(new FileConfig(new File(HotsPractice.getInstance().getDataFolder().getPath() + "/knockbackProfile/" + ladderType.name() + ".yml")), "Multiplier"));
+            KnockbackProfile knockbackProfile = load(ladderType, new ConfigCursor(new FileConfig(new File(HotsPractice.getInstance().getDataFolder().getPath() + "/knockback/" + ladderType.name() + ".yml")), "Multiplier"));
             knockbackProfiles.add(knockbackProfile);
             HotsPractice.getInstance().getLogger().info("Loaded KnockbackProfile Data: " + ladderType.name() + " - Horizontal: " + knockbackProfile.getHorizontalMultiplier() + " Vertical: " + knockbackProfile.getVerticalMultiplier());
         }

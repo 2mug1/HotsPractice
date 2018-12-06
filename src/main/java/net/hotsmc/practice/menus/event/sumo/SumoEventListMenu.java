@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus.event;
+package net.hotsmc.practice.menus.event.sumo;
 
 import net.hotsmc.core.gui.menu.Button;
 import net.hotsmc.core.gui.menu.Menu;

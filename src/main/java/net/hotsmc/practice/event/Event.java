@@ -50,6 +50,19 @@ public abstract class Event extends BukkitRunnable {
         eventPlayers.add(leader);
     }
 
+    public Event(Arena arena, PracticePlayer leader, int maxPlayers, int reqiurePlayers, int countdownSeconds){
+        this.maxPlayers = maxPlayers;
+        this.reqiurePlayers = reqiurePlayers;
+        this.arena = arena;
+        this.time = 0;
+        this.state = EventState.ARENA_PREPARING;
+        this.eventPlayers = new ArrayList<>();
+        this.LEADER_UUID = leader.getUUID();
+        this.host = leader.getName();
+        this.countdownSeconds = countdownSeconds;
+        eventPlayers.add(leader);
+    }
+
     protected abstract void onInit(PracticePlayer leader);
 
     protected abstract void onStartCountdown(PracticePlayer leader);
@@ -211,4 +224,6 @@ public abstract class Event extends BukkitRunnable {
         HotsPractice.getInstance().getManagerHandler().getEventManager().startEventCooldown();
         delete();
     }
+
+    public abstract boolean isParkour();
 }

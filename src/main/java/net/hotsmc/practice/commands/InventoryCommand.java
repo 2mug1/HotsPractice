@@ -1,8 +1,8 @@
 package net.hotsmc.practice.commands;
 
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.inventory.InventoryDataManager;
-import net.hotsmc.practice.inventory.PlayerInventory;
+import net.hotsmc.practice.match.MatchInventoryManager;
+import net.hotsmc.practice.match.MatchInventory;
 import net.hotsmc.practice.utility.ChatUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,12 +18,12 @@ public class InventoryCommand implements CommandExecutor {
             Player player = (Player) sender;
             if(args.length == 1){
                 String uuid = args[0];
-                InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
-                PlayerInventory inventory = inventoryDataManager.getPlayerInventoryByUUID(uuid);
+                MatchInventoryManager matchInventoryManager = HotsPractice.getInstance().getManagerHandler().getMatchInventoryManager();
+                MatchInventory inventory = matchInventoryManager.getPlayerInventoryByUUID(uuid);
                 if(inventory == null){
                     ChatUtility.sendMessage(player, ChatColor.RED + "Not found inventory data");
                 }else{
-                    inventoryDataManager.getPlayerInventoryByUUID(uuid).openMenu(player, 45);
+                    matchInventoryManager.getPlayerInventoryByUUID(uuid).openMenu(player, 45);
                 }
             }
         }

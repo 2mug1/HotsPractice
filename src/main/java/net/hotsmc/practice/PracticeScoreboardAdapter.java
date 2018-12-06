@@ -4,6 +4,7 @@ import net.hotsmc.core.other.Cooldown;
 import net.hotsmc.core.other.Style;
 import net.hotsmc.core.scoreboard.Board;
 import net.hotsmc.core.scoreboard.BoardAdapter;
+import net.hotsmc.practice.player.PlayerData;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.event.impl.SumoEvent;
@@ -41,6 +42,8 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
         PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
         final List<String> toReturn = new ArrayList<>();
         if (practicePlayer == null) return null;
+        PlayerData playerData = practicePlayer.getPlayerData();
+        if(!playerData.isSidebarVisibility()) return null;
 
         if (practicePlayer.isInLobby()) {
             toReturn.add(MAIN + "Online: " + SUB + HotsPractice.countOnline());
@@ -90,9 +93,11 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
             if (match instanceof DuelMatch) {
                 final DuelMatch duelMatch = (DuelMatch) match;
                 toReturn.add(MAIN + "Opponent: " + SUB + duelMatch.getOpponent(practicePlayer).getName());
-                toReturn.add("");
-                toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
-                toReturn.add(MAIN + "Their Ping: " + SUB + duelMatch.getOpponent(practicePlayer).getPing() + "ms");
+                if (playerData.isSidebarPingVisibility()) {
+                    toReturn.add("");
+                    toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                    toReturn.add(MAIN + "Their Ping: " + SUB + duelMatch.getOpponent(practicePlayer).getPing() + "ms");
+                }
             }
             if (match instanceof PartyDuelMatch) {
                 final PartyDuelMatch partyDuelMatch = (PartyDuelMatch) match;
@@ -100,33 +105,40 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
                 toReturn.add(MAIN + "Your Party: " + party.getPrefix() + party.getPartyName());
                 toReturn.add(partyDuelMatch.getParties()[0].getPrefix() + partyDuelMatch.getParties()[0].getPartyName() + ": " + SUB + partyDuelMatch.getParties()[0].getAlivePlayers().size());
                 toReturn.add(partyDuelMatch.getParties()[1].getPrefix() + partyDuelMatch.getParties()[1].getPartyName() + ": " + SUB + partyDuelMatch.getParties()[1].getAlivePlayers().size());
-                toReturn.add("");
-                toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                if (playerData.isSidebarPingVisibility()) {
+                    toReturn.add("");
+                    toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                }
             }
             if (match instanceof PartyFFAMatch) {
                 final PartyFFAMatch partyFFAMatch = (PartyFFAMatch) match;
                 toReturn.add(MAIN + "Party Fight: " + SUB + "FFA");
                 toReturn.add(MAIN + "Alive: " + SUB + partyFFAMatch.getParty().getAlivePlayers().size());
-                toReturn.add("");
-                toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                if (playerData.isSidebarPingVisibility()) {
+                    toReturn.add("");
+                    toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                }
             }
             if (match instanceof PartyTeamMatch) {
                 final PartyTeamMatch partyTeamMatch = (PartyTeamMatch) match;
                 toReturn.add(MAIN + "Party Fight: " + SUB + "Team");
                 net.hotsmc.practice.other.Team myTeam = partyTeamMatch.getMyTeam(practicePlayer);
-                if(myTeam != null) {
-                    toReturn.add(MAIN+ "Your Team: " + myTeam.getPrefix() + myTeam.getTeamName());
+                if (myTeam != null) {
+                    toReturn.add(MAIN + "Your Team: " + myTeam.getPrefix() + myTeam.getTeamName());
                 }
                 net.hotsmc.practice.other.Team teamA = partyTeamMatch.getTeams()[0];
-                if(teamA != null) {
+                if (teamA != null) {
                     toReturn.add(teamA.getPrefix() + teamA.getTeamName() + ": " + SUB + teamA.getAlivePlayers().size());
                 }
                 net.hotsmc.practice.other.Team teamB = partyTeamMatch.getTeams()[1];
-                if(teamB != null) {
+                if (teamB != null) {
                     toReturn.add(teamB.getPrefix() + teamB.getTeamName() + ": " + SUB + teamB.getAlivePlayers().size());
                 }
-                toReturn.add("");
-                toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+
+                if (playerData.isSidebarPingVisibility()) {
+                    toReturn.add("");
+                    toReturn.add(MAIN + "Your Ping: " + SUB + practicePlayer.getPing() + "ms");
+                }
             }
 
             toReturn.add(MAIN + "Spectators: " + SUB + match.getSpectatePlayers().size());
@@ -165,8 +177,6 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
         }
 
         toReturn.add(0, Style.SCOREBAORD_SEPARATOR);
-        toReturn.add("");
-        toReturn.add(SERVER_IP);
         toReturn.add(Style.SCOREBAORD_SEPARATOR);
 
         return toReturn;

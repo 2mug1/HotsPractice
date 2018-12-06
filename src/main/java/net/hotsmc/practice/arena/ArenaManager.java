@@ -23,10 +23,11 @@ public class ArenaManager {
     private List<ArenaData> normalArenas;
     private ArenaData sumoArena;
     private ArenaData spleefArena;
+    private ArenaData parkourArena;
 
     public ArenaManager(JavaPlugin plugin){
         this.plugin = plugin;
-        this.normalArenas = new ArrayList<>(5);
+        this.normalArenas = new ArrayList<>();
     }
 
     public void load(){

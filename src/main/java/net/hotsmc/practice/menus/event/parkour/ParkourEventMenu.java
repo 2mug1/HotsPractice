@@ -1,4 +1,4 @@
-package net.hotsmc.practice.menus.event;
+package net.hotsmc.practice.menus.event.parkour;
 
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.menu.Button;
@@ -6,9 +6,10 @@ import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.core.player.PlayerRank;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.player.PracticePlayer;
+import net.hotsmc.practice.event.impl.ParkourEvent;
 import net.hotsmc.practice.event.impl.SumoEvent;
 import net.hotsmc.practice.ladder.LadderType;
+import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.utility.ItemUtility;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -19,16 +20,15 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SumoEventMenu extends Menu {
+public class ParkourEventMenu extends Menu {
 
-
-    public SumoEventMenu() {
-        super(true);
+    public ParkourEventMenu() {
+        super(false);
     }
 
     @Override
     public String getTitle(Player player) {
-        return "Sumo Event";
+        return "Parkour Event";
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SumoEventMenu extends Menu {
         buttons.put(2, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Create Sumo Event", Material.LEASH, false);
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Create Parkour Event", Material.LADDER, false);
             }
             @Override
             public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
@@ -50,7 +50,7 @@ public class SumoEventMenu extends Menu {
                     return;
                 }
                 if(HotsPractice.getInstance().getManagerHandler().getEventManager().getEvents().size() >= 1){
-                    practicePlayer.sendMessage(ChatColor.RED + "Currently the other Sumo Event is running.");
+                    practicePlayer.sendMessage(ChatColor.RED + "Currently the other Event is running.");
                     return;
                 }
                 if(!HotsPractice.getInstance().getManagerHandler().getEventManager().getEventCooldown().hasExpired()){
@@ -62,14 +62,14 @@ public class SumoEventMenu extends Menu {
                     return;
                 }
                 practicePlayer.clearInventory();
-                SumoEvent sumoEventGame = new SumoEvent(HotsPractice.getInstance().getArenaFactory().create(LadderType.Sumo), practicePlayer);
-                sumoEventGame.init(practicePlayer);
+                ParkourEvent parkourEvent = new ParkourEvent(HotsPractice.getInstance().getArenaFactory().createParkourArena(), practicePlayer);
+                parkourEvent.init(practicePlayer);
             }
         });
         buttons.put(6, new Button() {
             @Override
             public ItemStack getButtonItem(Player player) {
-                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Sumo Events", Material.EYE_OF_ENDER, false);
+                return ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Parkour Events", Material.EYE_OF_ENDER, false);
             }
 
             @Override

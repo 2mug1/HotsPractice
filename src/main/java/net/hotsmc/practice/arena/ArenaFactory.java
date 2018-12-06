@@ -12,7 +12,39 @@ import java.util.*;
 public class ArenaFactory {
 
 
-    public ArenaFactory(){
+    public Arena createParkourArena(){
+        World world;
+        Location spawn1;
+        Location spawn2;
+        Location defaultSpawn;
+        String randomWorldName;
+        ArenaData arenaData;
+
+        randomWorldName = UUID.randomUUID().toString();
+        WorldDataUtility.copyWorld(new File(HotsPractice.getInstance().getDataFolder() + "/worlds/parkourarena"),
+                new File(Bukkit.getServer().getWorldContainer().getAbsolutePath() + "/" + randomWorldName));
+        Bukkit.createWorld(new WorldCreator(randomWorldName));
+        world = Bukkit.getWorld(randomWorldName);
+        arenaData = HotsPractice.getInstance().getManagerHandler().getArenaManager().getParkourArena();
+        spawn1 = new Location(world,
+                arenaData.getSpawn1().getX(),
+                arenaData.getSpawn1().getY(),
+                arenaData.getSpawn1().getZ(),
+                arenaData.getSpawn1().getYaw(),
+                arenaData.getSpawn1().getPitch());
+        spawn2 = new Location(world,
+                arenaData.getSpawn2().getX(),
+                arenaData.getSpawn2().getY(),
+                arenaData.getSpawn2().getZ(),
+                arenaData.getSpawn2().getYaw(),
+                arenaData.getSpawn2().getPitch());
+        defaultSpawn = new Location(world,
+                arenaData.getDefaultSpawn().getX(),
+                arenaData.getDefaultSpawn().getY(),
+                arenaData.getDefaultSpawn().getZ(),
+                arenaData.getDefaultSpawn().getYaw(),
+                arenaData.getDefaultSpawn().getPitch());
+        return new Arena(spawn1, spawn2, defaultSpawn);
     }
 
     public Arena create(LadderType ladderType){

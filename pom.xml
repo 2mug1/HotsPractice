@@ -34,7 +34,7 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
             <scope>system</scope>
-            <systemPath>G:/Desktop/HotsNetwork/servers/Hub/plugins/HotsCore-1.0-SNAPSHOT-shaded.jar</systemPath>
+            <systemPath>G:/Desktop/HotsNetwork/servers/Prison/plugins/HotsCore-1.0-SNAPSHOT-shaded.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.nametagedit</groupId>

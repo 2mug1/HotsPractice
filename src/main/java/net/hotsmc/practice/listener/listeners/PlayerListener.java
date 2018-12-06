@@ -5,14 +5,14 @@ import net.hotsmc.core.other.Style;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
 import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
-import net.hotsmc.practice.database.PlayerData;
+import net.hotsmc.practice.player.PlayerData;
 import net.hotsmc.practice.match.*;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.event.impl.SumoEvent;
 import net.hotsmc.practice.ladder.LadderType;
-import net.hotsmc.practice.inventory.InventoryDataManager;
-import net.hotsmc.practice.inventory.PlayerInventory;
+import net.hotsmc.practice.match.MatchInventoryManager;
+import net.hotsmc.practice.match.MatchInventory;
 import net.hotsmc.practice.match.impl.DuelMatch;
 import net.hotsmc.practice.match.impl.PartyDuelMatch;
 import net.hotsmc.practice.match.impl.PartyFFAMatch;
@@ -161,8 +161,8 @@ public class PlayerListener implements Listener {
         Party party = HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer);
         Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
         Event eventGame = HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(practicePlayer);
-        InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
-        PlayerInventory playerInventory = inventoryDataManager.getPlayerInventoryByUUID(player.getUniqueId().toString());
+        MatchInventoryManager matchInventoryManager = HotsPractice.getInstance().getManagerHandler().getMatchInventoryManager();
+        MatchInventory matchInventory = matchInventoryManager.getPlayerInventoryByUUID(player.getUniqueId().toString());
 
         if (practicePlayer == null) return;
 
@@ -195,8 +195,8 @@ public class PlayerListener implements Listener {
                 if (state == MatchState.Playing) {
                     opponent.sendMessage(ChatColor.RED + "Your opponent has abandoned this match / 対戦相手はマッチを放棄しました");
                     String duration_time = TimeUtility.timeFormat(duelGame.getTime());
-                    inventoryDataManager.addPlayerInventory(practicePlayer.getPlayer(), duration_time);
-                    inventoryDataManager.addPlayerInventory(opponent.getPlayer(), duration_time);
+                    matchInventoryManager.addPlayerInventory(practicePlayer.getPlayer(), duration_time);
+                    matchInventoryManager.addPlayerInventory(opponent.getPlayer(), duration_time);
                     practicePlayer.getPlayerData().withdrawPoint();
                     opponent.getPlayerData().addPoint();
                     opponent.getPlayerData().addWinCount(duelGame.getRankedType(), duelGame.getLadderType());
@@ -382,8 +382,8 @@ public class PlayerListener implements Listener {
             party.removePlayer(practicePlayer);
         }
 
-        if (playerInventory != null) {
-            inventoryDataManager.removePlayerInventory(playerInventory);
+        if (matchInventory != null) {
+            matchInventoryManager.removePlayerInventory(matchInventory);
         }
 
         if(eventGame != null) {
@@ -434,11 +434,11 @@ public class PlayerListener implements Listener {
             if (match instanceof DuelMatch) {
                 DuelMatch duelGame = (DuelMatch) match;
                 PracticePlayer opponent = duelGame.getOpponent(deadPlayer);
-                InventoryDataManager inventoryDataManager = HotsPractice.getInstance().getManagerHandler().getInventoryDataManager();
+                MatchInventoryManager matchInventoryManager = HotsPractice.getInstance().getManagerHandler().getMatchInventoryManager();
                 String duration_time = TimeUtility.timeFormat(duelGame.getTime());
 
-                inventoryDataManager.addPlayerInventory(dead, duration_time);
-                inventoryDataManager.addPlayerInventory(opponent.getPlayer(), duration_time);
+                matchInventoryManager.addPlayerInventory(dead, duration_time);
+                matchInventoryManager.addPlayerInventory(opponent.getPlayer(), duration_time);
 
                 opponent.getPlayerData().addPoint();
                 deadPlayer.getPlayerData().withdrawPoint();
