@@ -3,6 +3,7 @@ package net.hotsmc.practice.match;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.other.Cooldown;
+import net.hotsmc.core.player.PlayerRank;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.arena.Arena;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
@@ -54,7 +55,7 @@ public abstract class Match extends BukkitRunnable {
     }
 
     public void end(String winner){
-        this.time = HotsPractice.getInstance().getMatchConfig().getEndgameTime();
+        this.time = HotsPractice.getInstance().getPracticeConfig().getEndgameTime();
         this.state = MatchState.EndGame;
         sendWinner(winner);
         onEnd();
@@ -88,7 +89,7 @@ public abstract class Match extends BukkitRunnable {
                 if(ladderType == LadderType.BuildUHC){
                     arena.getDefaultSpawn().getWorld().setGameRuleValue("naturalRegeneration", "false");
                 }
-                time = HotsPractice.getInstance().getMatchConfig().getPregameTime();
+                time = HotsPractice.getInstance().getPracticeConfig().getPregameTime();
                 startCooldown = new Cooldown(time*1000);
                 state = MatchState.PreGame;
                 return;
@@ -129,9 +130,11 @@ public abstract class Match extends BukkitRunnable {
         practicePlayer.teleport(arena.getDefaultSpawn());
         spectatePlayers.add(practicePlayer);
         practicePlayer.setHotbar(PlayerHotbar.SPECTATE);
-        for(PracticePlayer player : gamePlayers){
+        for(PracticePlayer player : gamePlayers) {
             practicePlayer.showPlayer(player);
-            player.sendMessage(ChatColor.YELLOW + "(Spectate) " +  HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " is watching.");
+            if (practicePlayer.getHotsPlayer().getPlayerRank().getPermissionLevel() < PlayerRank.Moderator.getPermissionLevel()) {
+                player.sendMessage(ChatColor.YELLOW + "(Spectate) " + HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " is watching.");
+            }
         }
         for(PracticePlayer player : spectatePlayers){
             player.sendMessage(ChatColor.YELLOW + "(Spectate) " + HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName() + ChatColor.GRAY + " is watching.");

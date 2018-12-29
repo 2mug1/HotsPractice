@@ -4,7 +4,8 @@ import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.scoreboard.BoardManager;
 import net.hotsmc.practice.arena.ArenaFactory;
-import net.hotsmc.practice.commands.*;
+import net.hotsmc.practice.board.PracticeScoreboardAdapter;
+import net.hotsmc.practice.command.*;
 import net.hotsmc.practice.config.ConfigCursor;
 import net.hotsmc.practice.config.FileConfig;
 import net.hotsmc.practice.database.MongoConfig;
@@ -12,7 +13,6 @@ import net.hotsmc.practice.database.MongoConnection;
 import net.hotsmc.practice.handler.ManagerHandler;
 import net.hotsmc.practice.handler.MenuHandler;
 import net.hotsmc.practice.knockback.KnockbackListener;
-import net.hotsmc.practice.match.MatchConfig;
 import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.ladder.DefaultLadder;
 import net.hotsmc.practice.listener.ListenerHandler;
@@ -34,7 +34,7 @@ public class HotsPractice extends JavaPlugin {
     @Getter private static List<PracticePlayer> practicePlayers = new LinkedList<>();
 
     private MongoConnection mongoConnection;
-    private MatchConfig matchConfig;
+    private PracticeConfig practiceConfig;
     private DefaultLadder defaultLadder;
     private ManagerHandler managerHandler;
     private MenuHandler menuHandler;
@@ -42,19 +42,31 @@ public class HotsPractice extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        init();
+        registerListeners();
+        registerCommands();
+        registerAdapters();
+    }
+
+    private void init(){
         instance = this;
         mongoConnection = new MongoConnection(new MongoConfig().load());
         mongoConnection.open();
-        matchConfig = new MatchConfig(new ConfigCursor(new FileConfig(this, "MatchConfig.yml"), "MatchConfig")).load();
-        registerCommands();
+        practiceConfig = new PracticeConfig(new ConfigCursor(new FileConfig(this, "PracticeConfig.yml"), "PracticeConfig")).load();
         defaultLadder = new DefaultLadder(instance);
         defaultLadder.loadLadders();
-        Bukkit.getPluginManager().registerEvents(new KnockbackListener(), this);
-        ListenerHandler.loadListenersFromPackage(this, "net.hotsmc.practice.listener.listeners");
-        HotsCore.getInstance().setBoardManager(new BoardManager(this, new PracticeScoreboardAdapter()));
         managerHandler = new ManagerHandler().load(this);
         menuHandler = new MenuHandler().load();
         arenaFactory = new ArenaFactory();
+    }
+
+    private void registerAdapters(){
+        HotsCore.getInstance().setBoardManager(new BoardManager(this, new PracticeScoreboardAdapter()));
+    }
+
+    private void registerListeners(){
+        Bukkit.getPluginManager().registerEvents(new KnockbackListener(), this);
+        ListenerHandler.loadListenersFromPackage(this, "net.hotsmc.practice.listener.listeners");
     }
 
     private void registerCommands(){
@@ -76,11 +88,11 @@ public class HotsPractice extends JavaPlugin {
         return null;
     }
 
-    public static void addDuelPlayer(PracticePlayer practicePlayer){
+    public static void addPracticePlayer(PracticePlayer practicePlayer){
         practicePlayers.add(practicePlayer);
     }
 
-    public static void removeDuelPlayer(PracticePlayer practicePlayer){
+    public static void removePracticePlayer(PracticePlayer practicePlayer){
         practicePlayers.remove(practicePlayer);
     }
 
@@ -111,7 +123,7 @@ public class HotsPractice extends JavaPlugin {
     }
 
     public static int countOnline() {
-        return practicePlayers.size();
+       return Bukkit.getServer().getOnlinePlayers().length;
     }
 
     public void reload(CommandSender sender) {

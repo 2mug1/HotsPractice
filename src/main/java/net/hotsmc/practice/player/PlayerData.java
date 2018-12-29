@@ -20,9 +20,12 @@ public class PlayerData {
     private String name;
     private Timestamp firstPlayed;
     private int point;
+    private boolean globalChat;
+    private boolean privateMessages;
     private boolean sidebarVisibility;
     private boolean sidebarPingVisibility;
     private boolean allowingDuels;
+    private boolean allowingSpectators;
 
     private int unrankedPlayed;
     private int unraknedWin;
@@ -127,9 +130,12 @@ public class PlayerData {
         document.put("NAME", name);
         document.put("FIRST_PLAYED", timestamp.getTime());
         document.put("POINT", 0);
+        document.put("GLOBAL_CHAT", true);
+        document.put("PRIVATE_MESSAGES", true);
         document.put("SIDEBAR_VISIBILITY", true);
         document.put("SIDEBAR_PING_VISIBILITY", true);
         document.put("ALLOWING_DUELS", true);
+        document.put("ALLOWING_SPECTATORS", true);
 
         document.put("UNRANKED_PLAYED", 0);
         document.put("UNRANKED_WIN", 0);
@@ -210,9 +216,12 @@ public class PlayerData {
         setFirstPlayed(timestamp);
 
         setPoint(document.getInteger("POINT"));
+        setGlobalChat(document.getBoolean("GLOBAL_CHAT"));
+        setPrivateMessages(document.getBoolean("PRIVATE_MESSAGES"));
         setSidebarVisibility(document.getBoolean("SIDEBAR_VISIBILITY"));
         setSidebarPingVisibility(document.getBoolean("SIDEBAR_PING_VISIBILITY"));
         setAllowingDuels(document.getBoolean("ALLOWING_DUELS"));
+        setAllowingSpectators(document.getBoolean("ALLOWING_SPECTATORS"));
 
         setUnrankedPlayed(document.getInteger("UNRANKED_PLAYED"));
         setUnraknedWin(document.getInteger("UNRANKED_WIN"));
@@ -326,9 +335,12 @@ public class PlayerData {
 
             setPoint(document.getInteger("POINT"));
 
+            setGlobalChat(document.getBoolean("GLOBAL_CHAT"));
+            setPrivateMessages(document.getBoolean("PRIVATE_MESSAGES"));
             setSidebarVisibility(document.getBoolean("SIDEBAR_VISIBILITY"));
             setSidebarPingVisibility(document.getBoolean("SIDEBAR_PING_VISIBILITY"));
             setAllowingDuels(document.getBoolean("ALLOWING_DUELS"));
+            setAllowingSpectators(document.getBoolean("ALLOWING_SPECTATORS"));
 
             setUnrankedPlayed(document.getInteger("UNRANKED_PLAYED"));
             setUnraknedWin(document.getInteger("UNRANKED_WIN"));
@@ -845,6 +857,16 @@ public class PlayerData {
         return 0;
     }
 
+    public void updateGlobalChat(boolean value){
+        updateBoolean("GLOBAL_CHAT", value);
+        setGlobalChat(value);
+    }
+
+    public void updatePrivateMessages(boolean value){
+        updateBoolean("PRIVATE_MESSAGES", value);
+        setPrivateMessages(value);
+    }
+
 
     public void updateSidebarVisibility(boolean value){
         updateBoolean("SIDEBAR_VISIBILITY", value);
@@ -856,10 +878,14 @@ public class PlayerData {
         setSidebarPingVisibility(value);
     }
 
-
     public void updateAllowingDuels(boolean value){
         updateBoolean("ALLOWING_DUELS", value);
         setAllowingDuels(value);
+    }
+
+    public void updateAllowingSpectators(boolean value){
+        updateBoolean("ALLOWING_SPECTATORS", value);
+        setAllowingSpectators(value);
     }
 
 }

@@ -1,7 +1,11 @@
 package net.hotsmc.practice.listener.listeners;
 
 import net.hotsmc.core.HotsCore;
+import net.hotsmc.core.gui.menu.Button;
+import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.core.other.Style;
+import net.hotsmc.core.utility.InventoryUtility;
+import net.hotsmc.practice.gui.match.MatchDetailsMenu;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
 import net.hotsmc.practice.player.PracticePlayer;
 import net.hotsmc.practice.HotsPractice;
@@ -11,8 +15,6 @@ import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.event.EventState;
 import net.hotsmc.practice.event.impl.SumoEvent;
 import net.hotsmc.practice.ladder.LadderType;
-import net.hotsmc.practice.match.MatchInventoryManager;
-import net.hotsmc.practice.match.MatchInventory;
 import net.hotsmc.practice.match.impl.DuelMatch;
 import net.hotsmc.practice.match.impl.PartyDuelMatch;
 import net.hotsmc.practice.match.impl.PartyFFAMatch;
@@ -21,6 +23,9 @@ import net.hotsmc.practice.other.Team;
 import net.hotsmc.practice.queue.*;
 import net.hotsmc.practice.party.Party;
 import net.hotsmc.practice.party.PartyManager;
+import net.hotsmc.practice.queue.Queue;
+import net.hotsmc.practice.utility.ItemUtility;
+import net.hotsmc.practice.utility.NumberUtility;
 import net.hotsmc.practice.utility.TimeUtility;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -40,6 +45,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 import static net.hotsmc.practice.HotsPractice.*;
 
@@ -64,7 +72,9 @@ public class PlayerListener implements Listener {
                         practicePlayer.openKitLoadoutMenu();
                     }
                     if (type == Material.CHEST) {
-                        practicePlayer.openKitChest();
+                        if (practicePlayer.getEditLadderType() == LadderType.NoDebuff || practicePlayer.getEditLadderType() == LadderType.Debuff || practicePlayer.getEditLadderType() == LadderType.Soup) {
+                            practicePlayer.openKitChest();
+                        }
                     }
                 }
             }
@@ -125,6 +135,104 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onInteractEntity(PlayerInteractEntityEvent event){
+        Player player = event.getPlayer();
+        PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
+        if(practicePlayer == null)return;
+        if(practicePlayer.isEnableSpectate()) {
+            if (event.getRightClicked() instanceof Player) {
+                Player target = (Player) event.getRightClicked();
+                PracticePlayer targetPracticePlayer = HotsPractice.getPracticePlayer(target);
+                if (targetPracticePlayer == null) return;
+                if (!targetPracticePlayer.isEnableSpectate()) {
+                    new Menu(false) {
+                        Player targetPlayer = target;
+                        @Override
+                        public String getTitle(Player player) {
+                            return target.getName();
+                        }
+
+                        @Override
+                        public Map<Integer, Button> getButtons(Player player) {
+                            Map<Integer, Button> buttons = new HashMap<>();
+
+                            if(targetPlayer == null)return buttons;
+
+                            ItemStack[] armors = targetPlayer.getInventory().getArmorContents();
+                            Collection<PotionEffect> potionEffects = targetPlayer.getActivePotionEffects();
+                            buttons.put(0, new Button() {
+                                @Override
+                                public ItemStack getButtonItem(Player player) {
+                                    return armors[3];
+                                }
+                            });
+                            buttons.put(1, new Button() {
+                                @Override
+                                public ItemStack getButtonItem(Player player) {
+                                    return armors[2];
+                                }
+                            });
+                            buttons.put(2, new Button() {
+                                @Override
+                                public ItemStack getButtonItem(Player player) {
+                                    return armors[1];
+                                }
+                            });
+                            buttons.put(3, new Button() {
+                                @Override
+                                public ItemStack getButtonItem(Player player) {
+                                    return armors[0];
+                                }
+                            });
+
+                            if(potionEffects.size() > 0){
+                                buttons.put(7, new Button() {
+                                    @Override
+                                    public ItemStack getButtonItem(Player player) {
+                                        List<String> lore = new ArrayList<>();
+                                        for(PotionEffect potionEffect : potionEffects){
+                                            int duration = potionEffect.getDuration() / 20;
+                                            lore.add(ChatColor.GRAY + potionEffect.getType().getName() + " " + NumberUtility.RomanNumerals(potionEffect.getAmplifier()+1) + " - " + TimeUtility.timeFormat(duration));
+                                        }
+                                        return ItemUtility.createItemStack("" + ChatColor.AQUA + ChatColor.BOLD + "Potion Effects", Material.BREWING_STAND_ITEM, false, lore);
+                                    }
+                                });
+                            }
+                            BigDecimal bd;
+                            bd = new BigDecimal(target.getHealth());
+                            BigDecimal bd1 = bd.setScale(1, BigDecimal.ROUND_DOWN);
+                            bd = new BigDecimal(target.getFoodLevel());
+                            BigDecimal bd2 = bd.setScale(1, BigDecimal.ROUND_DOWN);
+                            buttons.put(8, new Button() {
+                                @Override
+                                public ItemStack getButtonItem(Player player) {
+                                    return ItemUtility.createPlayerNameSkull(targetPlayer.getName(), "" + ChatColor.AQUA + ChatColor.BOLD + "Player Gauges",
+                                            ChatColor.YELLOW + "Health: " + ChatColor.WHITE + bd1.doubleValue(),
+                                            ChatColor.YELLOW + "Food: " + ChatColor.WHITE + bd2.doubleValue());
+                                }
+                            });
+                            ItemStack[] items = InventoryUtility.fixInventoryOrder(targetPlayer.getInventory().getContents());
+                            int slot = 9;
+                            for (ItemStack item : items) {
+                                if (item != null) {
+                                    buttons.put(slot, new Button() {
+                                        @Override
+                                        public ItemStack getButtonItem(Player player) {
+                                            return item;
+                                        }
+                                    });
+                                }
+                                slot++;
+                            }
+                            return buttons;
+                        }
+                    }.openMenu(player, 45);
+                }
+            }
+        }
+    }
+
+    @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
         Player player = event.getPlayer();
@@ -148,7 +256,7 @@ public class PlayerListener implements Listener {
                 all.hidePlayer(practicePlayer);
             }
         }
-        addDuelPlayer(practicePlayer);
+        addPracticePlayer(practicePlayer);
     }
 
     @EventHandler
@@ -161,8 +269,6 @@ public class PlayerListener implements Listener {
         Party party = HotsPractice.getInstance().getManagerHandler().getPartyManager().getPlayerOfParty(practicePlayer);
         Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
         Event eventGame = HotsPractice.getInstance().getManagerHandler().getEventManager().getPlayerOfEvent(practicePlayer);
-        MatchInventoryManager matchInventoryManager = HotsPractice.getInstance().getManagerHandler().getMatchInventoryManager();
-        MatchInventory matchInventory = matchInventoryManager.getPlayerInventoryByUUID(player.getUniqueId().toString());
 
         if (practicePlayer == null) return;
 
@@ -195,8 +301,8 @@ public class PlayerListener implements Listener {
                 if (state == MatchState.Playing) {
                     opponent.sendMessage(ChatColor.RED + "Your opponent has abandoned this match / 対戦相手はマッチを放棄しました");
                     String duration_time = TimeUtility.timeFormat(duelGame.getTime());
-                    matchInventoryManager.addPlayerInventory(practicePlayer.getPlayer(), duration_time);
-                    matchInventoryManager.addPlayerInventory(opponent.getPlayer(), duration_time);
+                    MatchDetailsMenu.put(practicePlayer.getPlayer(), duration_time);
+                    MatchDetailsMenu.put(opponent.getPlayer(), duration_time);
                     practicePlayer.getPlayerData().withdrawPoint();
                     opponent.getPlayerData().addPoint();
                     opponent.getPlayerData().addWinCount(duelGame.getRankedType(), duelGame.getLadderType());
@@ -382,10 +488,6 @@ public class PlayerListener implements Listener {
             party.removePlayer(practicePlayer);
         }
 
-        if (matchInventory != null) {
-            matchInventoryManager.removePlayerInventory(matchInventory);
-        }
-
         if(eventGame != null) {
             if (practicePlayer.hasHoldingEventGame()) {
                 if (eventGame.getState() == EventState.ARENA_PREPARING) {
@@ -398,11 +500,9 @@ public class PlayerListener implements Listener {
                 if (eventGame.getState() != EventState.WAITING_FOR_PLAYERS && eventGame.getState() != EventState.COUNTDOWN) {
                     if (sumoEventGame.isFighting(practicePlayer)){
                         PracticePlayer opponent = sumoEventGame.getOpponent(practicePlayer);
-                        String meName = HotsCore.getHotsPlayer(practicePlayer.getPlayer()).getColorName();
-                        String opponentName = HotsCore.getHotsPlayer(opponent.getPlayer()).getColorName();
-                        sumoEventGame.broadcast(ChatColor.YELLOW + "(Event) " + meName + ChatColor.GRAY + " has been eliminated by " + opponentName);
+                        sumoEventGame.broadcast(ChatColor.YELLOW + "(Event) " + Style.RED + practicePlayer.getName() + ChatColor.GRAY + " has been eliminated by " + Style.GREEN + opponent.getName());
                         if (sumoEventGame.getWinningPlayers().size() == 2) {
-                            sumoEventGame.broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.WHITE + "Event Winner: " + opponentName);
+                            sumoEventGame.broadcast(ChatColor.YELLOW + "(Event) " + ChatColor.WHITE + "Event Winner: " + opponent.getHotsPlayer().getColorName());
                             sumoEventGame.end();
                         } else {
                             sumoEventGame.removePlayer(practicePlayer);
@@ -414,7 +514,7 @@ public class PlayerListener implements Listener {
                 eventGame.removePlayer(practicePlayer);
             }
         }
-        removeDuelPlayer(practicePlayer);
+        removePracticePlayer(practicePlayer);
     }
 
     @EventHandler
@@ -434,11 +534,9 @@ public class PlayerListener implements Listener {
             if (match instanceof DuelMatch) {
                 DuelMatch duelGame = (DuelMatch) match;
                 PracticePlayer opponent = duelGame.getOpponent(deadPlayer);
-                MatchInventoryManager matchInventoryManager = HotsPractice.getInstance().getManagerHandler().getMatchInventoryManager();
                 String duration_time = TimeUtility.timeFormat(duelGame.getTime());
-
-                matchInventoryManager.addPlayerInventory(dead, duration_time);
-                matchInventoryManager.addPlayerInventory(opponent.getPlayer(), duration_time);
+                MatchDetailsMenu.put(dead, duration_time);
+                MatchDetailsMenu.put(opponent.getPlayer(), duration_time);
 
                 opponent.getPlayerData().addPoint();
                 deadPlayer.getPlayerData().withdrawPoint();
@@ -823,11 +921,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent event) {
         ItemStack item = event.getItem();
+        Player player = event.getPlayer();
         if (item == null) return;
         ItemMeta itemMeta = item.getItemMeta();
         if (itemMeta == null) return;
         if (item.getType() == Material.GOLDEN_APPLE) {
-            Player player = event.getPlayer();
+
             PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
             if (practicePlayer == null) return;
             if (!practicePlayer.getGappleCooldown().hasExpired()) {
@@ -841,6 +940,10 @@ public class PlayerListener implements Listener {
             } else {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 5, 1));
             }
+        }
+
+        else if (item.getTypeId() == 373) {
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(HotsPractice.getInstance(), () -> player.setItemInHand(new ItemStack(Material.AIR)), 1L);
         }
     }
 

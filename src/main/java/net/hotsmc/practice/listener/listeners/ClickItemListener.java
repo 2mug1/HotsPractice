@@ -1,5 +1,6 @@
 package net.hotsmc.practice.listener.listeners;
 
+import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.ClickActionItem;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
@@ -29,6 +30,14 @@ public class ClickItemListener implements Listener {
                                 clickActionItem.clickAction(player);
                                 event.setCancelled(true);
                             }
+                        }
+                    }
+                }
+                for (ClickActionItem clickActionItem : practicePlayer.getKitClickItems()) {
+                    if (clickActionItem != null) {
+                        if (clickActionItem.equals(itemStack)) {
+                            clickActionItem.clickAction(player);
+                            event.setCancelled(true);
                         }
                     }
                 }

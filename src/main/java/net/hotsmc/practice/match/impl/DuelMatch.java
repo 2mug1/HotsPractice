@@ -34,7 +34,7 @@ public class DuelMatch extends Match {
     protected void onStart() {
         HotsPractice.getInstance().getManagerHandler().getMatchManager().addGame(this);
         for (PracticePlayer practicePlayer : practicePlayers) {
-            practicePlayer.getDuelGameRequests().clear();
+            practicePlayer.getDuelMatchRequests().clear();
             addPlayer(practicePlayer);
             practicePlayer.sendMessage(ChatColor.YELLOW + "Please wait for loading arena...");
         }
@@ -65,6 +65,8 @@ public class DuelMatch extends Match {
         for (PracticePlayer practicePlayer : practicePlayers) {
             if (ladderType == LadderType.Combo) {
                 practicePlayer.setMaximumNoDamageTicks(0);
+            }else{
+                practicePlayer.setMaximumNoDamageTicks(19);
             }
             practicePlayer.teleport(getPlayerSpawnLocation(practicePlayer));
             if (ladderType != LadderType.Sumo) {

@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,18 +24,17 @@ public class PlayerLadder {
 
     private LadderType ladderType;
     private String uuid;
-    private List<Ladder> ladderList;
+    private Ladder[] ladders;
 
     public PlayerLadder(LadderType ladderType, String uuid){
         this.ladderType = ladderType;
         this.uuid = uuid;
-        this.ladderList = new ArrayList<>(7);
+        this.ladders = new Ladder[7];
     }
 
     public PlayerLadder load(){
-        for(int i = 0; i < 7; i++){
-            ladderList.add(i,null);
-        }
+
+        Arrays.fill(ladders, null);
 
         String dir = HotsPractice.getInstance().getDataFolder().getPath() + "/playerkit/" + uuid + "/" + ladderType.name() + "/";
         File dir2 = new File(dir);
@@ -48,13 +48,13 @@ public class PlayerLadder {
                 FileConfig fileConfig = new FileConfig(loadFile);
                 ConfigCursor cursor = new ConfigCursor(fileConfig, "Kit");
                 String num = filename.substring(0, filename.indexOf(".yml"));
-                ladderList.add(Integer.valueOf(num), new Ladder(ladderType, cursor));
+                ladders[Integer.valueOf(num)] = new Ladder(ladderType, cursor);
             }
         }
         return this;
     }
 
-    public void save(int saveIndex, Player player){
+    public void save(int saveIndex, Player player) {
         List<ItemStack> items = Lists.newArrayList();
         List<ItemStack> armors = Lists.newArrayList();
         Inventory inv = player.getInventory();
@@ -63,26 +63,25 @@ public class PlayerLadder {
         }
         ItemStack[] armor = player.getInventory().getArmorContents();
         Collections.addAll(armors, armor);
-        Ladder ladder = new Ladder(ladderType, items, armors);
-        ladderList.remove(saveIndex);
-        ladderList.add(saveIndex, ladder);
         File file = new File(HotsPractice.getInstance().getDataFolder().getPath() + "/playerkit/" + player.getUniqueId().toString() + "/" + ladderType.name() + "/" + saveIndex + ".yml");
-        if(!file.exists()){
+        if (!file.exists()) {
             try {
-                file.createNewFile();
+                if (file.createNewFile()) {
+                    ConfigCursor configCursor = new ConfigCursor(new FileConfig(file), "Kit");
+                    configCursor.setItemStackList(items, "Items");
+                    configCursor.setItemStackList(armors, "Armors");
+                    configCursor.save();
+                    Ladder ladder = new Ladder(ladderType, items, armors, configCursor);
+                    ladders[saveIndex] = ladder;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        ConfigCursor configCursor = new ConfigCursor(new FileConfig(file), "Kit");
-        configCursor.setItemStackList(items, "Items");
-        configCursor.setItemStackList(armors, "Armors");
-        configCursor.save();
     }
 
     public void delete(int saveIndex, String uuid){
-        ladderList.remove(saveIndex);
-        ladderList.add(saveIndex, null);
+        ladders[saveIndex] = null;
         File file = new File(HotsPractice.getInstance().getDataFolder().getPath() + "/playerkit/" + uuid + "/" + ladderType.name() + "/" + saveIndex + ".yml");
         file.delete();
     }
@@ -105,10 +104,14 @@ public class PlayerLadder {
         player.updateInventory();
     }
 
-    public void setKit(int saveIndex, Player player){
-        Ladder ladder = ladderList.get(saveIndex);
+    public void setKit(int saveIndex, Player player) {
+        Ladder ladder = ladders[saveIndex];
         setItems(ladder.getItems(), player);
         setArmors(ladder.getArmors(), player);
-        ChatUtility.sendMessage(player,ChatColor.YELLOW + "You have loaded ladder #" + saveIndex);
+        if (!ladder.isRenamed()) {
+            ChatUtility.sendMessage(player, ChatColor.YELLOW + "You have loaded kit #" + saveIndex);
+        }else{
+            ChatUtility.sendMessage(player, ChatColor.YELLOW + "You have loaded kit " + ladder.getName());
+        }
     }
 }

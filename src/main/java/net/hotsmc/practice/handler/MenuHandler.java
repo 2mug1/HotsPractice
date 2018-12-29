@@ -1,19 +1,18 @@
 package net.hotsmc.practice.handler;
 
 import lombok.Getter;
-import net.hotsmc.core.gui.menu.Menu;
 import net.hotsmc.practice.event.EventManager;
-import net.hotsmc.practice.menus.event.EventMenu;
-import net.hotsmc.practice.menus.event.parkour.ParkourEventListMenu;
-import net.hotsmc.practice.menus.event.parkour.ParkourEventMenu;
-import net.hotsmc.practice.menus.event.sumo.SumoEventListMenu;
-import net.hotsmc.practice.menus.event.sumo.SumoEventMenu;
-import net.hotsmc.practice.menus.kit.KitEditSelectMenu;
-import net.hotsmc.practice.menus.party.PartyCreateMenu;
-import net.hotsmc.practice.menus.party.PartyFightMenu;
-import net.hotsmc.practice.menus.party.PublicPartyListMenu;
-import net.hotsmc.practice.menus.queue.RankedMenu;
-import net.hotsmc.practice.menus.queue.UnrankedMenu;
+import net.hotsmc.practice.gui.event.EventMenu;
+import net.hotsmc.practice.gui.event.parkour.ParkourEventListMenu;
+import net.hotsmc.practice.gui.event.parkour.ParkourEventMenu;
+import net.hotsmc.practice.gui.event.sumo.SumoEventListMenu;
+import net.hotsmc.practice.gui.event.sumo.SumoEventMenu;
+import net.hotsmc.practice.gui.kit.KitEditSelectMenu;
+import net.hotsmc.practice.gui.party.PartyCreateMenu;
+import net.hotsmc.practice.gui.party.PartyFightMenu;
+import net.hotsmc.practice.gui.party.PublicPartyListMenu;
+import net.hotsmc.practice.gui.queue.RankedMenu;
+import net.hotsmc.practice.gui.queue.UnrankedMenu;
 
 @Getter
 public class MenuHandler {

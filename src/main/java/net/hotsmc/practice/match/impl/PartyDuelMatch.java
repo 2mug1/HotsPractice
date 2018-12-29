@@ -1,5 +1,6 @@
 package net.hotsmc.practice.match.impl;
 
+import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.HotsPractice;
@@ -30,7 +31,7 @@ public class PartyDuelMatch extends Match {
             party.getDuelPartyRequests().clear();
             party.setInGame(true);
             for (PracticePlayer practicePlayer : party.getPlayers()) {
-                practicePlayer.getDuelGameRequests().clear();
+                practicePlayer.getDuelMatchRequests().clear();
                 addPlayer(practicePlayer);
                 practicePlayer.sendMessage(ChatColor.YELLOW + "Please wait for loading arena...");
             }
@@ -53,6 +54,8 @@ public class PartyDuelMatch extends Match {
         for (PracticePlayer practicePlayer : gamePlayers) {
             if (ladderType == LadderType.Combo) {
                 practicePlayer.setMaximumNoDamageTicks(0);
+            }else{
+                practicePlayer.setMaximumNoDamageTicks(19);
             }
             parties[0].setPrefix(ChatColor.GREEN);
             parties[1].setPrefix(ChatColor.RED);
@@ -130,7 +133,7 @@ public class PartyDuelMatch extends Match {
                 practicePlayer.teleportToLobby();
                 practicePlayer.setHotbar(PlayerHotbar.PARTY);
                 practicePlayer.setAlive(true);
-                HotsCore.getHotsPlayer(practicePlayer.getPlayer()).updateNameTag();
+                NametagAPI.resetNametag(practicePlayer.getName());
             }
         }
         for (PracticePlayer practicePlayer : gamePlayers) {

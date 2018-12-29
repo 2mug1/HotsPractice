@@ -7,18 +7,20 @@ import net.hotsmc.core.HotsCore;
 import net.hotsmc.core.gui.ClickActionItem;
 import net.hotsmc.core.hotbar.HotbarAdapter;
 import net.hotsmc.core.other.Cooldown;
+import net.hotsmc.core.other.ExpbarTimer;
 import net.hotsmc.core.player.HotsPlayer;
 import net.hotsmc.practice.HotsPractice;
 import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
+import net.hotsmc.practice.ladder.Ladder;
 import net.hotsmc.practice.match.Match;
 import net.hotsmc.practice.ladder.LadderType;
 import net.hotsmc.practice.ladder.PlayerLadder;
-import net.hotsmc.practice.menus.kit.KitChestInventory;
-import net.hotsmc.practice.menus.kit.KitLoadoutMenu;
+import net.hotsmc.practice.gui.kit.KitChestInventory;
+import net.hotsmc.practice.gui.kit.KitLoadoutMenu;
 import net.hotsmc.practice.other.BukkitReflection;
 import net.hotsmc.practice.party.Party;
-import net.hotsmc.practice.queue.DuelGameRequest;
+import net.hotsmc.practice.queue.DuelMatchRequest;
 import net.hotsmc.practice.queue.Queue;
 import net.hotsmc.practice.utility.ChatUtility;
 import net.hotsmc.practice.utility.ItemUtility;
@@ -35,6 +37,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -47,7 +50,7 @@ public class PracticePlayer {
     private boolean enableKitEdit = false;
     private LadderType editLadderType;
     private Location respawnLocation;
-    private List<DuelGameRequest> duelGameRequests;
+    private List<DuelMatchRequest> duelMatchRequests;
     private boolean alive = true;
     private boolean enableSpectate = false;
     private Cooldown enderpearlCooldown = new Cooldown(0);
@@ -57,11 +60,14 @@ public class PracticePlayer {
     private boolean eventLost = false;
     private int currentCps = 0;
     private int cps = 0;
+    private ClickActionItem[] kitClickItems = new ClickActionItem[7];
+    private int renamingKitIndex = -1;
+    private PlayerHotbar hotbar;
 
     public PracticePlayer(Player player) {
         this.player = player;
         this.playerKits = new ArrayList<>();
-        this.duelGameRequests = new ArrayList<>();
+        this.duelMatchRequests = new ArrayList<>();
     }
 
     public HotsPlayer getHotsPlayer(){
@@ -88,22 +94,22 @@ public class PracticePlayer {
     }
 
     public boolean isInMatch() {
-        return  HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this) != null;
+        return HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this) != null;
     }
 
-    public DuelGameRequest getDuelGameRequestBySender(PracticePlayer sender) {
-        for (DuelGameRequest duelGameRequest : duelGameRequests) {
-            if (duelGameRequest.getSender().getName().equals(sender.getName())) {
-                return duelGameRequest;
+    public DuelMatchRequest getDuelGameRequestBySender(PracticePlayer sender) {
+        for (DuelMatchRequest duelMatchRequest : duelMatchRequests) {
+            if (duelMatchRequest.getSender().getName().equals(sender.getName())) {
+                return duelMatchRequest;
             }
         }
         return null;
     }
 
     public void addDuelGameRequest(PracticePlayer sender, LadderType ladderType) {
-        DuelGameRequest duelRequest = getDuelGameRequestBySender(sender);
+        DuelMatchRequest duelRequest = getDuelGameRequestBySender(sender);
         if (duelRequest == null) {
-            duelGameRequests.add(new DuelGameRequest(ladderType, sender, this));
+            duelMatchRequests.add(new DuelMatchRequest(ladderType, sender, this));
         } else {
             duelRequest.setLadderType(ladderType);
         }
@@ -177,6 +183,7 @@ public class PracticePlayer {
 
 
     public void setHotbar(PlayerHotbar hotbar) {
+        this.hotbar = hotbar;
         clearInventory();
         HotbarAdapter adapter = hotbar.getAdapter();
         ClickActionItem[] items = adapter.getItems();
@@ -189,7 +196,7 @@ public class PracticePlayer {
     }
 
     public void teleportToLobby() {
-        player.teleport( HotsPractice.getInstance().getMatchConfig().getLobbyLocation());
+        player.teleport( HotsPractice.getInstance().getPracticeConfig().getLobbyLocation());
     }
 
     public void resetPlayer() {
@@ -203,18 +210,54 @@ public class PracticePlayer {
 
     public void setKitHotbar() {
         getInventory().clear();
+        Arrays.fill(kitClickItems, null);
 
         ClickActionItem[] clickItems = PlayerHotbar.KIT.getAdapter().getItems();
 
         setItem(0, clickItems[0].getItemStack());
 
-        int slot = 2;
         for (int i = 0; i < 7; i++) {
-            if (getPlayerKitData( HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this).getLadderType()).getLadderList().get(i) != null) {
-                setItem(slot, clickItems[slot].getItemStack());
+            int finalI = i;
+            Ladder ladder = getPlayerKitData(HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(this).getLadderType()).getLadders()[i];
+            if (ladder != null) {
+                if (ladder.isRenamed()) {
+                    kitClickItems[i] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Kit " + ladder.getName(), Material.ENCHANTED_BOOK, false)) {
+                        @Override
+                        public void clickAction(Player player) {
+                            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
+                            if (practicePlayer == null) return;
+                            Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
+                            if (match == null) return;
+                            LadderType ladderType = match.getLadderType();
+                            practicePlayer.getPlayerKitData(ladderType).setKit(finalI, player);
+                        }
+                    };
+                } else {
+                    kitClickItems[i] = new ClickActionItem(ItemUtility.createItemStack("" + ChatColor.YELLOW + ChatColor.BOLD + "Load Kit #" + finalI, Material.ENCHANTED_BOOK, false)) {
+                        @Override
+                        public void clickAction(Player player) {
+                            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(player);
+                            if (practicePlayer == null) return;
+                            Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
+                            if (match == null) return;
+                            LadderType ladderType = match.getLadderType();
+                            practicePlayer.getPlayerKitData(ladderType).setKit(finalI, player);
+                        }
+                    };
+                }
+            }
+        }
+
+        int slot = 1;
+        for (int i = 0; i < kitClickItems.length; i++) {
+            ClickActionItem clickActionItem = kitClickItems[i];
+            if (clickActionItem != null) {
+                setItem(slot, clickActionItem.getItemStack());
             }
             slot++;
         }
+
+        setItem(8, clickItems[8].getItemStack());
     }
 
     public void onQueue() {
@@ -269,8 +312,9 @@ public class PracticePlayer {
     public void enableKitEdit(LadderType ladderType) {
         setEnableKitEdit(true);
         this.setEditLadderType(ladderType);
-        HotsPractice.getInstance().getManagerHandler().getLadderEditManager().teleport(player, ladderType);
+        teleport(HotsPractice.getInstance().getPracticeConfig().getKitEditLocation());
         setDefaultKit(ladderType);
+        renamingKitIndex = -1;
     }
 
     public void clearEffects() {
@@ -284,11 +328,12 @@ public class PracticePlayer {
         clearEffects();
         teleportToLobby();
         setHotbar(PlayerHotbar.LOBBY);
+        renamingKitIndex = -1;
     }
 
     public void openKitLoadoutMenu() {
         player.playSound(player.getLocation(), Sound.SUCCESSFUL_HIT, 0.3F, 0.5F);
-        new KitLoadoutMenu(getPlayerKitData(editLadderType)).openMenu(player, 45);
+        new KitLoadoutMenu(getPlayerKitData(editLadderType)).openMenu(player, 36);
     }
 
     public void openKitChest() {
@@ -297,7 +342,7 @@ public class PracticePlayer {
     }
 
     public void sendMessage(String message) {
-        if (player.isOnline()) {
+        if (player.isOnline() && player != null) {
             ChatUtility.sendMessage(player, message);
         }
     }
@@ -331,6 +376,7 @@ public class PracticePlayer {
         }
         player.setAllowFlight(true);
         player.setFlying(true);
+        sendMessage(ChatColor.YELLOW + "Interact to display player status.");
     }
 
     public void disableSpectate() {
@@ -345,7 +391,8 @@ public class PracticePlayer {
     }
 
     public void startEnderpearlCooldown() {
-        enderpearlCooldown = new Cooldown(HotsPractice.getInstance().getMatchConfig().getEnderpearlCooldownTime() * 1000);
+        enderpearlCooldown = new Cooldown(HotsPractice.getInstance().getPracticeConfig().getEnderpearlCooldownTime() * 1000);
+        new ExpbarTimer(player, enderpearlCooldown).start();
     }
 
     public void startGappleCooldown() {
@@ -401,5 +448,13 @@ public class PracticePlayer {
 
     public Queue getInQueue(){
         return HotsPractice.getInstance().getManagerHandler().getQueueManager().getPlayerOfQueue(this);
+    }
+
+    public Match getInSpectateMatch(){
+        return HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfSpectateMatch(this);
+    }
+
+    public boolean isKitRenaming(){
+        return renamingKitIndex >= 0;
     }
 }

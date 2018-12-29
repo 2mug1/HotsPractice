@@ -1,5 +1,6 @@
 package net.hotsmc.practice.match.impl;
 
+import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.HotsPractice;
@@ -35,7 +36,7 @@ public class PartyTeamMatch extends Match {
         party.setInGame(true);
         HotsPractice.getInstance().getManagerHandler().getMatchManager().addGame(this);
         for (PracticePlayer practicePlayer : party.getPlayers()) {
-            practicePlayer.getDuelGameRequests().clear();
+            practicePlayer.getDuelMatchRequests().clear();
             addPlayer(practicePlayer);
             practicePlayer.sendMessage(ChatColor.YELLOW + "Preparing the Team Fight");
             practicePlayer.sendMessage(ChatColor.YELLOW + "Please wait for loading arena...");
@@ -66,6 +67,8 @@ public class PartyTeamMatch extends Match {
             }
             if (ladderType == LadderType.Combo) {
                 practicePlayer.setMaximumNoDamageTicks(0);
+            }else{
+                practicePlayer.setMaximumNoDamageTicks(19);
             }
             practicePlayer.heal();
             practicePlayer.setKitHotbar();
@@ -124,7 +127,7 @@ public class PartyTeamMatch extends Match {
             practicePlayer.teleportToLobby();
             practicePlayer.setHotbar(PlayerHotbar.PARTY);
             practicePlayer.setAlive(true);
-            HotsCore.getHotsPlayer(practicePlayer.getPlayer()).updateNameTag();
+            NametagAPI.resetNametag(practicePlayer.getName());
         }
         for(Team team : teams){
             team.removeAllPlayer();

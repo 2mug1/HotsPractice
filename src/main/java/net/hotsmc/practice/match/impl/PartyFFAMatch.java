@@ -1,5 +1,6 @@
 package net.hotsmc.practice.match.impl;
 
+import ca.wacos.nametagedit.NametagAPI;
 import lombok.Getter;
 import net.hotsmc.core.HotsCore;
 import net.hotsmc.practice.hotbar.PlayerHotbar;
@@ -28,7 +29,7 @@ public class PartyFFAMatch extends Match {
         party.setInGame(true);
         HotsPractice.getInstance().getManagerHandler().getMatchManager().addGame(this);
         for (PracticePlayer practicePlayer : party.getPlayers()) {
-            practicePlayer.getDuelGameRequests().clear();
+            practicePlayer.getDuelMatchRequests().clear();
             addPlayer(practicePlayer);
             practicePlayer.sendMessage(ChatColor.YELLOW + "Preparing the FFA Fight");
             practicePlayer.sendMessage(ChatColor.YELLOW + "Please wait for loading arena...");
@@ -50,6 +51,8 @@ public class PartyFFAMatch extends Match {
         for (PracticePlayer practicePlayer : gamePlayers) {
             if (ladderType == LadderType.Combo) {
                 practicePlayer.setMaximumNoDamageTicks(0);
+            }else{
+                practicePlayer.setMaximumNoDamageTicks(19);
             }
             practicePlayer.teleport(arena.getSpawn1());
             practicePlayer.heal();
@@ -109,7 +112,7 @@ public class PartyFFAMatch extends Match {
             practicePlayer.teleportToLobby();
             practicePlayer.setHotbar(PlayerHotbar.PARTY);
             practicePlayer.setAlive(true);
-            HotsCore.getHotsPlayer(practicePlayer.getPlayer()).updateNameTag();
+            NametagAPI.resetNametag(practicePlayer.getName());
         }
         for (PracticePlayer practicePlayer : gamePlayers) {
             practicePlayer.setEnableSpectate(false);
