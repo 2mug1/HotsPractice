@@ -29,10 +29,7 @@ import net.hotsmc.practice.utility.NumberUtility;
 import net.hotsmc.practice.utility.TimeUtility;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -613,7 +610,11 @@ public class PlayerListener implements Listener {
                 PartyManager partyManager = HotsPractice.getInstance().getManagerHandler().getPartyManager();
                 Party deadPlayerParty = partyManager.getPlayerOfParty(deadPlayer);
                 if (deadPlayerParty.getAlivePlayers().size() <= 1) {
-                    partyFFAGame.end(dead.getKiller().getName());
+                    if(dead.getKiller().getName() == null) {
+                        partyFFAGame.end(deadPlayerParty.getAlivePlayers().get(0).getName());
+                    }else{
+                        partyFFAGame.end(dead.getKiller().getName());
+                    }
                 }
             }
             else if (match instanceof PartyTeamMatch) {
@@ -704,7 +705,7 @@ public class PlayerListener implements Listener {
                 Match match = HotsPractice.getInstance().getManagerHandler().getMatchManager().getPlayerOfMatch(practicePlayer);
                 LadderType ladderType = match.getLadderType();
                 if (ladderType == LadderType.Sumo) {
-                    if (match.getState() != MatchState.EndGame) {
+                    if (match.getState() != MatchState.Teleporting && match.getState() != MatchState.EndGame) {
                         if (event.getTo().getBlock().isLiquid()) {
                             if (match instanceof DuelMatch) {
                                 DuelMatch duelGame = (DuelMatch) match;
@@ -978,6 +979,13 @@ public class PlayerListener implements Listener {
         else if(event.getDamager() instanceof Projectile && event.getEntity() instanceof Player) {
             Projectile projectile = (Projectile) event.getDamager();
             if (projectile.getShooter() instanceof Player && projectile instanceof Arrow) {
+                Player damaged = (Player) event.getEntity();
+                PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(damaged);
+                if (practicePlayer == null) return;
+                if(practicePlayer.isEnableSpectate()){
+                    event.setCancelled(true);
+                    return;
+                }
                 Player shooter = (Player) projectile.getShooter();
                 Player hit = (Player) event.getEntity();
                 double health = hit.getHealth();
@@ -988,9 +996,16 @@ public class PlayerListener implements Listener {
                 }
             }
         }
+        else if (event.getDamager() instanceof FishHook && ((FishHook) event.getDamager()).getShooter() instanceof Player) {
+            Player damaged = (Player) event.getEntity();
+            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(damaged);
+            if (practicePlayer == null) return;
+            if(practicePlayer.isEnableSpectate()){
+                event.setCancelled(true);
+            }
+        }
     }
 }
-
 
 
 

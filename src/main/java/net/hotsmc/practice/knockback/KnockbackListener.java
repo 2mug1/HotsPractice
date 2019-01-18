@@ -11,6 +11,7 @@ import net.hotsmc.practice.event.Event;
 import net.hotsmc.practice.match.Match;
 import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.FishHook;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -59,8 +60,41 @@ public class KnockbackListener implements Listener {
     }
 
     @EventHandler(priority=EventPriority.HIGHEST)
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event)
-    {
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof FishHook && ((FishHook) event.getDamager()).getShooter() instanceof Player) {
+            Player damager = (Player) ((FishHook) event.getDamager()).getShooter();
+            Player damaged = (Player) event.getEntity();
+            PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(damager);
+            if (practicePlayer == null) return;
+
+            double horizontalMultiplier = 1.0D;
+            double verticalMultiplier = 1.0D;
+
+            if (practicePlayer.isInMatch()) {
+                final Match match = practicePlayer.getInMatch();
+                final KnockbackProfile knockbackProfile = HotsPractice.getInstance().getManagerHandler().getKnockbackManager().getKnockbackByLadderType(match.getLadderType());
+                horizontalMultiplier = knockbackProfile.getFishingRodHorizontalMultiplier();
+                verticalMultiplier = knockbackProfile.getFishingRodVerticalMultiplier();
+            }
+            double sprintMultiplier = damager.isSprinting() ? 0.8D : 0.5D;
+            double kbMultiplier = damager.getItemInHand() == null ? 0.0D : damager.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK) * 0.2D;
+
+            double airMultiplier = damaged.isOnGround() ? 1.0D : 0.5D;
+
+            Vector knockback = damaged.getLocation().toVector().subtract(damager.getLocation().toVector()).normalize();
+            knockback.setX((knockback.getX() * sprintMultiplier + kbMultiplier) * horizontalMultiplier);
+            knockback.setY(0.35D * airMultiplier * verticalMultiplier);
+            knockback.setZ((knockback.getZ() * sprintMultiplier + kbMultiplier) * horizontalMultiplier);
+            try {
+                Object entityPlayer = damaged.getClass().getMethod("getHandle", new Class[0]).invoke(damaged, new Object[0]);
+                Object playerConnection = this.fieldPlayerConnection.get(entityPlayer);
+                Object packet = this.packetVelocity.newInstance(new Object[]{Integer.valueOf(damaged.getEntityId()), Double.valueOf(knockback.getX()), Double.valueOf(knockback.getY()), Double.valueOf(knockback.getZ())});
+                this.sendPacket.invoke(playerConnection, new Object[]{packet});
+            } catch (SecurityException | IllegalArgumentException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         if ((!(event.getEntity() instanceof Player)) || (!(event.getDamager() instanceof Player))) {
             return;
         }
@@ -73,9 +107,13 @@ public class KnockbackListener implements Listener {
             return;
         }
 
+        //デフォルト
         double horizontalMultiplier = 1.0D;
         double verticalMultiplier = 1.0D;
+        double airMultiplier = 1.0D;
+        double sprintMultiplier = 0.8D;
 
+        //プレイヤー取得
         PracticePlayer practicePlayer = HotsPractice.getPracticePlayer(damager);
 
         if(practicePlayer == null)return;
@@ -85,6 +123,8 @@ public class KnockbackListener implements Listener {
             final KnockbackProfile knockbackProfile = HotsPractice.getInstance().getManagerHandler().getKnockbackManager().getKnockbackByLadderType(match.getLadderType());
             horizontalMultiplier = knockbackProfile.getHorizontalMultiplier();
             verticalMultiplier = knockbackProfile.getVerticalMultiplier();
+            airMultiplier = damaged.isOnGround() ? knockbackProfile.getAirMultiplier() : 0.5D;
+            sprintMultiplier = damager.isSprinting() ? knockbackProfile.getSprintMultiplier(): 0.5D;
         }
 
         if(practicePlayer.isInEvent()){
@@ -92,12 +132,11 @@ public class KnockbackListener implements Listener {
             final KnockbackProfile knockbackProfile = HotsPractice.getInstance().getManagerHandler().getKnockbackManager().getKnockbackByLadderType(eventGame.getLadderType());
             horizontalMultiplier = knockbackProfile.getHorizontalMultiplier();
             verticalMultiplier = knockbackProfile.getVerticalMultiplier();
+            airMultiplier = damaged.isOnGround() ? knockbackProfile.getAirMultiplier() : 0.5D;
+            sprintMultiplier = damager.isSprinting() ? knockbackProfile.getSprintMultiplier(): 0.5D;
         }
 
-        double sprintMultiplier = damager.isSprinting() ? 0.8D : 0.5D;
         double kbMultiplier = damager.getItemInHand() == null ? 0.0D : damager.getItemInHand().getEnchantmentLevel(Enchantment.KNOCKBACK) * 0.2D;
-
-        double airMultiplier = damaged.isOnGround() ? 1.0D : 0.5D;
 
         Vector knockback = damaged.getLocation().toVector().subtract(damager.getLocation().toVector()).normalize();
         knockback.setX((knockback.getX() * sprintMultiplier + kbMultiplier) * horizontalMultiplier);

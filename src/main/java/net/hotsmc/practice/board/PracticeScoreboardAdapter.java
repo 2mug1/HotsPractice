@@ -31,7 +31,7 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
     private static final String DISPLAY_NAME = "" + Style.YELLOW + ChatColor.BOLD + "Hots Practice";
     private static final String SERVER_IP = Style.GRAY + "HotsMC.net";
     private static final String MAIN = Style.YELLOW;
-    private static final String SUB = Style.WHITE;
+    private static final String SUB = Style.GRAY;
 
     @Override
     public String getTitle(Player player) {
@@ -90,8 +90,8 @@ public class PracticeScoreboardAdapter implements BoardAdapter {
 
         else if (practicePlayer.isInLobby()) {
             toReturn.add(MAIN + "Online: " + SUB + HotsPractice.countOnline());
-            toReturn.add(MAIN + "Queuing: " + SUB + HotsPractice.getCountQueue());
-            toReturn.add(MAIN + "Fighting: " + SUB + HotsPractice.getCountFight());
+            toReturn.add(MAIN + "In Fights: " + SUB + HotsPractice.getCountFight());
+            toReturn.add(MAIN + "In Queues: " + SUB + HotsPractice.getCountQueue());
             Cooldown eventCooldown = HotsPractice.getInstance().getManagerHandler().getEventManager().getEventCooldown();
             if(!eventCooldown.hasExpired()){
                 toReturn.add(MAIN + "Event Cooldown: " + SUB + TimeUtility.formatTime(eventCooldown.getRemaining()));

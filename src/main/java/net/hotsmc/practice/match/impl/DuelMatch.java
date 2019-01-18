@@ -157,7 +157,7 @@ public class DuelMatch extends Match {
         for (PracticePlayer practicePlayer : practicePlayers) {
             for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
                 if (!all.isInMatch()) {
-                    if (all != practicePlayer && !HotsCore.getHotsPlayer(all.getPlayer()).isVanish()) {
+                    if (all != practicePlayer) {
                         practicePlayer.showPlayer(all);
                         all.showPlayer(practicePlayer);
                     }

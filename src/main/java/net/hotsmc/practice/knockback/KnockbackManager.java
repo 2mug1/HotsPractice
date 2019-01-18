@@ -26,7 +26,7 @@ public class KnockbackManager {
     }
 
     private KnockbackProfile load(LadderType ladderType, ConfigCursor configCursor){
-        return new KnockbackProfile(configCursor, ladderType, configCursor.getDouble("horizontal"), configCursor.getDouble("vertical"));
+        return new KnockbackProfile(configCursor, ladderType, configCursor.getDouble("horizontal"), configCursor.getDouble("vertical"), configCursor.getDouble("air"), configCursor.getDouble("sprint"), configCursor.getDouble("fishing-rod-horizontal"), configCursor.getDouble("fishing-rod-vertical"));
     }
 
     public void load(){
@@ -56,6 +56,46 @@ public class KnockbackManager {
         cursor.save();
         knockbackProfile.setVerticalMultiplier(vertical);
         ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Vertical multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + vertical);
+    }
+
+    public void updateAir(CommandSender commandSender, LadderType type, double air){
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getAirMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
+        cursor.set("air", air);
+        cursor.save();
+        knockbackProfile.setAirMultiplier(air);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Air multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + air);
+    }
+
+    public void updateSprint(CommandSender commandSender, LadderType type, double sprint){
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getSprintMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
+        cursor.set("sprint", sprint);
+        cursor.save();
+        knockbackProfile.setSprintMultiplier(sprint);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Sprint multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + sprint);
+    }
+
+    public void updateFishingRodHorizontal(CommandSender commandSender, LadderType type, double fishingrod_horizontal){
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getFishingRodHorizontalMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
+        cursor.set("fishing-rod-horizontal", fishingrod_horizontal);
+        cursor.save();
+        knockbackProfile.setFishingRodHorizontalMultiplier(fishingrod_horizontal);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Fishing-Rod Horizontal multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + fishingrod_horizontal);
+    }
+
+    public void updateFishingRodVertical(CommandSender commandSender, LadderType type, double fishingrod_vertical){
+        KnockbackProfile knockbackProfile = getKnockbackByLadderType(type);
+        double old = knockbackProfile.getFishingRodVerticalMultiplier();
+        ConfigCursor cursor = knockbackProfile.getCursor();
+        cursor.set("fishing-rod-vertical", fishingrod_vertical);
+        cursor.save();
+        knockbackProfile.setFishingRodVerticalMultiplier(fishingrod_vertical);
+        ChatUtility.sendMessage(commandSender, ChatColor.YELLOW + "Fishing-Rod Vertical multiplier knockbackProfile for " + type.name() + " has been updated: " + old + "-->" + fishingrod_vertical);
     }
 
     public void sendKnockbackInfo(CommandSender commandSender, LadderType type){

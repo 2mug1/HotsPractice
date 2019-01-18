@@ -20,7 +20,17 @@ public class KnockbackProfile {
     //垂直
     private double verticalMultiplier;
 
+    //Air
+    private double airMultiplier;
+
+    //Sprint
+    private double sprintMultiplier;
+
+    private double fishingRodHorizontalMultiplier;
+
+    private double fishingRodVerticalMultiplier;
+
     public String toString(){
-       return ChatColor.YELLOW + "There are knockback multipliers for " + ladderType.name() + " - Horizontal: " + horizontalMultiplier + " Vertical: " + verticalMultiplier;
+       return ChatColor.YELLOW + "There are knockback multipliers for " + ladderType.name() + " - Horizontal: " + horizontalMultiplier + " Vertical: " + verticalMultiplier + "Air: " + airMultiplier + " Sprint: " + sprintMultiplier + "Fishing-Rod Horizontal: " + fishingRodHorizontalMultiplier + " Fishing-Rod Vertical: " + fishingRodVerticalMultiplier;
     }
 }

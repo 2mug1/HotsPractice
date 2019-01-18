@@ -38,6 +38,10 @@ public class SettingCommand implements CommandExecutor {
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkitedit - Update location of kit editor");
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbhor <ladder> <double> - Update horizontal multiplier for knockback");
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbver <ladder> <double> - Update vertical multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbair <ladder> <double> - Update air multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbsprint <ladder> <double> - Update sprint multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbfrhor <ladder> <double> - Update fishing-rod horizontal multiplier for knockback");
+                ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice setkbfrver <ladder> <double> - Update fishing-rod vertical multiplier for knockback");
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice kb <ladder> - View knockback info");
                 ChatUtility.sendMessage(player, ChatColor.YELLOW + "/practice reload - Reload knockbacks and default ladders");
             }
@@ -124,6 +128,78 @@ public class SettingCommand implements CommandExecutor {
                     else if(NumberUtility.isDouble(args[2])){
                         HotsPractice.getInstance().getManagerHandler().getKnockbackManager().updateVertical(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
                     }else{
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
+                }
+                else if(args[0].equalsIgnoreCase("setkbair")) {
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    } else if (NumberUtility.isDouble(args[2])) {
+                        HotsPractice.getInstance().getManagerHandler().getKnockbackManager().updateAir(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    } else {
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
+                }
+                else if(args[0].equalsIgnoreCase("setkbsprint")) {
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    } else if (NumberUtility.isDouble(args[2])) {
+                        HotsPractice.getInstance().getManagerHandler().getKnockbackManager().updateSprint(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    } else {
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
+                }
+                else if(args[0].equalsIgnoreCase("setkbfrhor")) {
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    } else if (NumberUtility.isDouble(args[2])) {
+                        HotsPractice.getInstance().getManagerHandler().getKnockbackManager().updateFishingRodHorizontal(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    } else {
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
+                    }
+                }
+                else if(args[0].equalsIgnoreCase("setkbfrver")) {
+                    List<String> types = new ArrayList<>(LadderType.values().length);
+                    for (LadderType ladderType : LadderType.values()) {
+                        types.add(ladderType.name());
+                    }
+                    if (!types.contains(args[1])) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (String type : types) {
+                            stringBuilder.append(type).append(" ");
+                        }
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Invalid ladder type.");
+                        ChatUtility.sendMessage(player, ChatColor.RED + "Ladder: " + stringBuilder);
+                    } else if (NumberUtility.isDouble(args[2])) {
+                        HotsPractice.getInstance().getManagerHandler().getKnockbackManager().updateFishingRodVertical(sender, LadderType.valueOf(args[1]), Double.parseDouble(args[2]));
+                    } else {
                         ChatUtility.sendMessage(player, ChatColor.RED + "Invalid multiplier.");
                     }
                 }

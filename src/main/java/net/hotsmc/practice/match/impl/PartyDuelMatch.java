@@ -139,7 +139,7 @@ public class PartyDuelMatch extends Match {
         for (PracticePlayer practicePlayer : gamePlayers) {
             practicePlayer.setEnableSpectate(false);
             for (PracticePlayer all : HotsPractice.getPracticePlayers()) {
-                if (!all.isInMatch() && !HotsCore.getHotsPlayer(all.getPlayer()).isVanish()) {
+                if (!all.isInMatch()) {
                     if (all != practicePlayer) {
                         practicePlayer.showPlayer(all);
                         all.showPlayer(practicePlayer);
